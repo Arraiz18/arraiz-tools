@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#160329">
+<meta name="description" content="Simulador de presupuesto de ads. Hecho por Comunidad Arraiz.">
+<title>Simulador de Presupuesto — Arraiz Tools · Comunidad Arraiz</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Simulador de Presupuesto — Comunidad Arraiz">
+<meta property="og:description" content="Proyecta cuántas ventas tendrás antes de invertir. 💜">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c3aed'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='52' font-family='system-ui'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--pd:#160329;--pk:#25094a;--pm:#5b21b6;--pb:#7c3aed;--pl:#a855f7;--pg:#c084fc;--gold:#f59e0b;--gold2:#fcd34d;--green:#10b981;--red:#ef4444;--orange:#f97316;--wa:#25D366;--txt:#f5f3ff;--muted:#b8a5e0;--dim:#8b7aaa;--cbg:rgba(91,33,182,.12);--cbr:rgba(168,85,247,.22)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:inherit}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--pd);color:var(--txt);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at top left,rgba(124,58,237,.22),transparent 50%),radial-gradient(ellipse at bottom right,rgba(168,85,247,.15),transparent 50%);pointer-events:none}
+body::after{content:'';position:fixed;inset:0;z-index:0;background-image:radial-gradient(circle at 1px 1px,rgba(168,85,247,.04) 1px,transparent 0);background-size:32px 32px;pointer-events:none;opacity:.5}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 16px calc(80px + env(safe-area-inset-bottom))}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 4px 8px;gap:10px;flex-wrap:wrap}
+.back-to-hub{display:inline-flex;align-items:center;gap:6px;background:rgba(31,8,56,.7);border:1px solid rgba(168,85,247,.25);color:var(--muted);padding:8px 14px;border-radius:100px;font-size:12.5px;font-weight:600;text-decoration:none;backdrop-filter:blur(8px);transition:all .2s}
+.back-to-hub:hover{background:rgba(91,33,182,.4);border-color:var(--pl);color:white}
+.brand-pill{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(249,115,22,.1));border:1px solid rgba(245,158,11,.35);color:var(--gold2);padding:7px 12px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+header{text-align:center;padding:30px 12px 28px}
+.tool-icon-big{display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;font-size:38px;background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(168,85,247,.15));border:1.5px solid rgba(168,85,247,.4);border-radius:20px;margin-bottom:14px;box-shadow:0 8px 24px rgba(124,58,237,.2)}
+.tool-name-tag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#1a0533;font-weight:800;font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:14px;box-shadow:0 4px 16px rgba(245,158,11,.25)}
+header h1{font-weight:800;font-size:clamp(28px,7vw,42px);line-height:1.05;letter-spacing:-.02em;background:linear-gradient(135deg,#fff 0%,var(--pg) 70%,var(--gold2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+header p{color:var(--muted);font-size:14.5px;max-width:500px;margin:0 auto;line-height:1.55}
+.howto-card{background:linear-gradient(135deg,rgba(91,33,182,.18),rgba(45,10,87,.4));border:1px solid var(--cbr);border-radius:16px;padding:0;margin-bottom:14px;overflow:hidden;animation:fadeUp .4s ease}
+.howto-card summary{cursor:pointer;padding:16px 18px;font-weight:800;font-size:15px;color:white;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.howto-card summary::-webkit-details-marker{display:none}
+.howto-card summary::after{content:'+';font-size:24px;font-weight:300;color:var(--pl);transition:transform .2s}
+.howto-card[open] summary::after{transform:rotate(45deg)}
+.howto-body{padding:0 18px 18px;color:var(--muted);font-size:13.5px;line-height:1.7}
+.howto-body strong{color:white}
+.howto-step{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px solid rgba(168,85,247,.12)}
+.howto-step:first-of-type{border-top:none}
+.howto-step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--pb),var(--pl));color:white;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.howto-step-text{flex:1;font-size:13px;line-height:1.55;color:var(--muted)}
+.howto-step-text strong{color:var(--gold2)}
+.card{background:var(--cbg);border:1px solid var(--cbr);border-radius:18px;padding:24px 20px;margin-bottom:14px;backdrop-filter:blur(8px);animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card-title{font-weight:800;font-size:17px;color:var(--pg);margin-bottom:6px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card-sub{color:var(--muted);font-size:13.5px;margin-bottom:18px;line-height:1.6}
+.section-divider{display:flex;align-items:center;gap:10px;margin:18px 0 14px;padding-top:14px;border-top:1px dashed rgba(168,85,247,.2)}
+.section-divider:first-of-type{margin-top:0;padding-top:0;border-top:none}
+.section-icon{font-size:18px}
+.section-title{font-weight:800;font-size:13px;color:var(--gold2);text-transform:uppercase;letter-spacing:1px}
+.input-group{margin-bottom:18px}
+.input-group label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.5px;color:white;margin-bottom:6px;line-height:1.4;flex-wrap:wrap}
+.input-explain{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+.input-explain strong{color:var(--gold2);font-weight:700}
+.input-explain .examples{display:block;font-size:11.5px;color:var(--dim);margin-top:3px;font-style:italic}
+.input-row{display:flex;align-items:stretch;background:rgba(31,8,56,.7);border:1.5px solid rgba(168,85,247,.22);border-radius:11px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.input-row:focus-within{border-color:var(--pl);box-shadow:0 0 0 3px rgba(168,85,247,.18)}
+.input-prefix{padding:0 14px;color:var(--gold);font-weight:700;font-size:15px;background:rgba(245,158,11,.08);display:flex;align-items:center;border-right:1px solid rgba(168,85,247,.22)}
+.input-row input{flex:1;background:transparent;border:none;outline:none;color:white;font-size:16px;font-weight:600;font-family:inherit;padding:13px 14px;width:100%;min-width:0;-webkit-appearance:none;appearance:none}
+.input-row input::placeholder{color:rgba(184,165,224,.45);font-weight:500}
+.input-hint{font-size:11.5px;color:var(--dim);margin-top:6px;line-height:1.45}
+.preview-line{font-size:12.5px;color:var(--gold);margin-top:6px;font-weight:600;min-height:18px}
+.timeframe-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px}
+.tf-btn{background:rgba(31,8,56,.6);border:1.5px solid rgba(168,85,247,.22);color:var(--muted);padding:11px 8px;border-radius:11px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;line-height:1.2;min-height:44px}
+.tf-btn.active{background:linear-gradient(135deg,var(--pb),var(--pl));border-color:var(--pl);color:white;box-shadow:0 3px 12px rgba(124,58,237,.3)}
+.tf-btn:active{transform:scale(.97)}
+.rec-tag{display:inline-flex;align-items:center;gap:3px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:var(--green);font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase}
+.tip-wrap{position:relative;display:inline-flex}
+.tip-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(168,85,247,.2);color:var(--pg);font-size:9px;font-weight:800;cursor:help;flex-shrink:0;line-height:1}
+.tip-box{position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:#2d0a57;border:1px solid var(--pl);border-radius:9px;padding:10px 13px;font-size:12px;color:var(--txt);line-height:1.55;width:240px;z-index:100;pointer-events:none;opacity:0;transition:opacity .18s;box-shadow:0 8px 24px rgba(0,0,0,.4);font-weight:500}
+.tip-wrap:hover .tip-box,.tip-wrap:focus-within .tip-box{opacity:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 22px;border-radius:11px;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:14.5px;transition:transform .15s,box-shadow .2s;text-decoration:none;line-height:1.2;min-height:44px}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--orange));color:#1a0533;box-shadow:0 4px 16px rgba(245,158,11,.3);width:100%}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(245,158,11,.45)}
+.btn-gold:active{transform:scale(.98)}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--muted);border:1.5px solid rgba(255,255,255,.13);width:100%}
+.btn-ghost:hover{background:rgba(255,255,255,.12);color:white}
+.proj-hero{background:linear-gradient(135deg,rgba(91,33,182,.4),rgba(45,10,87,.7));border:1.5px solid var(--pl);border-radius:14px;padding:22px 18px;text-align:center;margin-bottom:14px}
+.proj-hero.hero-green{background:linear-gradient(135deg,rgba(5,46,22,.6),rgba(6,78,59,.4));border-color:var(--green)}
+.proj-hero.hero-yellow{background:linear-gradient(135deg,rgba(120,53,15,.5),rgba(161,98,7,.3));border-color:var(--orange)}
+.proj-hero.hero-red{background:linear-gradient(135deg,rgba(127,29,29,.5),rgba(120,15,15,.3));border-color:var(--red)}
+.proj-hero-label{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
+.proj-hero-value{font-size:46px;font-weight:800;color:white;letter-spacing:-.025em;line-height:1}
+.hero-green .proj-hero-value{color:var(--green)}.hero-yellow .proj-hero-value{color:var(--orange)}.hero-red .proj-hero-value{color:var(--red)}
+.proj-hero-unit{font-size:18px;color:var(--muted);font-weight:600;margin-left:4px}
+.proj-hero-sub{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.4}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.metric-box{background:rgba(31,8,56,.55);border:1px solid rgba(168,85,247,.18);border-radius:12px;padding:13px 14px}
+.metric-label{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700}
+.metric-value{font-weight:800;font-size:18px;letter-spacing:-.01em;line-height:1.1}
+.metric-value.green{color:var(--green)}.metric-value.red{color:var(--red)}.metric-value.gold{color:var(--gold)}.metric-value.white{color:white}
+.metric-sub{font-size:10.5px;color:var(--dim);margin-top:3px;line-height:1.3}
+.timeline-card{background:rgba(0,0,0,.3);border-radius:11px;padding:14px;margin-top:14px}
+.timeline-title{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:700}
+.timeline-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:9px 0;border-bottom:1px solid rgba(168,85,247,.12);font-size:12.5px;align-items:center}
+.timeline-row:last-child{border-bottom:none}
+.timeline-row.header{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;font-weight:700;padding-top:0}
+.timeline-cell{text-align:center}
+.timeline-cell.label{text-align:left;color:var(--txt);font-weight:600}
+.timeline-cell.value{font-weight:700;color:var(--gold)}
+.timeline-cell.green{color:var(--green)}.timeline-cell.red{color:var(--red)}
+.semaforo{display:flex;align-items:center;gap:14px;background:rgba(0,0,0,.25);border-radius:14px;padding:14px 16px;margin-bottom:14px;border:1.5px solid transparent}
+.semaforo.s-green{border-color:var(--green)}.semaforo.s-yellow{border-color:var(--orange)}.semaforo.s-red{border-color:var(--red)}
+.semaforo-dot{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.s-green .semaforo-dot{background:rgba(16,185,129,.22);box-shadow:0 0 16px rgba(16,185,129,.5)}.s-yellow .semaforo-dot{background:rgba(249,115,22,.22);box-shadow:0 0 16px rgba(249,115,22,.5)}.s-red .semaforo-dot{background:rgba(239,68,68,.22);box-shadow:0 0 16px rgba(239,68,68,.5)}
+.semaforo-title{font-weight:800;font-size:15px;line-height:1.3}
+.s-green .semaforo-title{color:var(--green)}.s-yellow .semaforo-title{color:var(--orange)}.s-red .semaforo-title{color:var(--red)}
+.semaforo-sub{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+.consejo-card{border-radius:13px;padding:14px 16px;margin-top:12px}
+.consejo-card.c-green{background:rgba(5,46,22,.5);border:1.5px solid rgba(16,185,129,.4)}
+.consejo-card.c-yellow{background:rgba(120,53,15,.4);border:1.5px solid rgba(249,115,22,.4)}
+.consejo-card.c-red{background:rgba(127,29,29,.4);border:1.5px solid rgba(239,68,68,.4)}
+.consejo-title{font-weight:800;font-size:14px;margin-bottom:6px;line-height:1.3}
+.c-green .consejo-title{color:var(--green)}.c-yellow .consejo-title{color:var(--orange)}.c-red .consejo-title{color:var(--red)}
+.consejo-body{font-size:13px;color:var(--muted);line-height:1.65}
+.consejo-body strong{color:var(--txt)}
+#resultSection{display:none}
+#resultSection.show{display:block;animation:fadeUp .35s ease}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(45,10,87,.95);color:white;border:1px solid var(--pl);border-radius:12px;padding:12px 20px;font-size:13.5px;font-weight:600;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:300;opacity:0;transition:opacity .22s,transform .28s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:88vw;text-align:center;backdrop-filter:blur(12px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.error{border-color:var(--red)}
+.float-wa{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom));right:18px;width:54px;height:54px;border-radius:50%;background:var(--wa);box-shadow:0 6px 18px rgba(37,211,102,.45);display:flex;align-items:center;justify-content:center;text-decoration:none;z-index:50;animation:wa-pulse 2.5s ease-in-out infinite}
+.float-wa svg{width:28px;height:28px;fill:white}
+.float-wa:active{transform:scale(.92)}
+@keyframes wa-pulse{0%,100%{box-shadow:0 6px 18px rgba(37,211,102,.45),0 0 0 0 rgba(37,211,102,.5)}50%{box-shadow:0 6px 18px rgba(37,211,102,.45),0 0 0 12px rgba(37,211,102,0)}}
+.glossary-card{background:rgba(31,8,56,.5);border:1px solid var(--cbr);border-radius:18px;padding:22px 18px;margin-top:16px}
+.glossary-title{font-weight:800;font-size:18px;color:white;margin-bottom:4px}
+.glossary-sub{font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.55}
+details.faq{background:rgba(31,8,56,.6);border:1px solid rgba(168,85,247,.18);border-radius:10px;margin-bottom:7px;overflow:hidden;transition:border-color .2s}
+details.faq[open]{border-color:var(--pl)}
+details.faq summary{cursor:pointer;padding:12px 15px;font-weight:700;font-size:13.5px;color:white;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;line-height:1.4}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:'+';font-size:21px;font-weight:400;color:var(--pl);transition:transform .2s;flex-shrink:0;line-height:1}
+details.faq[open] summary::after{transform:rotate(45deg)}
+.faq-body{padding:0 15px 12px;color:var(--muted);font-size:13px;line-height:1.6}
+.faq-body strong{color:var(--gold2)}
+.faq-example{background:rgba(124,58,237,.12);border-left:3px solid var(--pl);border-radius:6px;padding:8px 11px;margin-top:7px;font-size:12px;color:var(--pg);font-style:italic}
+.comunidad-section{background:linear-gradient(135deg,rgba(17,24,39,.85),rgba(45,10,87,.55));border:1.5px solid var(--gold);border-radius:18px;padding:24px 20px;margin-top:20px;margin-bottom:14px}
+.comunidad-title{font-weight:800;font-size:20px;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+.comunidad-sub{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55}
+.link-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:11px 14px;margin-bottom:7px;text-decoration:none;color:var(--txt);transition:all .2s}
+.link-item:hover{background:rgba(124,58,237,.18);border-color:var(--pl)}
+.link-icon{font-size:19px}
+.link-content{flex:1;min-width:0}
+.link-title{font-weight:700;font-size:13px}
+.link-desc{font-size:11px;color:var(--dim);margin-top:1px}
+.link-arrow{color:var(--dim)}
+footer{text-align:center;padding:22px 16px 12px;color:var(--dim);font-size:13px;font-weight:600}
+footer .heart{color:var(--gold2)}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:var(--pd)}::-webkit-scrollbar-thumb{background:rgba(168,85,247,.3);border-radius:100px;border:2px solid var(--pd)}
+::selection{background:rgba(168,85,247,.4);color:white}
+button:focus-visible,.btn:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--pl);outline-offset:2px}
+@media(max-width:480px){
+  .wrap{padding:0 14px 80px}.top-bar{padding:14px 2px 6px}.back-to-hub{padding:7px 12px;font-size:11.5px}.brand-pill{padding:6px 10px;font-size:10px}
+  header{padding:20px 8px 22px}.tool-icon-big{width:62px;height:62px;font-size:32px;border-radius:18px}
+  .card,.glossary-card,.comunidad-section{padding:20px 16px;border-radius:16px}
+  .proj-hero-value{font-size:38px}.metrics-grid{gap:8px}.metric-box{padding:11px 12px}.metric-value{font-size:16px}
+  .float-wa{width:50px;height:50px;right:14px}.tf-btn{font-size:11.5px;padding:10px 4px}
+}
+@media(max-width:360px){.wrap{padding:0 10px 80px}header h1{font-size:26px}}
+@media(min-width:768px){.wrap{max-width:780px;padding:0 28px 80px}.card,.glossary-card{padding:26px 24px}.metrics-grid{grid-template-columns:1fr 1fr 1fr 1fr}}
+@media(min-width:1024px){.wrap{max-width:820px;padding:0 32px 80px}header{padding:42px 24px 32px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.float-wa{animation:none}}
+@media print{body{background:white;color:black}.float-wa,.toast,.top-bar{display:none!important}.card{border:1px solid #ddd;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top-bar">
+    <a href="index.html" class="back-to-hub">← Volver al hub</a>
+    <span class="brand-pill">💜 Comunidad Arraiz</span>
+  </div>
+
+  <header>
+    <div class="tool-icon-big">🎯</div>
+    <div class="tool-name-tag">Simulador de Presupuesto</div>
+    <h1>Proyecta antes<br>de invertir</h1>
+    <p>Calcula <strong>cuántas ventas y ganancia</strong> tendrás con tu presupuesto de ads. Sin sorpresas.</p>
+  </header>
+
+  <details class="howto-card" open>
+    <summary>💡 ¿Cómo usar este simulador?</summary>
+    <div class="howto-body">
+      <div class="howto-step">
+        <div class="howto-step-num">1</div>
+        <div class="howto-step-text">Elige el <strong>periodo</strong>: ¿quieres simular tu gasto diario, semanal o mensual? Lo más común es <strong>diario</strong>.</div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-num">2</div>
+        <div class="howto-step-text">Pon <strong>cuánto piensas gastar en ads</strong> en ese periodo. Solo publicidad, no herramientas ni nada más.</div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-num">3</div>
+        <div class="howto-step-text">Confirma tu <strong>CPA real</strong> (cuánto te cuesta cada venta entregada). El predeterminado <strong>$33.900</strong> es el promedio Colombia, ajústalo si tienes datos propios.</div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-num">4</div>
+        <div class="howto-step-text">Ingresa tu <strong>ganancia neta por pedido</strong> (lo que te queda LIMPIO después de TODOS los costos). Si no sabes, usa primero la <strong style="color:var(--pg)">Calculadora COD</strong>.</div>
+      </div>
+    </div>
+  </details>
+
+  <div class="card">
+    <div class="card-title">📝 Datos para tu proyección</div>
+    <div class="card-sub">Los valores predeterminados son <strong>promedios reales del mercado COD Colombia</strong>. Ajústalos solo si tienes datos propios.</div>
+
+    <div class="section-divider">
+      <span class="section-icon">📅</span>
+      <span class="section-title">Tu plan de inversión</span>
+    </div>
+
+    <div class="input-group">
+      <label>📅 Periodo de tu presupuesto</label>
+      <div class="input-explain">Selecciona el periodo en el que vas a gastar ese presupuesto. Lo más común es <strong>diario</strong>.</div>
+      <div class="timeframe-grid">
+        <button class="tf-btn active" data-tf="day" onclick="setTimeframe('day')">Diario</button>
+        <button class="tf-btn" data-tf="week" onclick="setTimeframe('week')">Semanal</button>
+        <button class="tf-btn" data-tf="month" onclick="setTimeframe('month')">Mensual</button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>💸 Presupuesto en ads <span id="tfLabel">por día</span>
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Solo cuenta lo que gastas en publicidad pagada (Facebook, Instagram, TikTok ads). NO incluyas tu salario ni herramientas.</span></span>
+      </label>
+      <div class="input-explain">
+        Cuánto vas a gastar en <strong>publicidad pagada</strong> (Facebook/Instagram/TikTok ads).
+        <span class="examples">Ej: $50.000 al día es típico para empezar. $200.000+ al día es para escalar.</span>
+      </div>
+      <div class="input-row">
+        <div class="input-prefix">$</div>
+        <input type="text" id="inPresupuesto" placeholder="Ej: 100.000" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="input-hint">💡 Puedes escribir <strong style="color:var(--gold2)">100</strong> o <strong style="color:var(--gold2)">100000</strong> — entendemos ambos</div>
+      <div class="preview-line" id="presPreview"></div>
+    </div>
+
+    <div class="section-divider">
+      <span class="section-icon">📊</span>
+      <span class="section-title">Datos de tu negocio</span>
+    </div>
+
+    <div class="input-group">
+      <label>🎯 Tu CPA real (Costo Por Adquisición) <span class="rec-tag">✓ Recomendado</span>
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Lo que te cuesta conseguir un cliente que SÍ recibe el pedido. En COD Colombia el promedio es $33.900 (CPA Facebook $20.000 ÷ efectividad 59%).</span></span>
+      </label>
+      <div class="input-explain">
+        Lo que te cuesta lograr <strong>UNA venta entregada</strong>. El valor predeterminado es el promedio real del mercado COD Colombia.
+        <span class="examples">Si Facebook dice $20.000 pero solo 59% se entrega → tu CPA real es $33.900</span>
+      </div>
+      <div class="input-row">
+        <div class="input-prefix">$</div>
+        <input type="text" id="inCPA" value="33.900" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="input-hint">💡 Si nunca has hecho ads, deja el predeterminado. Si tienes datos reales, úsalos.</div>
+    </div>
+
+    <div class="input-group">
+      <label>💰 Ganancia neta por pedido <span class="rec-tag">✓ Recomendado</span>
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Lo que te queda LIMPIO por cada pedido entregado, DESPUÉS de pagar producto, envío, devoluciones y admin (sin contar ads).</span></span>
+      </label>
+      <div class="input-explain">
+        Lo que te queda <strong>en el bolsillo por cada venta</strong>, después de pagar TODO menos los ads.
+        <span class="examples">Ej: vendes a $89.900, pagas $25.000 producto + $20.000 envío + $5.000 admin → ganas $39.900 ¡pero falta restar el CPA!</span>
+      </div>
+      <div class="input-row">
+        <div class="input-prefix">$</div>
+        <input type="text" id="inGanancia" value="15.000" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="input-hint">💡 ¿No sabes tu ganancia? Calcúlala primero con la <a href="calculadora-cod.html" style="color:var(--pg);text-decoration:underline">Calculadora COD</a></div>
+    </div>
+
+    <button class="btn btn-gold" onclick="calcular()">🔥 Proyectar resultados</button>
+  </div>
+
+  <div id="resultSection">
+    <div class="card">
+      <div class="semaforo" id="semaforo">
+        <div class="semaforo-dot" id="semDot">🟢</div>
+        <div>
+          <div class="semaforo-title" id="semTitle">—</div>
+          <div class="semaforo-sub" id="semSub">—</div>
+        </div>
+      </div>
+
+      <div class="proj-hero" id="projHero">
+        <div class="proj-hero-label">📦 Ventas estimadas <span id="heroPeriod">por día</span></div>
+        <div class="proj-hero-value"><span id="ventasValue">0</span><span class="proj-hero-unit" id="ventasUnit">pedidos</span></div>
+        <div class="proj-hero-sub" id="heroSub">—</div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-box"><div class="metric-label">💸 Inversión</div><div class="metric-value white" id="mInversion">—</div><div class="metric-sub" id="mInversionSub">—</div></div>
+        <div class="metric-box"><div class="metric-label">📦 Ventas estimadas</div><div class="metric-value gold" id="mVentas">—</div><div class="metric-sub">pedidos entregados</div></div>
+        <div class="metric-box"><div class="metric-label">💰 Ganancia neta</div><div class="metric-value" id="mGanancia">—</div><div class="metric-sub" id="mGananciaSub">—</div></div>
+        <div class="metric-box"><div class="metric-label">📈 ROI estimado</div><div class="metric-value" id="mROI">—</div><div class="metric-sub">sobre inversión</div></div>
+      </div>
+
+      <div class="timeline-card">
+        <div class="timeline-title">📊 Proyección a 3 horizontes</div>
+        <div class="timeline-row header"><div class="timeline-cell">Periodo</div><div class="timeline-cell">Ventas</div><div class="timeline-cell">Ganancia</div></div>
+        <div class="timeline-row"><div class="timeline-cell label">📅 Diario</div><div class="timeline-cell value" id="tlDayV">—</div><div class="timeline-cell green" id="tlDayG">—</div></div>
+        <div class="timeline-row"><div class="timeline-cell label">🗓 Semanal</div><div class="timeline-cell value" id="tlWeekV">—</div><div class="timeline-cell green" id="tlWeekG">—</div></div>
+        <div class="timeline-row"><div class="timeline-cell label">📆 Mensual</div><div class="timeline-cell value" id="tlMonthV">—</div><div class="timeline-cell green" id="tlMonthG">—</div></div>
+      </div>
+
+      <div id="consejoCard"></div>
+
+      <button class="btn btn-ghost" onclick="reiniciar()" style="margin-top:14px">🔄 Otra simulación</button>
+    </div>
+  </div>
+
+  <div class="glossary-card">
+    <div class="glossary-title">📖 Aprende sobre presupuesto de ads</div>
+    <div class="glossary-sub">Las preguntas más frecuentes para usar bien esta herramienta.</div>
+
+    <details class="faq"><summary>¿Cómo funciona esta proyección?</summary><div class="faq-body">
+      Es matemática simple: <strong>Ventas estimadas = Presupuesto ÷ CPA real</strong>. Si tu presupuesto es $100.000 y tu CPA real es $33.900, esperas <strong>~3 ventas entregadas</strong>.
+      <div class="faq-example">Es una proyección, no un pronóstico exacto. Los resultados dependen del creativo, audiencia, época y otras variables.</div>
+    </div></details>
+
+    <details class="faq"><summary>¿Qué CPA debo usar?</summary><div class="faq-body">
+      Si nunca has corrido ads, usa <strong>$33.900</strong> (promedio Colombia). Si ya tienes datos reales, usa <strong>tu CPA promedio histórico</strong>.<br><br>
+      Recuerda: el CPA <strong>real</strong> es el de venta entregada, no el que muestra Facebook (ese solo cuenta clicks o leads).
+    </div></details>
+
+    <details class="faq"><summary>¿Cómo calculo mi ganancia por pedido?</summary><div class="faq-body">
+      <strong>Ganancia neta = Precio de venta − Costo proveedor − Envío − Devoluciones − Admin</strong><br><br>
+      No incluyas el CPA aquí (esta herramienta lo calcula aparte).<br><br>
+      Si no sabes los números exactos, usa la <strong>Calculadora COD</strong> del hub — ahí solo pones costo del producto y te calcula todo automáticamente.
+      <div class="faq-example">Mínimo recomendado: $15.000 por pedido. Si ganas menos, considera subir tu precio.</div>
+    </div></details>
+
+    <details class="faq"><summary>¿Cuánto debo invertir para empezar?</summary><div class="faq-body">
+      <strong>Mínimo recomendado:</strong> 3-5 veces tu CPA real. Si tu CPA es $33.900, empieza con <strong>$100.000 a $170.000 al día</strong>.<br><br>
+      Con menos presupuesto Facebook no tiene datos suficientes para optimizar y tu CPA será más caro.
+    </div></details>
+
+    <details class="faq"><summary>¿Por qué la proyección no se cumple?</summary><div class="faq-body">
+      Razones comunes:<br>
+      • <strong>CPA mal estimado</strong> — Facebook tarda 3-5 días en optimizar<br>
+      • <strong>Creativo débil</strong> — bajo CTR sube el CPA<br>
+      • <strong>Audiencia pequeña</strong> — se satura rápido<br>
+      • <strong>Producto saturado</strong> — todos lo venden ya<br>
+      • <strong>Mala época</strong> — fin de mes o festivos pueden bajar conversión
+    </div></details>
+
+    <details class="faq"><summary>¿Cómo escalar el presupuesto?</summary><div class="faq-body">
+      Regla de oro: <strong>sube 20-30% por semana</strong> mientras tu ROI siga positivo. No subas todo de golpe — Facebook necesita tiempo para optimizar audiencias nuevas.<br><br>
+      Si subes 100% en un día, es muy probable que el CPA se dispare.
+      <div class="faq-example">Día 1: $100K · Semana 2: $130K · Semana 3: $170K · Semana 4: $220K. Solo si los números siguen buenos.</div>
+    </div></details>
+  </div>
+
+  <div class="comunidad-section">
+    <div class="comunidad-title">🚀 Comunidad Arraiz</div>
+    <div class="comunidad-sub">Todo lo que necesitas para vender hoy. Estas herramientas son <strong style="color:white">100% gratuitas</strong> 💜</div>
+    <a href="https://chat.whatsapp.com/F924BJmh5HNKg3WE5CaEOC" target="_blank" rel="noopener" class="link-item"><div class="link-icon">📲</div><div class="link-content"><div class="link-title">Grupo WhatsApp — Únete</div><div class="link-desc">Soporte en tiempo real</div></div><div class="link-arrow">→</div></a>
+    <a href="https://app.dropi.co/arraiz" target="_blank" rel="noopener" class="link-item"><div class="link-icon">🛒</div><div class="link-content"><div class="link-title">Dropi Colombia</div><div class="link-desc">Regístrate con Comunidad Arraiz</div></div><div class="link-arrow">→</div></a>
+    <a href="https://afiliados.lucidbot.co/auth/register?ut=e4kb71gv07" target="_blank" rel="noopener" class="link-item"><div class="link-icon">🤖</div><div class="link-content"><div class="link-title">LucidBot — 7 días gratis</div><div class="link-desc">Automatiza mensajes</div></div><div class="link-arrow">→</div></a>
+  </div>
+
+  <footer>💜 Simulador de Presupuesto · <span class="heart">Comunidad Arraiz</span></footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<a href="https://chat.whatsapp.com/F924BJmh5HNKg3WE5CaEOC" target="_blank" rel="noopener" class="float-wa" aria-label="WhatsApp Comunidad Arraiz">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script>
+window.addEventListener('error',function(ev){try{console.error('[Pres]',ev.message,'at',(ev.filename||'?')+':'+ev.lineno)}catch(_){}},true);
+
+let timeframe='day';
+
+function parseAmount(v){
+  if(v==null)return NaN;
+  v=v.toString().trim().replace(/\./g,'').replace(/,/g,'').replace(/\s/g,'').replace(/\$/g,'');
+  const n=parseFloat(v);if(isNaN(n))return NaN;
+  if(n>0&&n<1000)return n*1000;
+  return n;
+}
+function fCOP(n){return'$ '+Math.round(n).toLocaleString('es-CO')}
+function fNum(n){return Math.round(n).toLocaleString('es-CO')}
+function formatLive(input){
+  const raw=input.value.replace(/[^\d]/g,'');
+  if(!raw){input.value='';return}
+  input.value=parseInt(raw,10).toLocaleString('es-CO');
+}
+
+['inPresupuesto','inCPA','inGanancia'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener('input',()=>{
+    formatLive(el);
+    if(id==='inPresupuesto'){
+      const raw=el.value.replace(/[^\d]/g,'');
+      const n=parseInt(raw,10);
+      const pv=document.getElementById('presPreview');
+      if(pv){
+        if(raw&&n>0&&n<1000)pv.textContent='→ Lo entendemos como '+fCOP(n*1000);
+        else pv.textContent='';
+      }
+    }
+  });
+});
+
+function setTimeframe(tf){
+  timeframe=tf;
+  document.querySelectorAll('.tf-btn').forEach(b=>b.classList.toggle('active',b.dataset.tf===tf));
+  const labels={day:'por día',week:'por semana',month:'por mes'};
+  document.getElementById('tfLabel').textContent=labels[tf];
+}
+
+function toast(msg,type){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show'+(type==='error'?' error':'');
+  clearTimeout(window._tt);window._tt=setTimeout(()=>el.classList.remove('show'),2400);
+}
+
+function animateNum(el,target,duration,decimals){
+  duration=duration||700;decimals=decimals==null?0:decimals;
+  const start=performance.now();
+  function step(now){
+    const p=Math.min((now-start)/duration,1);
+    const ease=1-Math.pow(1-p,3);
+    const val=target*ease;
+    el.textContent=decimals===0?Math.round(val).toLocaleString('es-CO'):val.toFixed(decimals);
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function calcular(){
+  const presup=parseAmount(document.getElementById('inPresupuesto').value);
+  const cpa=parseAmount(document.getElementById('inCPA').value);
+  const ganUnit=parseAmount(document.getElementById('inGanancia').value);
+
+  if(isNaN(presup)||presup<=0){toast('💸 Ingresa el presupuesto en ads','error');document.getElementById('inPresupuesto').focus();return}
+  if(isNaN(cpa)||cpa<=0){toast('🎯 Ingresa un CPA válido','error');document.getElementById('inCPA').focus();return}
+  if(isNaN(ganUnit)){toast('💰 Ingresa la ganancia por pedido','error');document.getElementById('inGanancia').focus();return}
+
+  const multipliers={day:1,week:7,month:30};
+  const presupDay=presup/multipliers[timeframe];
+  const ventasDay=presupDay/cpa;
+  const gananciaDay=ventasDay*ganUnit-presupDay;
+  const roi=presupDay>0?(gananciaDay/presupDay*100):0;
+
+  const ventasW=ventasDay*7,gananciaW=gananciaDay*7;
+  const ventasM=ventasDay*30,gananciaM=gananciaDay*30;
+
+  const periodLabel={day:'por día',week:'por semana',month:'por mes'}[timeframe];
+  const ventasShow=ventasDay*multipliers[timeframe];
+  const gananciaShow=gananciaDay*multipliers[timeframe];
+  const presupShow=presup;
+
+  document.getElementById('heroPeriod').textContent=periodLabel;
+
+  const hero=document.getElementById('projHero');
+  hero.className='proj-hero';
+  let heroClass,semClass,semIcon,semTitle,semSub;
+  if(ventasShow<1){
+    heroClass='hero-red';semClass='s-red';semIcon='🔴';
+    semTitle='⚠️ Presupuesto insuficiente';
+    semSub='Con este presupuesto no alcanzas ni 1 venta en el periodo.';
+  }else if(roi>=30){
+    heroClass='hero-green';semClass='s-green';semIcon='🟢';
+    semTitle='🔥 Excelente proyección';
+    semSub='ROI mayor al 30%. Tu plan tiene gran potencial.';
+  }else if(roi>=0){
+    heroClass='hero-yellow';semClass='s-yellow';semIcon='🟡';
+    semTitle='⚠️ Proyección ajustada';
+    semSub='Vas a ganar pero con poco margen. Revisa números.';
+  }else{
+    heroClass='hero-red';semClass='s-red';semIcon='🔴';
+    semTitle='❌ Proyección negativa';
+    semSub='Con estos números proyectas pérdida.';
+  }
+  hero.classList.add(heroClass);
+  document.getElementById('semaforo').className='semaforo '+semClass;
+  document.getElementById('semDot').textContent=semIcon;
+  document.getElementById('semTitle').textContent=semTitle;
+  document.getElementById('semSub').textContent=semSub;
+
+  const ventasEl=document.getElementById('ventasValue');
+  if(ventasShow<10)animateNum(ventasEl,ventasShow,700,1);
+  else animateNum(ventasEl,ventasShow,700,0);
+  document.getElementById('ventasUnit').textContent=ventasShow===1?'pedido':'pedidos';
+  document.getElementById('heroSub').textContent='Equivale a ~'+(ventasShow<1?ventasShow.toFixed(1):Math.round(ventasShow))+' pedidos entregados '+periodLabel;
+
+  document.getElementById('mInversion').textContent=fCOP(presupShow);
+  document.getElementById('mInversionSub').textContent=periodLabel;
+  document.getElementById('mVentas').textContent=ventasShow<10?ventasShow.toFixed(1):fNum(ventasShow);
+  const mGan=document.getElementById('mGanancia');
+  mGan.textContent=fCOP(gananciaShow);
+  mGan.className='metric-value '+(gananciaShow>=0?'green':'red');
+  document.getElementById('mGananciaSub').textContent=gananciaShow>=0?'limpia, después de ads':'pérdida proyectada';
+  const mROI=document.getElementById('mROI');
+  mROI.textContent=(roi>=0?'+':'')+roi.toFixed(0)+'%';
+  mROI.className='metric-value '+(roi>=30?'green':roi>=0?'gold':'red');
+
+  document.getElementById('tlDayV').textContent=ventasDay<10?ventasDay.toFixed(1):fNum(ventasDay);
+  document.getElementById('tlDayG').textContent=fCOP(gananciaDay);
+  document.getElementById('tlDayG').className='timeline-cell '+(gananciaDay>=0?'green':'red');
+  document.getElementById('tlWeekV').textContent=fNum(ventasW);
+  document.getElementById('tlWeekG').textContent=fCOP(gananciaW);
+  document.getElementById('tlWeekG').className='timeline-cell '+(gananciaW>=0?'green':'red');
+  document.getElementById('tlMonthV').textContent=fNum(ventasM);
+  document.getElementById('tlMonthG').textContent=fCOP(gananciaM);
+  document.getElementById('tlMonthG').className='timeline-cell '+(gananciaM>=0?'green':'red');
+
+  let cls,title,body;
+  if(ventasShow<1){
+    cls='c-red';title='⚠️ Necesitas más presupuesto';
+    const presupMinDay=cpa*1.5;
+    body='Con este presupuesto no alcanzas ni 1 venta. Para conseguir resultados estables necesitas mínimo <strong>'+fCOP(presupMinDay)+' al día</strong> (1.5x tu CPA). Con menos, Facebook no tiene datos suficientes para optimizar.';
+  }else if(roi>=30 && gananciaShow>0){
+    const ventasNuevas=Math.round(ventasDay*1.3*30);
+    const ganNueva=ventasNuevas*ganUnit-(presupDay*1.3*30);
+    cls='c-green';title='🔥 ¡Excelente plan! Lista para escalar';
+    body='Tu proyección es muy buena. Si los números reales se acercan, considera <strong>escalar 30% por semana</strong>. En 30 días con presupuesto +30% podrías llegar a <strong>~'+ventasNuevas+' pedidos</strong> y <strong>'+fCOP(ganNueva)+'</strong> de ganancia mensual. La clave: aumentos graduales, no bruscos.';
+  }else if(roi>=0 && gananciaShow>=0){
+    const cpaIdeal=ganUnit*0.7;
+    cls='c-yellow';title='⚠️ Plan ajustado — optimizable';
+    body='Vas a ganar pero con margen apretado. Para mejorar: <strong>1)</strong> Optimiza el creativo para bajar CPA, <strong>2)</strong> Considera subir el precio del producto, <strong>3)</strong> Si tu CPA real bajara a <strong>'+fCOP(cpaIdeal)+'</strong>, tu ROI saltaría arriba del 40%.';
+  }else{
+    cls='c-red';title='❌ Plan no rentable';
+    body='Con tu CPA de <strong>'+fCOP(cpa)+'</strong> y ganancia de <strong>'+fCOP(ganUnit)+'</strong> por pedido, no cubres ni el costo de adquisición. Necesitas: <strong>1)</strong> Bajar tu CPA a menos de '+fCOP(ganUnit)+', <strong>2)</strong> Subir tu ganancia por pedido, o <strong>3)</strong> Cambiar el producto.';
+  }
+  document.getElementById('consejoCard').innerHTML='<div class="consejo-card '+cls+'"><div class="consejo-title">'+title+'</div><div class="consejo-body">'+body+'</div></div>';
+
+  document.getElementById('resultSection').classList.add('show');
+  setTimeout(function(){
+    const el=document.getElementById('resultSection');
+    if(el){const y=el.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}
+  },80);
+}
+
+function reiniciar(){
+  document.getElementById('inPresupuesto').value='';
+  document.getElementById('inCPA').value='33.900';
+  document.getElementById('inGanancia').value='15.000';
+  document.getElementById('presPreview').textContent='';
+  document.getElementById('resultSection').classList.remove('show');
+  setTimeout(()=>document.getElementById('inPresupuesto').focus(),200);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('details.faq').forEach(d=>{
+  d.addEventListener('toggle',()=>{
+    if(d.open)document.querySelectorAll('details.faq').forEach(o=>{if(o!==d&&o.open)o.open=false});
+  });
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.tagName!=='TEXTAREA'){
+    if(document.activeElement&&['inPresupuesto','inCPA','inGanancia'].includes(document.activeElement.id)){
+      calcular();
+    }
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#160329">
+<meta name="description" content="Calculadora de ROAS para campañas de dropshipping. Hecha por Comunidad Arraiz.">
+<title>Calculadora ROAS — Arraiz Tools · Comunidad Arraiz</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Calculadora ROAS — Comunidad Arraiz">
+<meta property="og:description" content="Analiza si tus campañas son rentables. ROAS, ROI y ganancia neta en segundos. 💜">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c3aed'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='52' font-family='system-ui'%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--pd:#160329;--pk:#25094a;--pm:#5b21b6;--pb:#7c3aed;--pl:#a855f7;--pg:#c084fc;--gold:#f59e0b;--gold2:#fcd34d;--green:#10b981;--red:#ef4444;--orange:#f97316;--wa:#25D366;--txt:#f5f3ff;--muted:#b8a5e0;--dim:#8b7aaa;--cbg:rgba(91,33,182,.12);--cbr:rgba(168,85,247,.22)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--pd);color:var(--txt);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at top left,rgba(124,58,237,.22),transparent 50%),radial-gradient(ellipse at bottom right,rgba(168,85,247,.15),transparent 50%);pointer-events:none}
+body::after{content:'';position:fixed;inset:0;z-index:0;background-image:radial-gradient(circle at 1px 1px,rgba(168,85,247,.04) 1px,transparent 0);background-size:32px 32px;pointer-events:none;opacity:.5}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 16px calc(80px + env(safe-area-inset-bottom))}
+
+/* TOP BAR */
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 4px 8px;gap:10px;flex-wrap:wrap}
+.back-to-hub{display:inline-flex;align-items:center;gap:6px;background:rgba(31,8,56,.7);border:1px solid rgba(168,85,247,.25);color:var(--muted);padding:8px 14px;border-radius:100px;font-size:12.5px;font-weight:600;text-decoration:none;backdrop-filter:blur(8px);transition:all .2s}
+.back-to-hub:hover{background:rgba(91,33,182,.4);border-color:var(--pl);color:white}
+.brand-pill{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(249,115,22,.1));border:1px solid rgba(245,158,11,.35);color:var(--gold2);padding:7px 12px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+
+/* HEADER */
+header{text-align:center;padding:30px 12px 28px}
+.tool-icon-big{display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;font-size:38px;background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(168,85,247,.15));border:1.5px solid rgba(168,85,247,.4);border-radius:20px;margin-bottom:14px;box-shadow:0 8px 24px rgba(124,58,237,.2)}
+.tool-name-tag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#1a0533;font-weight:800;font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:14px;box-shadow:0 4px 16px rgba(245,158,11,.25)}
+header h1{font-weight:800;font-size:clamp(28px,7vw,42px);line-height:1.05;letter-spacing:-.02em;background:linear-gradient(135deg,#fff 0%,var(--pg) 70%,var(--gold2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+header p{color:var(--muted);font-size:14.5px;max-width:500px;margin:0 auto;line-height:1.55}
+
+/* SECCIÓN CÓMO FUNCIONA */
+.howto-card{background:linear-gradient(135deg,rgba(91,33,182,.18),rgba(45,10,87,.4));border:1px solid var(--cbr);border-radius:16px;padding:0;margin-bottom:14px;overflow:hidden;animation:fadeUp .4s ease}
+.howto-card summary{cursor:pointer;padding:16px 18px;font-weight:800;font-size:15px;color:white;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.howto-card summary::-webkit-details-marker{display:none}
+.howto-card summary::after{content:'+';font-size:24px;font-weight:300;color:var(--pl);transition:transform .2s}
+.howto-card[open] summary::after{transform:rotate(45deg)}
+.howto-body{padding:0 18px 18px;color:var(--muted);font-size:13.5px;line-height:1.7}
+.howto-body strong{color:white}
+.howto-step{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px solid rgba(168,85,247,.12)}
+.howto-step:first-of-type{border-top:none}
+.howto-step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--pb),var(--pl));color:white;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.howto-step-text{flex:1;font-size:13px;line-height:1.55;color:var(--muted)}
+.howto-step-text strong{color:var(--gold2)}
+
+/* CARD */
+.card{background:var(--cbg);border:1px solid var(--cbr);border-radius:18px;padding:24px 20px;margin-bottom:14px;backdrop-filter:blur(8px);animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card-title{font-weight:800;font-size:17px;color:var(--pg);margin-bottom:6px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card-sub{color:var(--muted);font-size:13.5px;margin-bottom:18px;line-height:1.6}
+
+/* SECTION DIVIDER inside card */
+.section-divider{display:flex;align-items:center;gap:10px;margin:18px 0 14px;padding-top:14px;border-top:1px dashed rgba(168,85,247,.2)}
+.section-divider:first-of-type{margin-top:0;padding-top:0;border-top:none}
+.section-icon{font-size:18px}
+.section-title{font-weight:800;font-size:13px;color:var(--gold2);text-transform:uppercase;letter-spacing:1px}
+
+/* INPUTS */
+.input-group{margin-bottom:18px}
+.input-group label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.5px;color:white;margin-bottom:6px;line-height:1.4;flex-wrap:wrap}
+.input-explain{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+.input-explain strong{color:var(--gold2);font-weight:700}
+.input-explain .examples{display:block;font-size:11.5px;color:var(--dim);margin-top:3px;font-style:italic}
+.input-row{display:flex;align-items:stretch;background:rgba(31,8,56,.7);border:1.5px solid rgba(168,85,247,.22);border-radius:11px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.input-row:focus-within{border-color:var(--pl);box-shadow:0 0 0 3px rgba(168,85,247,.18)}
+.input-prefix{padding:0 14px;color:var(--gold);font-weight:700;font-size:15px;background:rgba(245,158,11,.08);display:flex;align-items:center;border-right:1px solid rgba(168,85,247,.22)}
+.input-row input{flex:1;background:transparent;border:none;outline:none;color:white;font-size:16px;font-weight:600;font-family:inherit;padding:13px 14px;width:100%;min-width:0}
+.input-row input::placeholder{color:rgba(184,165,224,.45);font-weight:500}
+.input-hint{font-size:11.5px;color:var(--dim);margin-top:6px;line-height:1.45}
+.preview-line{font-size:12.5px;color:var(--gold);margin-top:6px;font-weight:600;min-height:18px}
+
+/* TIP */
+.tip-wrap{position:relative;display:inline-flex}
+.tip-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(168,85,247,.2);color:var(--pg);font-size:9px;font-weight:800;cursor:help;flex-shrink:0;line-height:1}
+.tip-box{position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:#2d0a57;border:1px solid var(--pl);border-radius:9px;padding:10px 13px;font-size:12px;color:var(--txt);line-height:1.55;width:240px;z-index:100;pointer-events:none;opacity:0;transition:opacity .18s;box-shadow:0 8px 24px rgba(0,0,0,.4);font-weight:500}
+.tip-wrap:hover .tip-box,.tip-wrap:focus-within .tip-box{opacity:1}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 22px;border-radius:11px;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:14.5px;transition:transform .15s,box-shadow .2s;text-decoration:none;line-height:1.2;min-height:44px}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--orange));color:#1a0533;box-shadow:0 4px 16px rgba(245,158,11,.3);width:100%}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(245,158,11,.45)}
+.btn-gold:active{transform:scale(.98)}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--muted);border:1.5px solid rgba(255,255,255,.13);width:100%}
+.btn-ghost:hover{background:rgba(255,255,255,.12);color:white}
+
+/* SEMÁFORO */
+.semaforo{display:flex;align-items:center;gap:14px;background:rgba(0,0,0,.25);border-radius:14px;padding:14px 16px;margin-bottom:14px;border:1.5px solid transparent}
+.semaforo.s-green{border-color:var(--green)}
+.semaforo.s-yellow{border-color:var(--orange)}
+.semaforo.s-red{border-color:var(--red)}
+.semaforo-dot{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.s-green .semaforo-dot{background:rgba(16,185,129,.22);box-shadow:0 0 16px rgba(16,185,129,.5)}
+.s-yellow .semaforo-dot{background:rgba(249,115,22,.22);box-shadow:0 0 16px rgba(249,115,22,.5)}
+.s-red .semaforo-dot{background:rgba(239,68,68,.22);box-shadow:0 0 16px rgba(239,68,68,.5)}
+.semaforo-title{font-weight:800;font-size:15px;line-height:1.3}
+.s-green .semaforo-title{color:var(--green)}.s-yellow .semaforo-title{color:var(--orange)}.s-red .semaforo-title{color:var(--red)}
+.semaforo-sub{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+
+/* HERO */
+.roas-hero{background:linear-gradient(135deg,rgba(91,33,182,.4),rgba(45,10,87,.7));border:1.5px solid var(--pl);border-radius:14px;padding:20px 18px;text-align:center;margin-bottom:14px}
+.roas-hero.hero-green{background:linear-gradient(135deg,rgba(5,46,22,.6),rgba(6,78,59,.4));border-color:var(--green)}
+.roas-hero.hero-yellow{background:linear-gradient(135deg,rgba(120,53,15,.5),rgba(161,98,7,.3));border-color:var(--orange)}
+.roas-hero.hero-red{background:linear-gradient(135deg,rgba(127,29,29,.5),rgba(120,15,15,.3));border-color:var(--red)}
+.roas-hero-label{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
+.roas-hero-value{font-size:48px;font-weight:800;color:white;letter-spacing:-.025em;line-height:1}
+.hero-green .roas-hero-value{color:var(--green)}.hero-yellow .roas-hero-value{color:var(--orange)}.hero-red .roas-hero-value{color:var(--red)}
+.roas-hero-x{font-size:24px;color:var(--muted);font-weight:700}
+.roas-hero-sub{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.4}
+
+/* METRICS */
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.metric-box{background:rgba(31,8,56,.55);border:1px solid rgba(168,85,247,.18);border-radius:12px;padding:13px 14px}
+.metric-label{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700}
+.metric-value{font-weight:800;font-size:18px;letter-spacing:-.01em;line-height:1.1}
+.metric-value.green{color:var(--green)}.metric-value.red{color:var(--red)}.metric-value.gold{color:var(--gold)}.metric-value.white{color:white}
+.metric-sub{font-size:10.5px;color:var(--dim);margin-top:3px;line-height:1.3}
+
+/* BREAKDOWN */
+.breakdown{background:rgba(0,0,0,.3);border-radius:11px;padding:14px;margin-top:14px}
+.breakdown-title{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:700}
+.breakdown-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(168,85,247,.12);font-size:13px;gap:8px}
+.breakdown-row:last-child{border-bottom:none}
+.breakdown-row.total{margin-top:6px;padding-top:10px;border-top:1px solid rgba(168,85,247,.25);border-bottom:none;font-weight:800;font-size:14px}
+.breakdown-label{color:var(--muted)}
+.breakdown-val{font-weight:700;color:var(--txt);text-align:right;white-space:nowrap}
+.breakdown-val.green{color:var(--green)}.breakdown-val.red{color:var(--red)}
+
+/* CONSEJO */
+.consejo-card{border-radius:13px;padding:14px 16px;margin-top:12px;animation:fadeUp .3s ease}
+.consejo-card.c-green{background:rgba(5,46,22,.5);border:1.5px solid rgba(16,185,129,.4)}
+.consejo-card.c-yellow{background:rgba(120,53,15,.4);border:1.5px solid rgba(249,115,22,.4)}
+.consejo-card.c-red{background:rgba(127,29,29,.4);border:1.5px solid rgba(239,68,68,.4)}
+.consejo-title{font-weight:800;font-size:14px;margin-bottom:6px;line-height:1.3}
+.c-green .consejo-title{color:var(--green)}.c-yellow .consejo-title{color:var(--orange)}.c-red .consejo-title{color:var(--red)}
+.consejo-body{font-size:13px;color:var(--muted);line-height:1.65}
+.consejo-body strong{color:var(--txt)}
+
+#resultSection{display:none}
+#resultSection.show{display:block;animation:fadeUp .35s ease}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(45,10,87,.95);color:white;border:1px solid var(--pl);border-radius:12px;padding:12px 20px;font-size:13.5px;font-weight:600;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:300;opacity:0;transition:opacity .22s,transform .28s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:88vw;text-align:center;backdrop-filter:blur(12px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.error{border-color:var(--red)}
+
+/* FLOAT WA */
+.float-wa{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom));right:18px;width:54px;height:54px;border-radius:50%;background:var(--wa);box-shadow:0 6px 18px rgba(37,211,102,.45);display:flex;align-items:center;justify-content:center;text-decoration:none;z-index:50;animation:wa-pulse 2.5s ease-in-out infinite}
+.float-wa svg{width:28px;height:28px;fill:white}
+.float-wa:active{transform:scale(.92)}
+@keyframes wa-pulse{0%,100%{box-shadow:0 6px 18px rgba(37,211,102,.45),0 0 0 0 rgba(37,211,102,.5)}50%{box-shadow:0 6px 18px rgba(37,211,102,.45),0 0 0 12px rgba(37,211,102,0)}}
+
+/* GLOSARIO */
+.glossary-card{background:rgba(31,8,56,.5);border:1px solid var(--cbr);border-radius:18px;padding:22px 18px;margin-top:16px}
+.glossary-title{font-weight:800;font-size:18px;color:white;margin-bottom:4px}
+.glossary-sub{font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.55}
+details.faq{background:rgba(31,8,56,.6);border:1px solid rgba(168,85,247,.18);border-radius:10px;margin-bottom:7px;overflow:hidden;transition:border-color .2s}
+details.faq[open]{border-color:var(--pl)}
+details.faq summary{cursor:pointer;padding:12px 15px;font-weight:700;font-size:13.5px;color:white;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;line-height:1.4}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:'+';font-size:21px;font-weight:400;color:var(--pl);transition:transform .2s;flex-shrink:0;line-height:1}
+details.faq[open] summary::after{transform:rotate(45deg)}
+.faq-body{padding:0 15px 12px;color:var(--muted);font-size:13px;line-height:1.6}
+.faq-body strong{color:var(--gold2)}
+.faq-example{background:rgba(124,58,237,.12);border-left:3px solid var(--pl);border-radius:6px;padding:8px 11px;margin-top:7px;font-size:12px;color:var(--pg);font-style:italic}
+
+/* COMUNIDAD AT BOTTOM */
+.comunidad-section{background:linear-gradient(135deg,rgba(17,24,39,.85),rgba(45,10,87,.55));border:1.5px solid var(--gold);border-radius:18px;padding:24px 20px;margin-top:20px;margin-bottom:14px}
+.comunidad-title{font-weight:800;font-size:20px;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+.comunidad-sub{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55}
+.link-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:11px 14px;margin-bottom:7px;text-decoration:none;color:var(--txt);transition:all .2s}
+.link-item:hover{background:rgba(124,58,237,.18);border-color:var(--pl)}
+.link-icon{font-size:19px}
+.link-content{flex:1;min-width:0}
+.link-title{font-weight:700;font-size:13px}
+.link-desc{font-size:11px;color:var(--dim);margin-top:1px}
+.link-arrow{color:var(--dim)}
+
+footer{text-align:center;padding:22px 16px 12px;color:var(--dim);font-size:13px;font-weight:600}
+footer .heart{color:var(--gold2)}
+
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:var(--pd)}::-webkit-scrollbar-thumb{background:rgba(168,85,247,.3);border-radius:100px;border:2px solid var(--pd)}
+::selection{background:rgba(168,85,247,.4);color:white}
+
+/* RESPONSIVE */
+@media(max-width:480px){
+  .wrap{padding:0 14px 80px}
+  .top-bar{padding:14px 2px 6px}
+  .back-to-hub{padding:7px 12px;font-size:11.5px}
+  .brand-pill{padding:6px 10px;font-size:10px}
+  header{padding:20px 8px 22px}
+  .tool-icon-big{width:62px;height:62px;font-size:32px;border-radius:18px}
+  .card,.glossary-card,.comunidad-section{padding:20px 16px;border-radius:16px}
+  .roas-hero-value{font-size:42px}
+  .metrics-grid{gap:8px}
+  .metric-box{padding:11px 12px}
+  .metric-value{font-size:16px}
+  .float-wa{width:50px;height:50px;right:14px}
+}
+@media(max-width:360px){
+  .wrap{padding:0 10px 80px}
+  header h1{font-size:26px}
+}
+@media(min-width:600px) and (max-width:767px){
+  .wrap{max-width:600px;padding:0 22px 80px}
+}
+@media(min-width:768px){
+  .wrap{max-width:780px;padding:0 28px 80px}
+  .card,.glossary-card{padding:26px 24px}
+  .metrics-grid{grid-template-columns:1fr 1fr 1fr 1fr}
+  .roas-hero-value{font-size:54px}
+}
+@media(min-width:1024px){
+  .wrap{max-width:820px;padding:0 32px 80px}
+  header{padding:42px 24px 32px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.float-wa{animation:none}}
+
+*{font-family:inherit}
+input,textarea,button{font-family:inherit}
+input[type="text"],input:not([type]){-webkit-appearance:none;appearance:none}
+.btn,button{min-height:44px}
+button:focus-visible,.btn:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--pl);outline-offset:2px}
+@media print{body{background:white;color:black}.float-wa,.toast,.top-bar{display:none!important}.card{border:1px solid #ddd;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- TOP BAR: BACK + BRAND -->
+  <div class="top-bar">
+    <a href="index.html" class="back-to-hub">← Volver al hub</a>
+    <span class="brand-pill">💜 Comunidad Arraiz</span>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="tool-icon-big">📊</div>
+    <div class="tool-name-tag">Calculadora ROAS</div>
+    <h1>¿Tu publicidad<br>es rentable?</h1>
+    <p>Analiza tus campañas con números reales. Te decimos si <strong>vale la pena escalar o pausar</strong>.</p>
+  </header>
+
+  <!-- ¿CÓMO FUNCIONA? -->
+  <details class="howto-card" open>
+    <summary>💡 ¿Cómo usar esta calculadora?</summary>
+    <div class="howto-body">
+      <div class="howto-step">
+        <div class="howto-step-num">1</div>
+        <div class="howto-step-text">Ingresa <strong>cuánto gastaste en publicidad</strong> (Facebook Ads, Instagram, TikTok). Solo el dinero invertido en ads, NO en herramientas.</div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-num">2</div>
+        <div class="howto-step-text">Pon <strong>cuánto vendiste en pedidos entregados</strong> en el mismo periodo. Ojo: solo las ventas reales que cobraste, NO las devueltas.</div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-num">3</div>
+        <div class="howto-step-text">Agrega <strong>el costo del producto</strong> que pagaste a tu proveedor (Dropi u otro).</div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-num">4</div>
+        <div class="howto-step-text">Suma <strong>otros costos</strong> opcionales (envío, devoluciones, herramientas). Si no estás seguro, déjalo en 0.</div>
+      </div>
+    </div>
+  </details>
+
+  <!-- INPUT FORM -->
+  <div class="card">
+    <div class="card-title">📝 Datos de tu campaña</div>
+    <div class="card-sub">Estos números son los del <strong>periodo que quieres analizar</strong> (un día, una semana, un mes, etc).</div>
+
+    <!-- SECCIÓN 1: INVERSIÓN Y RESULTADO -->
+    <div class="section-divider">
+      <span class="section-icon">💸</span>
+      <span class="section-title">Inversión y resultados</span>
+    </div>
+
+    <div class="input-group">
+      <label>💸 ¿Cuánto gastaste en ads? (COP)
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Solo cuenta el gasto en publicidad pagada (Facebook/Instagram/TikTok ads). NO incluyas suscripciones, herramientas ni tu salario.</span></span>
+      </label>
+      <div class="input-explain">
+        Suma <strong>todo el dinero que invertiste en publicidad pagada</strong> (Facebook, Instagram, TikTok ads).
+        <span class="examples">Ej: si gastaste $50.000 al día durante 10 días → $500.000</span>
+      </div>
+      <div class="input-row">
+        <div class="input-prefix">$</div>
+        <input type="text" id="inGasto" placeholder="Ej: 500.000" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="input-hint">💡 Puedes escribir <strong style="color:var(--gold2)">500</strong> o <strong style="color:var(--gold2)">500000</strong> — entendemos ambos</div>
+      <div class="preview-line" id="gastoPreview"></div>
+    </div>
+
+    <div class="input-group">
+      <label>🛒 ¿Cuánto vendiste en pedidos entregados? (COP)
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Solo los pedidos que SÍ se entregaron al cliente y te pagaron. Los devueltos NO cuentan como venta.</span></span>
+      </label>
+      <div class="input-explain">
+        Suma el <strong>precio de venta de TODOS los pedidos que se entregaron</strong> (los que cobraste). Ignora los devueltos.
+        <span class="examples">Ej: 30 pedidos entregados a $89.900 cada uno → $2.697.000</span>
+      </div>
+      <div class="input-row">
+        <div class="input-prefix">$</div>
+        <input type="text" id="inVentas" placeholder="Ej: 2.697.000" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="preview-line" id="ventasPreview"></div>
+    </div>
+
+    <!-- SECCIÓN 2: COSTOS DEL PRODUCTO -->
+    <div class="section-divider">
+      <span class="section-icon">📦</span>
+      <span class="section-title">Costos del negocio</span>
+    </div>
+
+    <div class="input-group">
+      <label>📦 ¿Cuánto pagaste al proveedor? (COP)
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Suma TODO lo que le pagaste al proveedor (Dropi u otro) por los productos VENDIDOS Y ENTREGADOS.</span></span>
+      </label>
+      <div class="input-explain">
+        Lo que pagaste a Dropi (u otro proveedor) por los productos vendidos.
+        <span class="examples">Ej: 30 productos a $25.000 cada uno → $750.000</span>
+      </div>
+      <div class="input-row">
+        <div class="input-prefix">$</div>
+        <input type="text" id="inCostoProd" placeholder="Ej: 750.000" inputmode="numeric" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>🏢 Otros costos del negocio (opcional)
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Envíos, herramientas como LucidBot, comisiones, devoluciones. Es opcional — si no sabes, déjalo en 0.</span></span>
+      </label>
+      <div class="input-explain">
+        Costos extras del negocio: <strong>envíos, devoluciones, apps (LucidBot, etc.), comisiones de pasarela</strong>.
+        <span class="examples">Ej: 30 envíos × $20.000 + $30.000 herramientas → $630.000</span>
+      </div>
+      <div class="input-row">
+        <div class="input-prefix">$</div>
+        <input type="text" id="inCostosFijos" placeholder="0 (opcional)" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="input-hint">💡 Déjalo en 0 si solo quieres ver el ROAS puro de la publicidad. Para ver tu ganancia neta REAL, súmalo todo.</div>
+    </div>
+
+    <button class="btn btn-gold" onclick="calcularROAS()">🔥 Analizar mi campaña</button>
+  </div>
+
+  <!-- RESULT SECTION -->
+  <div id="resultSection">
+    <div class="card">
+      <div class="semaforo" id="semaforo">
+        <div class="semaforo-dot" id="semDot">🟢</div>
+        <div>
+          <div class="semaforo-title" id="semTitle">—</div>
+          <div class="semaforo-sub" id="semSub">—</div>
+        </div>
+      </div>
+
+      <div class="roas-hero" id="roasHero">
+        <div class="roas-hero-label">📊 Tu ROAS</div>
+        <div class="roas-hero-value"><span id="roasValue">0</span><span class="roas-hero-x">x</span></div>
+        <div class="roas-hero-sub" id="roasSub">—</div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-box">
+          <div class="metric-label">💸 Gastado</div>
+          <div class="metric-value white" id="mGasto">—</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">🛒 Vendido</div>
+          <div class="metric-value white" id="mVentas">—</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">💰 Ganancia neta</div>
+          <div class="metric-value" id="mGanancia">—</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">📈 ROI</div>
+          <div class="metric-value" id="mROI">—</div>
+        </div>
+      </div>
+
+      <div class="breakdown">
+        <div class="breakdown-title">🔍 Desglose paso a paso</div>
+        <div class="breakdown-row"><span class="breakdown-label">🛒 Ventas totales</span><span class="breakdown-val green" id="bVentas">—</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">📦 Costo del producto</span><span class="breakdown-val red" id="bCostoProd">—</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">💸 Gasto en ads</span><span class="breakdown-val red" id="bGasto">—</span></div>
+        <div class="breakdown-row" id="bRowFijos"><span class="breakdown-label">🏢 Otros costos</span><span class="breakdown-val red" id="bFijos">—</span></div>
+        <div class="breakdown-row total"><span>= Ganancia neta</span><span class="breakdown-val" id="bTotal">—</span></div>
+      </div>
+
+      <div id="consejoCard"></div>
+
+      <button class="btn btn-ghost" onclick="reiniciar()" style="margin-top:14px">🔄 Analizar otra campaña</button>
+    </div>
+  </div>
+
+  <!-- GLOSARIO -->
+  <div class="glossary-card">
+    <div class="glossary-title">📖 Aprende sobre ROAS</div>
+    <div class="glossary-sub">Las preguntas más frecuentes que debes saber.</div>
+
+    <details class="faq"><summary>¿Qué es el ROAS?</summary><div class="faq-body">
+      ROAS = <strong>Return On Ad Spend</strong> (Retorno por Inversión en Ads). Te dice <strong>cuántos pesos te entran en ventas por cada peso que gastas en publicidad.</strong>
+      <div class="faq-example">Ej: Gastas $100.000 en ads y vendes $300.000 → tu ROAS es 3x. Por cada peso de ads, recibes 3 pesos en ventas.</div>
+    </div></details>
+
+    <details class="faq"><summary>¿Qué ROAS es bueno en dropshipping COD?</summary><div class="faq-body">
+      🔥 <strong>ROAS mayor a 3x</strong> → Excelente, escalar con confianza<br>
+      ⚠️ <strong>ROAS entre 2x y 3x</strong> → Aceptable, optimizar antes de escalar<br>
+      ❌ <strong>ROAS menor a 2x</strong> → Probablemente estás perdiendo dinero
+      <div class="faq-example">En COD necesitas ROAS más alto que e-commerce normal porque hay devoluciones, costos de envío y otros gastos.</div>
+    </div></details>
+
+    <details class="faq"><summary>ROAS vs ROI — ¿Cuál importa más?</summary><div class="faq-body">
+      <strong>ROAS:</strong> mide solo ventas vs gasto en ads.<br>
+      <strong>ROI:</strong> mide ganancia real vs inversión total.<br><br>
+      ROAS te dice si la publicidad funciona. ROI te dice si <strong>el negocio es rentable</strong>. El ROI positivo es lo único que de verdad importa.
+      <div class="faq-example">Puedes tener ROAS 4x y aún perder dinero si tu producto es muy caro o tu margen es bajo.</div>
+    </div></details>
+
+    <details class="faq"><summary>¿Por qué solo cuento las ventas entregadas?</summary><div class="faq-body">
+      En Colombia con COD, solo el <strong>~59% de pedidos se entregan</strong>. Si cuentas los cancelados y devueltos como ventas, tus números mienten.<br><br>
+      Solo el dinero que llegó a tu bolsillo cuenta como venta real.
+      <div class="faq-example">Si recibiste 100 pedidos pero solo 59 se entregaron a $89.900, tus ventas reales son $5.304.100, no $8.990.000.</div>
+    </div></details>
+
+    <details class="faq"><summary>Mi ROAS bajó — ¿qué hago?</summary><div class="faq-body">
+      Posibles causas:<br>
+      • <strong>Audiencia saturada</strong> → cambia creativos<br>
+      • <strong>Precio mal ajustado</strong> → revisa con la <a href="calculadora-cod.html" style="color:var(--pg)">Calculadora COD</a><br>
+      • <strong>Producto cayendo</strong> → diversifica<br>
+      • <strong>Mala época</strong> → analiza estacionalidad
+      <div class="faq-example">Antes de pausar, dale 3-5 días al algoritmo para optimizar.</div>
+    </div></details>
+
+    <details class="faq"><summary>¿Por qué tengo buen ROAS pero pierdo dinero?</summary><div class="faq-body">
+      Porque el ROAS no incluye:<br>
+      • Costo del producto (proveedor)<br>
+      • Envío<br>
+      • Devoluciones<br>
+      • Comisiones<br>
+      • Herramientas y tu tiempo<br><br>
+      Por eso esta calculadora te muestra <strong>ganancia neta</strong> después de TODOS los costos. Esa cifra es la real.
+    </div></details>
+  </div>
+
+  <!-- COMUNIDAD ARRAIZ -->
+  <div class="comunidad-section">
+    <div class="comunidad-title">🚀 Comunidad Arraiz</div>
+    <div class="comunidad-sub">Todo lo que necesitas para vender hoy. Estas herramientas son <strong style="color:white">100% gratuitas</strong> 💜</div>
+    <a href="https://chat.whatsapp.com/F924BJmh5HNKg3WE5CaEOC" target="_blank" rel="noopener" class="link-item">
+      <div class="link-icon">📲</div>
+      <div class="link-content"><div class="link-title">Grupo WhatsApp — Únete</div><div class="link-desc">Soporte en tiempo real</div></div>
+      <div class="link-arrow">→</div>
+    </a>
+    <a href="https://app.dropi.co/arraiz" target="_blank" rel="noopener" class="link-item">
+      <div class="link-icon">🛒</div>
+      <div class="link-content"><div class="link-title">Dropi Colombia</div><div class="link-desc">Regístrate con Comunidad Arraiz</div></div>
+      <div class="link-arrow">→</div>
+    </a>
+    <a href="https://afiliados.lucidbot.co/auth/register?ut=e4kb71gv07" target="_blank" rel="noopener" class="link-item">
+      <div class="link-icon">🤖</div>
+      <div class="link-content"><div class="link-title">LucidBot — 7 días gratis</div><div class="link-desc">Automatiza mensajes y aumenta conversión</div></div>
+      <div class="link-arrow">→</div>
+    </a>
+  </div>
+
+  <footer>💜 Calculadora ROAS · <span class="heart">Comunidad Arraiz</span></footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<a href="https://chat.whatsapp.com/F924BJmh5HNKg3WE5CaEOC" target="_blank" rel="noopener" class="float-wa" aria-label="WhatsApp Comunidad Arraiz">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script>
+window.addEventListener('error',function(ev){try{console.error('[ROAS]',ev.message,'at',(ev.filename||'?')+':'+ev.lineno)}catch(_){}},true);
+
+function parseAmount(v){
+  if(v==null)return NaN;
+  v=v.toString().trim().replace(/\./g,'').replace(/,/g,'').replace(/\s/g,'').replace(/\$/g,'');
+  const n=parseFloat(v);if(isNaN(n))return NaN;
+  if(n>0&&n<1000)return n*1000;
+  return n;
+}
+function fCOP(n){return'$ '+Math.round(n).toLocaleString('es-CO')}
+function formatLive(input){
+  const raw=input.value.replace(/[^\d]/g,'');
+  if(!raw){input.value='';return}
+  input.value=parseInt(raw,10).toLocaleString('es-CO');
+}
+
+['inGasto','inVentas','inCostoProd','inCostosFijos'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener('input',()=>{
+    formatLive(el);
+    if(id==='inGasto'||id==='inVentas'){
+      const raw=el.value.replace(/[^\d]/g,'');
+      const n=parseInt(raw,10);
+      const pv=document.getElementById(id==='inGasto'?'gastoPreview':'ventasPreview');
+      if(pv){
+        if(raw&&n>0&&n<1000)pv.textContent='→ Lo entendemos como '+fCOP(n*1000);
+        else pv.textContent='';
+      }
+    }
+  });
+});
+
+function toast(msg,type){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show'+(type==='error'?' error':'');
+  clearTimeout(window._tt);window._tt=setTimeout(()=>el.classList.remove('show'),2400);
+}
+
+function animateNum(el,target,duration,decimals){
+  duration=duration||600;decimals=decimals==null?2:decimals;
+  const start=performance.now();
+  function step(now){
+    const p=Math.min((now-start)/duration,1);
+    const ease=1-Math.pow(1-p,3);
+    const val=(target*ease).toFixed(decimals);
+    el.textContent=val;
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function calcularROAS(){
+  const gasto=parseAmount(document.getElementById('inGasto').value);
+  const ventas=parseAmount(document.getElementById('inVentas').value);
+  const costoProd=parseAmount(document.getElementById('inCostoProd').value);
+  const costosFijos=parseAmount(document.getElementById('inCostosFijos').value)||0;
+
+  if(isNaN(gasto)||gasto<=0){toast('💸 Ingresa el gasto en ads','error');document.getElementById('inGasto').focus();return}
+  if(isNaN(ventas)||ventas<=0){toast('🛒 Ingresa las ventas generadas','error');document.getElementById('inVentas').focus();return}
+  if(isNaN(costoProd)||costoProd<0){toast('📦 Ingresa el costo del producto','error');document.getElementById('inCostoProd').focus();return}
+
+  const roas=ventas/gasto;
+  const inversionTotal=gasto+costoProd+costosFijos;
+  const ganancia=ventas-inversionTotal;
+  const roi=ganancia/inversionTotal*100;
+
+  const hero=document.getElementById('roasHero');
+  hero.className='roas-hero';
+  let heroClass='hero-red',semClass='s-red',semIcon='🔴',semTitle='Campaña no rentable',semSub='Tu ROAS es muy bajo, estás perdiendo dinero o casi.';
+  let roasSub='Por cada peso en ads, recibes solo $'+roas.toFixed(2)+' en ventas';
+
+  if(roas>=3){
+    heroClass='hero-green';semClass='s-green';semIcon='🟢';
+    semTitle='🔥 Excelente ROAS — Lista para escalar';
+    semSub='Tu publicidad está trayendo más de 3x en ventas. Invierte más con confianza.';
+  }else if(roas>=2){
+    heroClass='hero-yellow';semClass='s-yellow';semIcon='🟡';
+    semTitle='⚠️ ROAS aceptable — Optimizable';
+    semSub='Estás generando retorno pero hay margen para mejorar antes de escalar.';
+  }
+  hero.classList.add(heroClass);
+  animateNum(document.getElementById('roasValue'),roas,700,2);
+  document.getElementById('roasSub').textContent=roasSub;
+  document.getElementById('semaforo').className='semaforo '+semClass;
+  document.getElementById('semDot').textContent=semIcon;
+  document.getElementById('semTitle').textContent=semTitle;
+  document.getElementById('semSub').textContent=semSub;
+
+  document.getElementById('mGasto').textContent=fCOP(gasto);
+  document.getElementById('mVentas').textContent=fCOP(ventas);
+  const mGan=document.getElementById('mGanancia');
+  mGan.textContent=fCOP(ganancia);
+  mGan.className='metric-value '+(ganancia>=0?'green':'red');
+  const mROI=document.getElementById('mROI');
+  mROI.textContent=(roi>=0?'+':'')+roi.toFixed(0)+'%';
+  mROI.className='metric-value '+(roi>=30?'green':roi>=0?'gold':'red');
+
+  document.getElementById('bVentas').textContent='+ '+fCOP(ventas);
+  document.getElementById('bCostoProd').textContent='− '+fCOP(costoProd);
+  document.getElementById('bGasto').textContent='− '+fCOP(gasto);
+  if(costosFijos>0){
+    document.getElementById('bRowFijos').style.display='flex';
+    document.getElementById('bFijos').textContent='− '+fCOP(costosFijos);
+  }else{
+    document.getElementById('bRowFijos').style.display='none';
+  }
+  const bTotal=document.getElementById('bTotal');
+  bTotal.textContent=(ganancia>=0?'+ ':'')+fCOP(ganancia);
+  bTotal.className='breakdown-val '+(ganancia>=0?'green':'red');
+
+  let cls,title,body;
+  if(roas>=3 && ganancia>0){
+    cls='c-green';title='🔥 ¡Tu campaña está volando!';
+    body='Con un ROAS de <strong>'+roas.toFixed(2)+'x</strong> y una ganancia de <strong>'+fCOP(ganancia)+'</strong>, este es el momento perfecto para <strong>escalar el presupuesto</strong>. Sube tu inversión un 20-30% por semana mientras el ROAS se mantenga arriba de 2.5x. No subas todo de golpe — Facebook necesita tiempo para optimizar audiencias nuevas.';
+  }else if(roas>=2 && ganancia>0){
+    cls='c-yellow';title='⚠️ Vas bien pero puedes mejorar';
+    body='Tu ROAS de <strong>'+roas.toFixed(2)+'x</strong> es aceptable y estás ganando <strong>'+fCOP(ganancia)+'</strong>. Antes de escalar, optimiza: prueba 2-3 creativos nuevos, segmenta mejor tu audiencia o sube ligeramente el precio del producto. El objetivo es llegar a 3x antes de invertir más.';
+  }else if(ganancia<=0){
+    cls='c-red';title='❌ Estás perdiendo dinero';
+    body='Con tu ROAS actual de <strong>'+roas.toFixed(2)+'x</strong> estás perdiendo <strong>'+fCOP(Math.abs(ganancia))+'</strong> en esta campaña. Pausa la campaña y revisa: ¿el creativo es bueno? ¿la audiencia es la correcta? ¿el precio cubre todos los costos? Usa la <a href="calculadora-cod.html" style="color:var(--pg)">Calculadora COD</a> para verificar tus precios.';
+  }else{
+    cls='c-red';title='❌ ROAS muy bajo';
+    body='Tu ROAS de <strong>'+roas.toFixed(2)+'x</strong> está por debajo del mínimo recomendado (2x). Aunque ganaste <strong>'+fCOP(ganancia)+'</strong>, cualquier aumento en costos te puede llevar a pérdida. Renegocia con tu proveedor o cambia tu enfoque de marketing.';
+  }
+  document.getElementById('consejoCard').innerHTML='<div class="consejo-card '+cls+'"><div class="consejo-title">'+title+'</div><div class="consejo-body">'+body+'</div></div>';
+
+  document.getElementById('resultSection').classList.add('show');
+  setTimeout(function(){
+    const el=document.getElementById('resultSection');
+    if(el){const y=el.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}
+  },80);
+}
+
+function reiniciar(){
+  ['inGasto','inVentas','inCostoProd','inCostosFijos'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  document.getElementById('gastoPreview').textContent='';
+  document.getElementById('ventasPreview').textContent='';
+  document.getElementById('resultSection').classList.remove('show');
+  setTimeout(()=>document.getElementById('inGasto').focus(),200);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('details.faq').forEach(d=>{
+  d.addEventListener('toggle',()=>{
+    if(d.open)document.querySelectorAll('details.faq').forEach(o=>{if(o!==d&&o.open)o.open=false});
+  });
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.tagName!=='TEXTAREA'){
+    if(document.activeElement&&['inGasto','inVentas','inCostoProd','inCostosFijos'].includes(document.activeElement.id)){
+      calcularROAS();
+    }
+  }
+});
+</script>
+</body>
+</html>

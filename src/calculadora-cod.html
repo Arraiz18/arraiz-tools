@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#160329">
+<meta name="description" content="Calculadora gratuita para descubrir el precio rentable de tus productos dropshipping COD en Colombia. Hecha por Comunidad Arraiz.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Calculadora Dropshipping — Comunidad Arraiz">
+<meta property="og:description" content="Descubre el precio perfecto y rentable para tus productos COD en Colombia. Paso a paso, gratis y en segundos. 💜">
+<meta property="og:locale" content="es_CO">
+<meta property="og:site_name" content="Comunidad Arraiz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Calculadora Dropshipping — Comunidad Arraiz">
+<meta name="twitter:description" content="Descubre el precio perfecto y rentable para tus productos COD en Colombia. Gratis. 💜">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c3aed'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='58' font-family='system-ui'%3E🛒%3C/text%3E%3C/svg%3E">
+<title>Calculadora Dropshipping — Comunidad Arraiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pd: #160329; --pk: #25094a; --pm: #5b21b6; --pb: #7c3aed;
+  --pl: #a855f7; --pg: #c084fc; --pp: #f3e8ff;
+  --gold: #f59e0b; --gold2: #fcd34d; --gold3: #92400e;
+  --green: #10b981; --greend: #065f46; --greens: #d1fae5;
+  --red: #ef4444; --redd: #7f1d1d;
+  --orange: #f97316; --wa: #25D366;
+  --txt: #f5f3ff; --muted: #b8a5e0; --dim: #8b7aaa;
+  --cbg: rgba(91,33,182,0.12); --cbr: rgba(168,85,247,0.22);
+  --cbgs: #1f0838;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--pd);color:var(--txt);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at top left,rgba(124,58,237,0.22),transparent 50%),radial-gradient(ellipse at bottom right,rgba(168,85,247,0.15),transparent 50%);pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:0 16px 100px}
+
+/* NAV TABS */
+.nav-tabs{display:flex;gap:6px;padding:14px 0 0;justify-content:center;flex-wrap:wrap}
+.nav-tab{padding:8px 16px;border-radius:100px;border:1.5px solid var(--cbr);background:transparent;color:var(--muted);font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.nav-tab.active{background:linear-gradient(135deg,var(--pb),var(--pl));border-color:var(--pl);color:white;box-shadow:0 4px 14px rgba(124,58,237,0.35)}
+.nav-tab:hover:not(.active){border-color:var(--pl);color:white}
+
+/* HEADER */
+header{text-align:center;padding:22px 12px 18px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#1a0533;font-weight:800;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:16px;box-shadow:0 4px 16px rgba(245,158,11,.25)}
+header h1{font-weight:800;font-size:clamp(26px,7vw,42px);line-height:1.05;letter-spacing:-.02em;background:linear-gradient(135deg,#fff 0%,var(--pg) 70%,var(--gold2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+header p{color:var(--muted);font-size:14px;max-width:420px;margin:0 auto;line-height:1.55}
+
+/* STEPPER */
+.stepper{display:flex;justify-content:center;align-items:center;margin:20px auto 24px;max-width:340px}
+.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;border:2px solid rgba(168,85,247,.3);color:var(--dim);background:var(--pd);transition:all .25s;flex-shrink:0}
+.step-circle.active{background:linear-gradient(135deg,var(--pb),var(--pl));border-color:var(--pl);color:white;box-shadow:0 0 14px rgba(168,85,247,.5)}
+.step-circle.done{background:var(--green);border-color:var(--green);color:white}
+.step-line{flex:1;height:2px;background:rgba(168,85,247,.18);transition:background .25s;margin:0 6px}
+.step-line.done{background:var(--green)}
+
+/* CARDS */
+.card{background:var(--cbg);border:1px solid var(--cbr);border-radius:18px;padding:22px 18px;margin-bottom:12px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.card-anim{animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card-title{font-weight:700;font-size:16px;color:var(--pg);margin-bottom:5px;letter-spacing:-.01em}
+.card-sub{color:var(--muted);font-size:13px;margin-bottom:16px;line-height:1.55}
+
+/* INPUTS */
+.input-group{margin-bottom:14px}
+.input-group label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--pg);margin-bottom:6px}
+.input-row{display:flex;align-items:stretch;background:rgba(31,8,56,.7);border:1.5px solid rgba(168,85,247,.22);border-radius:11px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.input-row:focus-within{border-color:var(--pl);box-shadow:0 0 0 3px rgba(168,85,247,.18)}
+.input-prefix{padding:0 13px;color:var(--gold);font-weight:700;font-size:15px;background:rgba(245,158,11,.07);display:flex;align-items:center;border-right:1px solid rgba(168,85,247,.22);white-space:nowrap}
+.input-row input{flex:1;background:transparent;border:none;outline:none;color:white;font-size:15px;font-weight:600;font-family:inherit;padding:12px 13px;width:100%;min-width:0}
+.input-row input::placeholder{color:rgba(184,165,224,.4);font-weight:500}
+.input-hint{font-size:11.5px;color:var(--dim);margin-top:5px;line-height:1.45}
+.preview-line{font-size:12px;color:var(--gold);margin-top:5px;font-weight:600;min-height:17px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 20px;border-radius:11px;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:14px;letter-spacing:-.01em;transition:transform .15s,box-shadow .2s;text-decoration:none;line-height:1.2}
+.btn-primary{background:linear-gradient(135deg,var(--pb),var(--pl));color:white;box-shadow:0 4px 14px rgba(124,58,237,.35);flex:1}
+.btn-secondary{background:rgba(91,33,182,.2);color:var(--muted);border:1.5px solid rgba(168,85,247,.25);flex:1}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--orange));color:#1a0533;box-shadow:0 4px 14px rgba(245,158,11,.3);flex:1}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--muted);border:1.5px solid rgba(255,255,255,.12)}
+.btn:active{transform:scale(.97)}
+@media(hover:hover){.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.5)}.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(245,158,11,.45)}.btn-secondary:hover{background:rgba(91,33,182,.35);color:white}}
+.btn-row{display:flex;gap:10px;margin-top:16px}
+
+/* QUICK MODE TOGGLE */
+.mode-toggle{display:flex;background:rgba(31,8,56,.6);border:1px solid var(--cbr);border-radius:12px;padding:4px;gap:4px;margin-bottom:16px}
+.mode-btn{flex:1;padding:9px 12px;border-radius:9px;border:none;background:transparent;color:var(--muted);font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;text-align:center}
+.mode-btn.active{background:linear-gradient(135deg,var(--pb),var(--pl));color:white;box-shadow:0 2px 10px rgba(124,58,237,.3)}
+
+/* COSTOS */
+.costos-grid{display:grid;gap:7px;margin-bottom:12px}
+.costo-item{display:flex;align-items:center;justify-content:space-between;background:rgba(31,8,56,.5);border:1px solid rgba(168,85,247,.12);border-radius:10px;padding:10px 13px;gap:10px}
+.costo-left{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
+.costo-icon{font-size:17px;flex-shrink:0}
+.costo-name{font-size:13px;font-weight:600;line-height:1.3}
+.costo-desc{font-size:11px;color:var(--dim);margin-top:2px;line-height:1.4}
+.costo-val{font-weight:800;font-size:14px;color:var(--gold);flex-shrink:0}
+.costo-editable{background:rgba(31,8,56,.7);border:1.5px solid rgba(168,85,247,.3);border-radius:8px;outline:none;color:var(--gold);font-weight:800;font-size:13px;font-family:inherit;padding:4px 8px;width:90px;text-align:right}
+.costo-editable:focus{border-color:var(--pl);box-shadow:0 0 0 2px rgba(168,85,247,.18)}
+.costo-total{background:linear-gradient(135deg,rgba(124,58,237,.28),rgba(168,85,247,.15));border:1.5px solid var(--pl);border-radius:11px;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.costo-total-label{font-weight:700;font-size:13px;color:white;line-height:1.3}
+.costo-total-val{font-weight:800;font-size:18px;color:var(--pg);flex-shrink:0}
+
+/* SEMÁFORO */
+.semaforo{display:flex;align-items:center;gap:14px;background:rgba(0,0,0,.25);border-radius:14px;padding:14px 16px;margin-bottom:14px;border:1.5px solid transparent;transition:border-color .3s}
+.semaforo.s-green{border-color:var(--green)}
+.semaforo.s-yellow{border-color:var(--orange)}
+.semaforo.s-red{border-color:var(--red)}
+.semaforo-dot{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px}
+.s-green .semaforo-dot{background:rgba(16,185,129,.25);box-shadow:0 0 16px rgba(16,185,129,.5)}
+.s-yellow .semaforo-dot{background:rgba(249,115,22,.25);box-shadow:0 0 16px rgba(249,115,22,.5)}
+.s-red .semaforo-dot{background:rgba(239,68,68,.25);box-shadow:0 0 16px rgba(239,68,68,.5)}
+.semaforo-text{}
+.semaforo-title{font-weight:800;font-size:15px}
+.s-green .semaforo-title{color:var(--green)}
+.s-yellow .semaforo-title{color:var(--orange)}
+.s-red .semaforo-title{color:var(--red)}
+.semaforo-sub{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4}
+
+/* RESULTS */
+.results-grid{display:grid;gap:10px}
+.result-card{border-radius:15px;padding:16px;position:relative;overflow:hidden;transition:transform .2s}
+.r1x{background:linear-gradient(135deg,rgba(91,33,182,.45),rgba(45,10,87,.7));border:1.5px solid rgba(168,85,247,.35)}
+.r2x{background:linear-gradient(135deg,rgba(5,46,22,.55),rgba(6,78,59,.35));border:1.5px solid rgba(16,185,129,.35)}
+.r3x{background:linear-gradient(135deg,rgba(120,53,15,.45),rgba(161,98,7,.25));border:1.5px solid rgba(245,158,11,.35)}
+.result-badge{display:flex;align-items:center;gap:6px;font-weight:800;font-size:12px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:11px}
+.r1x .result-badge{color:var(--pg)}.r2x .result-badge{color:var(--green)}.r3x .result-badge{color:var(--gold)}
+.result-prices{display:grid;grid-template-columns:1.2fr 1fr;gap:8px;margin-bottom:10px}
+.price-box{background:rgba(0,0,0,.25);border-radius:8px;padding:9px 11px}
+.price-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-bottom:3px;font-weight:700}
+.price-val{font-weight:800;font-size:18px;color:white;letter-spacing:-.01em}
+.price-min .price-val{font-size:13px;color:var(--muted)}
+.result-stats{display:flex;gap:6px;flex-wrap:wrap}
+.stat-pill{background:rgba(255,255,255,.08);border-radius:100px;padding:4px 10px;font-size:11px;font-weight:500}
+.stat-pill strong{font-weight:700}
+.verdict{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.2);border-radius:8px;padding:8px 11px;margin-top:10px;font-weight:600;font-size:12px;line-height:1.4}
+.verdict.good{color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.verdict.warn{color:var(--orange);border:1px solid rgba(249,115,22,.3)}
+.verdict.bad{color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.action-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.btn-share{background:var(--wa);color:white;box-shadow:0 4px 12px rgba(37,211,102,.3)}
+.btn-copy{background:rgba(255,255,255,.06);color:white;border:1.5px solid rgba(255,255,255,.13)}
+@media(hover:hover){.btn-share:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,211,102,.45)}.btn-copy:hover{background:rgba(255,255,255,.12)}}
+
+/* PRECIO COMERCIAL ROW */
+.guia-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 13px;gap:10px}
+
+/* HISTORIAL */
+.historial-empty{text-align:center;padding:28px 16px;color:var(--dim);font-size:13.5px}
+.historial-item{display:flex;align-items:center;justify-content:space-between;background:rgba(31,8,56,.5);border:1px solid rgba(168,85,247,.15);border-radius:11px;padding:11px 14px;margin-bottom:8px;gap:10px;cursor:pointer;transition:all .2s}
+.historial-item:hover{border-color:var(--pl);background:rgba(91,33,182,.2)}
+.historial-left{flex:1;min-width:0}
+.historial-name{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.historial-meta{font-size:11px;color:var(--dim);margin-top:3px}
+.historial-prices{text-align:right;flex-shrink:0}
+.historial-price1{font-weight:800;font-size:14px;color:var(--gold)}
+.historial-del{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.25);border-radius:7px;padding:4px 8px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all .2s}
+.historial-del:hover{background:rgba(239,68,68,.3)}
+
+/* COMPARADOR */
+.compare-grid{display:grid;gap:8px}
+.compare-row{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:6px;align-items:center}
+.compare-header{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);font-weight:700;padding:4px 6px}
+.compare-cell{background:rgba(31,8,56,.5);border-radius:8px;padding:9px 10px;font-size:12.5px;font-weight:600;text-align:center}
+.compare-name{text-align:left;font-size:13px;color:var(--txt)}
+.compare-cell.best-cell{color:var(--gold);font-weight:800}
+.compare-empty{text-align:center;padding:28px;color:var(--dim);font-size:13.5px}
+
+/* INVERSA */
+.inversa-result{background:linear-gradient(135deg,rgba(91,33,182,.3),rgba(45,10,87,.6));border:1.5px solid var(--pl);border-radius:14px;padding:16px;margin-top:14px;display:none}
+.inversa-result.show{display:block;animation:fadeUp .3s ease}
+.inv-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(168,85,247,.15)}
+.inv-row:last-child{border-bottom:none}
+.inv-label{font-size:13px;color:var(--muted)}
+.inv-val{font-weight:800;font-size:14px}
+.inv-val.ok{color:var(--green)}.inv-val.warn{color:var(--orange)}.inv-val.bad{color:var(--red)}
+
+/* TOOLTIPS */
+.tip-wrap{position:relative;display:inline-flex}
+.tip-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(168,85,247,.2);color:var(--pg);font-size:9px;font-weight:800;cursor:help;flex-shrink:0;line-height:1}
+.tip-box{position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:#2d0a57;border:1px solid var(--pl);border-radius:9px;padding:9px 12px;font-size:12px;color:var(--txt);line-height:1.5;white-space:nowrap;max-width:220px;white-space:normal;z-index:100;pointer-events:none;opacity:0;transition:opacity .18s;box-shadow:0 8px 24px rgba(0,0,0,.4);font-weight:500}
+.tip-wrap:hover .tip-box,.tip-wrap:focus-within .tip-box{opacity:1}
+
+/* TOAST */
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--pk);color:white;border:1px solid var(--pl);border-radius:12px;padding:11px 18px;font-size:13px;font-weight:600;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:300;opacity:0;transition:opacity .22s,transform .28s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:88vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:var(--green)}.toast.error{border-color:var(--red)}
+
+/* NÚMERO ANIMADO */
+.num-anim{display:inline-block}
+
+/* COMUNIDAD */
+.comunidad-card{background:linear-gradient(135deg,rgba(17,24,39,.85),rgba(45,10,87,.55));border:1.5px solid var(--gold);border-radius:18px;padding:22px 18px;margin-top:16px}
+.comunidad-title{font-weight:800;font-size:19px;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;letter-spacing:-.01em}
+.comunidad-sub{font-size:12.5px;color:var(--muted);margin-bottom:15px;line-height:1.55}
+.link-item{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 13px;margin-bottom:7px;text-decoration:none;color:var(--txt);transition:all .2s}
+.link-item:active,.link-item:focus{background:rgba(124,58,237,.22);border-color:var(--pl)}
+@media(hover:hover){.link-item:hover{background:rgba(124,58,237,.18);border-color:var(--pl)}}
+.link-icon{font-size:19px;flex-shrink:0}
+.link-content{flex:1;min-width:0}
+.link-title{font-weight:700;font-size:13px;line-height:1.3}
+.link-desc{font-size:11px;color:var(--dim);margin-top:2px}
+.link-arrow{color:var(--dim);flex-shrink:0;font-size:15px}
+.pronto-banner{background:linear-gradient(135deg,rgba(124,58,237,.22),rgba(168,85,247,.1));border:1px dashed var(--pl);border-radius:10px;padding:11px 13px;text-align:center;margin-top:11px;font-size:12px;color:var(--pg);line-height:1.5}
+
+/* VIDEO */
+.video-card{background:rgba(31,8,56,.5);border:1px solid var(--cbr);border-radius:18px;padding:20px 18px;margin-top:16px}
+.video-title{font-weight:700;font-size:16px;color:var(--pg);margin-bottom:4px}
+.video-sub{font-size:12.5px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.video-wrap{position:relative;padding-bottom:56.25%;border-radius:12px;overflow:hidden;background:#000}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px}
+
+/* GLOSARIO */
+.glossary-card{background:rgba(31,8,56,.5);border:1px solid var(--cbr);border-radius:18px;padding:22px 18px;margin-top:16px}
+.glossary-title{font-weight:800;font-size:18px;color:white;margin-bottom:4px;letter-spacing:-.01em}
+.glossary-sub{font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.55}
+details.faq{background:rgba(31,8,56,.6);border:1px solid rgba(168,85,247,.18);border-radius:10px;margin-bottom:7px;overflow:hidden;transition:border-color .2s}
+details.faq[open]{border-color:var(--pl)}
+details.faq summary{cursor:pointer;padding:12px 15px;font-weight:700;font-size:13.5px;color:white;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;line-height:1.4}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:'+';font-size:21px;font-weight:400;color:var(--pl);transition:transform .2s;flex-shrink:0;line-height:1}
+details.faq[open] summary::after{transform:rotate(45deg)}
+.faq-body{padding:0 15px 12px;color:var(--muted);font-size:13px;line-height:1.6}
+.faq-body strong{color:var(--gold2)}
+.faq-example{background:rgba(124,58,237,.12);border-left:3px solid var(--pl);border-radius:6px;padding:8px 11px;margin-top:7px;font-size:12px;color:var(--pg);font-style:italic}
+
+/* FLOAT BUTTONS */
+.float-wa{position:fixed;bottom:18px;right:18px;width:54px;height:54px;border-radius:50%;background:var(--wa);box-shadow:0 6px 18px rgba(37,211,102,.45);display:flex;align-items:center;justify-content:center;text-decoration:none;z-index:50;transition:transform .2s;animation:wa-pulse 2.5s ease-in-out infinite}
+.float-wa svg{width:28px;height:28px;fill:white}
+.float-wa:active{transform:scale(.92)}
+@keyframes wa-pulse{0%,100%{box-shadow:0 6px 18px rgba(37,211,102,.45),0 0 0 0 rgba(37,211,102,.5)}50%{box-shadow:0 6px 18px rgba(37,211,102,.45),0 0 0 10px rgba(37,211,102,0)}}
+.float-up{position:fixed;bottom:82px;right:18px;width:42px;height:42px;border-radius:50%;background:rgba(124,58,237,.7);border:1.5px solid var(--pl);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:49;opacity:0;pointer-events:none;transition:opacity .25s,transform .2s;font-size:16px;color:white;backdrop-filter:blur(8px)}
+.float-up.show{opacity:1;pointer-events:all}
+.float-up:hover{transform:translateY(-2px)}
+
+footer{text-align:center;padding:20px;color:var(--dim);font-size:13px;font-weight:600}
+
+/* SECTION VIEWS */
+.section-view{display:none}.section-view.active{display:block}
+
+/* RESET BTN */
+.reset-row{display:flex;justify-content:center;margin:18px 0 4px}
+.hidden{display:none!important}
+
+@media(max-width:480px){.wrap{padding:0 12px 80px}header{padding:18px 8px 14px}.card,.comunidad-card,.glossary-card,.video-card{padding:18px 14px;border-radius:15px}.input-row input{font-size:16px}.float-wa{width:50px;height:50px;bottom:14px;right:14px}.float-up{width:38px;height:38px;bottom:74px;right:14px}.compare-row{grid-template-columns:1.2fr 1fr 1fr}.compare-row .compare-cell:last-child{display:none}}
+@media(min-width:768px){.results-grid{grid-template-columns:1fr 1fr 1fr}.result-card{padding:14px}.result-prices{grid-template-columns:1fr}.price-val{font-size:16px}}
+
+
+/* ─── EFECTIVIDAD SLIDER ─── */
+.efectividad-wrap{background:rgba(31,8,56,.6);border:1px solid var(--cbr);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.efectividad-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.efectividad-label{font-size:13px;font-weight:700;color:var(--txt)}
+.efectividad-val{font-size:18px;font-weight:800;color:var(--gold)}
+.efectividad-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;outline:none;background:rgba(168,85,247,.25);cursor:pointer}
+.efectividad-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--pb),var(--pl));box-shadow:0 2px 8px rgba(124,58,237,.5);cursor:pointer;border:2px solid white}
+.efectividad-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--pb),var(--pl));cursor:pointer;border:2px solid white}
+.efectividad-bottom{display:flex;justify-content:space-between;font-size:10.5px;color:var(--dim);margin-top:7px}
+.efectividad-cpa-result{font-size:12px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid rgba(168,85,247,.15)}
+.efectividad-cpa-result strong{color:var(--gold2)}
+
+/* ─── DIAGNÓSTICO PRECIO ACTUAL ─── */
+.diag-result{background:rgba(31,8,56,.6);border-radius:13px;padding:16px;margin-top:14px;display:none;animation:fadeUp .3s ease}
+.diag-result.show{display:block}
+.diag-header{font-weight:800;font-size:15px;margin-bottom:12px}
+.diag-header.ok{color:var(--green)}.diag-header.warn{color:var(--orange)}.diag-header.bad{color:var(--red)}
+.diag-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(168,85,247,.12);font-size:13px}
+.diag-row:last-child{border-bottom:none}
+.diag-row-label{color:var(--muted)}
+.diag-row-val{font-weight:700}
+.diag-row-val.ok{color:var(--green)}.diag-row-val.warn{color:var(--orange)}.diag-row-val.bad{color:var(--red)}
+.diag-consejo{background:rgba(255,255,255,.05);border-radius:9px;padding:10px 13px;margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.55}
+.diag-consejo strong{color:var(--txt)}
+
+/* ─── NOTAS HISTORIAL ─── */
+.nota-input{width:100%;background:rgba(31,8,56,.7);border:1.5px solid rgba(168,85,247,.22);border-radius:9px;outline:none;color:white;font-size:13px;font-family:inherit;padding:9px 12px;resize:none;line-height:1.5;transition:border-color .2s}
+.nota-input:focus{border-color:var(--pl);box-shadow:0 0 0 3px rgba(168,85,247,.15)}
+.nota-input::placeholder{color:rgba(184,165,224,.4)}
+.nota-save-btn{background:linear-gradient(135deg,var(--pb),var(--pl));color:white;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:6px;transition:opacity .2s}
+.nota-save-btn:hover{opacity:.85}
+.nota-display{font-size:12px;color:var(--pg);font-style:italic;margin-top:5px;line-height:1.5;display:none}
+.nota-display.show{display:block}
+.historial-item-expanded{display:none;padding:10px 14px 12px;border-top:1px solid rgba(168,85,247,.12);animation:fadeUp .2s ease}
+.historial-item-expanded.open{display:block}
+.expand-btn{background:transparent;border:none;color:var(--dim);font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;padding:3px 0;transition:color .2s}
+.expand-btn:hover{color:var(--pl)}
+
+/* ─── MINI HISTORIA ─── */
+.historia-card{background:linear-gradient(135deg,rgba(91,33,182,.2),rgba(45,10,87,.5));border:1.5px solid rgba(168,85,247,.35);border-radius:16px;padding:20px 18px;margin-bottom:14px;animation:fadeUp .35s ease}
+.historia-emoji{font-size:36px;margin-bottom:10px}
+.historia-title{font-weight:800;font-size:16px;color:white;margin-bottom:8px;line-height:1.3}
+.historia-body{font-size:13.5px;color:var(--muted);line-height:1.65;margin-bottom:14px}
+.historia-body strong{color:var(--gold2)}
+.historia-highlight{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:9px;padding:10px 13px;font-size:13px;color:#fca5a5;line-height:1.55;margin-bottom:14px}
+.historia-highlight strong{color:white}
+
+/* ─── FLUJO DE DINERO ─── */
+.flujo-card{background:rgba(31,8,56,.6);border:1px solid var(--cbr);border-radius:14px;padding:18px 16px;margin-bottom:14px}
+.flujo-title{font-weight:700;font-size:14px;color:var(--pg);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.flujo-bars{display:grid;gap:7px}
+.flujo-row{display:flex;align-items:center;gap:10px}
+.flujo-label{font-size:11.5px;color:var(--muted);width:130px;flex-shrink:0;line-height:1.3}
+.flujo-bar-wrap{flex:1;background:rgba(255,255,255,.07);border-radius:100px;height:20px;overflow:hidden;position:relative}
+.flujo-bar{height:100%;border-radius:100px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:10px;font-weight:700;color:white;transition:width 1s cubic-bezier(.25,.46,.45,.94);width:0}
+.flujo-pct{font-size:11px;font-weight:700;width:36px;text-align:right;flex-shrink:0}
+.flujo-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid rgba(168,85,247,.2);font-size:13px;font-weight:700}
+.flujo-input-note{font-size:11px;color:var(--dim);text-align:center;margin-top:8px;font-style:italic}
+
+/* ─── DESGLOSE "¿CÓMO SE CALCULÓ?" ─── */
+.breakdown-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.25);border-radius:7px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--pg);cursor:pointer;margin-top:8px;transition:all .2s;font-family:inherit}
+.breakdown-btn:hover{background:rgba(168,85,247,.22);border-color:var(--pl)}
+.breakdown-panel{background:rgba(0,0,0,.3);border-radius:10px;padding:12px 14px;margin-top:8px;font-size:12px;line-height:1.8;color:var(--muted);display:none;animation:fadeUp .2s ease}
+.breakdown-panel.open{display:block}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0}
+.breakdown-row span:first-child{color:var(--dim)}
+.breakdown-row span:last-child{font-weight:700;color:var(--txt)}
+.breakdown-total-row{border-top:1px solid rgba(168,85,247,.25);margin-top:6px;padding-top:6px;font-weight:800}
+.breakdown-total-row span:last-child{color:var(--gold)}
+
+/* ─── ALERTA COSTO ─── */
+.costo-alert{border-radius:10px;padding:9px 13px;font-size:12.5px;line-height:1.5;margin-top:7px;display:none;animation:fadeUp .2s ease}
+.costo-alert.warn{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.35);color:#fdba74}
+.costo-alert.danger{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
+
+/* ─── EJEMPLO PRECARGADO ─── */
+.ejemplo-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.35);border-radius:11px;padding:10px 14px;margin-bottom:14px;cursor:pointer;transition:all .2s}
+.ejemplo-banner:hover{background:rgba(16,185,129,.14);border-color:var(--green)}
+.ejemplo-left{font-size:13px;color:var(--green);font-weight:600;line-height:1.4}
+.ejemplo-left span{font-size:11px;color:var(--muted);font-weight:400;display:block;margin-top:1px}
+.ejemplo-btn{background:var(--green);color:#052e16;font-size:12px;font-weight:700;padding:6px 12px;border-radius:7px;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
+
+/* ─── CONSEJO PERSONALIZADO ─── */
+.consejo-card{border-radius:14px;padding:16px 18px;margin-top:12px;animation:fadeUp .3s ease}
+.consejo-card.c-green{background:rgba(5,46,22,.5);border:1.5px solid rgba(16,185,129,.4)}
+.consejo-card.c-yellow{background:rgba(120,53,15,.4);border:1.5px solid rgba(249,115,22,.4)}
+.consejo-card.c-red{background:rgba(127,29,29,.4);border:1.5px solid rgba(239,68,68,.4)}
+.consejo-title{font-weight:800;font-size:14px;margin-bottom:6px}
+.c-green .consejo-title{color:var(--green)}
+.c-yellow .consejo-title{color:var(--orange)}
+.c-red .consejo-title{color:var(--red)}
+.consejo-body{font-size:13px;color:var(--muted);line-height:1.6}
+.consejo-body strong{color:var(--txt)}
+.consejo-tip{font-size:12px;background:rgba(255,255,255,.06);border-radius:8px;padding:8px 11px;margin-top:8px;color:var(--txt);line-height:1.5}
+
+/* ─── PALABRAS GLOSARIO INLINE ─── */
+.glos-word{border-bottom:1px dashed rgba(168,85,247,.5);color:var(--pg);cursor:pointer;position:relative;display:inline}
+.glos-popup{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#2d0a57;border:1px solid var(--pl);border-radius:9px;padding:9px 13px;font-size:12px;color:var(--txt);line-height:1.5;white-space:normal;width:220px;z-index:200;pointer-events:none;opacity:0;transition:opacity .18s;box-shadow:0 8px 24px rgba(0,0,0,.5);font-style:normal;font-weight:500}
+.glos-word:hover .glos-popup,.glos-word.open .glos-popup{opacity:1}
+
+/* ─── PROGRESO GUARDADO BANNER ─── */
+.progreso-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(124,58,237,.15);border:1px solid rgba(168,85,247,.3);border-radius:11px;padding:10px 14px;margin-bottom:12px;animation:fadeUp .3s ease}
+.progreso-left{font-size:13px;color:white;font-weight:600;line-height:1.4}
+.progreso-left span{font-size:11px;color:var(--muted);font-weight:400;display:block;margin-top:1px}
+.progreso-btns{display:flex;gap:7px;flex-shrink:0}
+.progreso-si{background:linear-gradient(135deg,var(--pb),var(--pl));color:white;font-size:12px;font-weight:700;padding:6px 12px;border-radius:7px;border:none;cursor:pointer;font-family:inherit}
+.progreso-no{background:transparent;color:var(--dim);font-size:12px;font-weight:600;padding:6px 10px;border-radius:7px;border:1px solid rgba(168,85,247,.2);cursor:pointer;font-family:inherit}
+
+
+/* ─── COUNTER BADGE ─── */
+.counter-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(124,58,237,.15);border:1px solid rgba(168,85,247,.3);color:var(--pg);font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;margin-top:10px;letter-spacing:.3px}
+.counter-badge strong{color:var(--gold-light)}
+
+/* ─── TIP ROTATOR ─── */
+.tip-rotator{background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.08));border:1px solid rgba(168,85,247,.25);border-radius:11px;padding:10px 14px;margin:14px auto 0;max-width:560px;font-size:12.5px;color:var(--muted);line-height:1.5;display:flex;align-items:flex-start;gap:9px}
+.tip-rotator-icon{font-size:15px;flex-shrink:0;line-height:1.4}
+.tip-rotator-text{flex:1;line-height:1.5}
+.tip-rotator-text strong{color:var(--gold-light);font-weight:700}
+
+/* ─── SHARE BUTTON ─── */
+
+/* ─── DISCLAIMER ─── */
+.disclaimer{background:rgba(31,8,56,.4);border:1px dashed rgba(168,85,247,.18);border-radius:10px;padding:11px 14px;margin-top:14px;font-size:11px;color:var(--dim);line-height:1.55;text-align:center}
+.disclaimer strong{color:var(--muted)}
+
+/* ─── QUICK EDIT COSTS PANEL ─── */
+.quick-edit-trigger{display:inline-flex;align-items:center;gap:6px;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.3);color:var(--pg);border-radius:8px;padding:7px 13px;font-size:11.5px;font-weight:700;cursor:pointer;margin-top:10px;transition:all .2s;font-family:inherit}
+.quick-edit-trigger:hover{background:rgba(168,85,247,.22);border-color:var(--pl)}
+.quick-edit-panel{background:rgba(31,8,56,.7);border:1px solid var(--pl);border-radius:12px;padding:14px;margin-top:10px;display:none;animation:fadeUp .25s ease}
+.quick-edit-panel.open{display:block}
+.qe-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.qe-field{background:rgba(0,0,0,.3);border-radius:8px;padding:8px 10px}
+.qe-label{font-size:10px;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.qe-input{width:100%;background:transparent;border:none;outline:none;color:var(--gold);font-weight:800;font-size:14px;font-family:inherit;padding:0}
+.qe-actions{display:flex;gap:8px}
+.qe-btn-recalc{flex:1;background:linear-gradient(135deg,var(--pb),var(--pl));color:white;border:none;border-radius:8px;padding:9px;font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer}
+.qe-btn-cancel{background:transparent;border:1px solid rgba(168,85,247,.3);color:var(--muted);border-radius:8px;padding:9px 14px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer}
+
+/* ─── CONFETTI ─── */
+
+
+  100%{opacity:.3;transform:translateY(100vh) rotate(720deg)}
+}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.float-wa{animation:none}}
+
+/* ─── VALORES RECOMENDADOS ─── */
+.rec-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:.5px}
+.custom-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.35);color:var(--orange);font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:.5px}
+.reset-defaults-btn{display:flex;align-items:center;gap:6px;background:transparent;border:1px dashed rgba(16,185,129,.4);border-radius:8px;padding:7px 13px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;width:100%;justify-content:center;margin-top:10px}
+.reset-defaults-btn:hover{background:rgba(16,185,129,.1);border-color:var(--green)}
+.costo-recommended{font-size:10px;color:var(--green);margin-top:2px;display:flex;align-items:center;gap:4px}
+.costo-why{font-size:11px;color:var(--dim);margin-top:3px;line-height:1.45;display:none}
+.costo-item:hover .costo-why{display:block}
+.defaults-changed-banner{display:none;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#fdba74;line-height:1.5;margin-top:10px;animation:fadeUp .25s ease}
+.defaults-changed-banner.show{display:flex;align-items:flex-start;gap:8px}
+
+/* ─── QUICK STATS SUMMARY ─── */
+.quick-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.qs-item{background:rgba(31,8,56,.55);border:1px solid rgba(168,85,247,.18);border-radius:10px;padding:10px 12px;text-align:center}
+.qs-val{font-weight:800;font-size:17px;color:var(--gold);letter-spacing:-.01em}
+.qs-label{font-size:10px;color:var(--dim);margin-top:3px;text-transform:uppercase;letter-spacing:.7px}
+
+/* ─── ONBOARDING HINTS ─── */
+.hint-arrow{font-size:12px;color:var(--pg);animation:bounce-x .9s ease-in-out infinite;display:inline-block}
+@keyframes bounce-x{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.first-time-hint{font-size:12px;color:var(--pg);text-align:center;padding:6px 0 10px;opacity:.8}
+
+/* ─── BETTER RESULT CARDS on desktop ─── */
+@media(min-width:768px){
+  .results-grid{grid-template-columns:1fr 1fr 1fr}
+  .result-card{padding:15px 13px}
+  .result-prices{grid-template-columns:1fr;gap:6px}
+  .price-val{font-size:16px}
+  .stat-pill{font-size:10.5px;padding:3px 8px}
+}
+
+/* ─── SECTION HEADER PILL ─── */
+.section-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(124,58,237,.18);border:1px solid rgba(168,85,247,.25);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;color:var(--pg);margin-bottom:14px;text-transform:uppercase;letter-spacing:.8px}
+
+/* ─── COMPACT COSTS TABLE ─── */
+.costos-why-global{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;font-size:12.5px;color:#a7f3d0;line-height:1.55}
+.costos-why-global strong{color:white}
+
+/* ─── STEP LABELS ─── */
+.step-label{display:flex;justify-content:center;gap:0;margin:-10px auto 18px;max-width:340px}
+.step-lbl{flex:1;text-align:center;font-size:9.5px;color:var(--dim);font-weight:600;letter-spacing:.3px;line-height:1.2}
+.step-lbl.active-lbl{color:var(--pg)}
+
+/* ─── IMPROVED HISTORIAL EMPTY ─── */
+.empty-state{text-align:center;padding:32px 20px}
+.empty-state-icon{font-size:40px;margin-bottom:10px}
+.empty-state-title{font-weight:700;font-size:15px;color:white;margin-bottom:6px}
+.empty-state-sub{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:16px}
+
+/* ─── PROGRESS BAR TOP ─── */
+.calc-progress{height:3px;background:rgba(168,85,247,.15);border-radius:100px;margin-bottom:6px;overflow:hidden;display:none}
+.calc-progress-bar{height:100%;background:linear-gradient(90deg,var(--pb),var(--pl));border-radius:100px;transition:width .4s ease}
+
+
+/* ═══════════════════════════════════════════════════════
+   POLISH FINAL — Mobile + Desktop refinement
+   ═══════════════════════════════════════════════════════ */
+
+/* Safe area for notched phones */
+.wrap { padding-bottom: calc(80px + env(safe-area-inset-bottom)); position: relative; }
+.float-wa { bottom: calc(18px + env(safe-area-inset-bottom)) !important; }
+.float-up { bottom: calc(82px + env(safe-area-inset-bottom)) !important; }
+
+/* Min tap targets (Apple HIG: 44px, Material: 48px) */
+.btn, .nav-tab, .mode-btn, .historial-del, .expand-btn, .nota-save-btn, .progreso-si, .progreso-no, .ejemplo-btn, .reset-defaults-btn, .breakdown-btn, .quick-edit-trigger, .qe-btn-recalc, .qe-btn-cancel { min-height: 44px; }
+
+/* Touch optimization */
+input, textarea, select, button { font-family: inherit; }
+input[type="text"], input:not([type]), textarea { -webkit-appearance: none; appearance: none; }
+
+/* Smoother scrolling on iOS */
+.wrap { -webkit-overflow-scrolling: touch; }
+
+/* Better focus states for accessibility */
+button:focus-visible, .btn:focus-visible, input:focus-visible, textarea:focus-visible, .nav-tab:focus-visible, .link-item:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--pl);
+  outline-offset: 2px;
+  border-radius: 11px;
+}
+
+/* Typography refinement */
+body { letter-spacing: -0.005em; }
+.card-title, .glossary-title, .comunidad-title { letter-spacing: -0.015em; }
+header h1 { letter-spacing: -0.025em; }
+
+/* Card consistency — standardize border-radius across breakpoints */
+.card, .comunidad-card, .glossary-card, .historia-card, .flujo-card, .efectividad-wrap, .video-card { border-radius: 16px; }
+
+/* Better card transitions */
+.card { transition: border-color 0.2s ease; }
+.card:hover { border-color: rgba(168, 85, 247, 0.32); }
+
+/* Cleaner result cards on hover */
+.result-card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+@media(hover: hover) {
+  .result-card:hover { transform: translateY(-2px); }
+  .r1x:hover { box-shadow: 0 8px 24px rgba(124, 58, 237, 0.25); }
+  .r2x:hover { box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2); }
+  .r3x:hover { box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2); }
+}
+
+/* Polished link items */
+.link-item { transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease; }
+@media(hover: hover) { .link-item:hover { transform: translateX(2px); } }
+
+/* Stepper visual polish */
+.stepper { padding: 0 4px; }
+.step-circle { font-size: 13px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.step-circle.active { transform: scale(1.08); }
+
+/* Step label improvements */
+.step-label { padding: 0 4px; gap: 0; }
+.step-lbl { font-size: 10px; font-weight: 700; transition: color 0.25s ease; }
+
+/* Progress bar polish */
+.calc-progress { height: 4px; margin: 4px 4px 8px; }
+
+/* Input polish */
+.input-row { transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+.input-row input { font-size: 16px; }  /* Prevents iOS zoom */
+.input-row:hover { border-color: rgba(168, 85, 247, 0.35); }
+
+/* Cleaner buttons */
+.btn { transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease; }
+.btn-primary, .btn-gold, .btn-share { font-weight: 700; }
+
+/* Toast polish */
+.toast { padding: 13px 22px; font-size: 13.5px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: rgba(45, 10, 87, 0.95); }
+
+/* Counter badge polish */
+.counter-badge { padding: 6px 14px; transition: all 0.2s; }
+.counter-badge:hover { background: rgba(124, 58, 237, 0.2); }
+
+/* Tip rotator polish */
+.tip-rotator { transition: opacity 0.3s ease; }
+
+/* Best badge polish */
+
+/* Verdict box polish */
+.verdict { font-weight: 600; backdrop-filter: blur(4px); }
+
+/* Result card padding consistency */
+.result-card { padding: 18px 16px; }
+
+/* Spacing rhythm — tighter on mobile, more breathing room on desktop */
+@media (max-width: 480px) {
+  .wrap { padding-left: 14px; padding-right: 14px; }
+  header { padding: 22px 6px 16px; }
+  .badge { font-size: 9.5px; padding: 5px 12px; }
+  header h1 { font-size: 30px; line-height: 1.08; }
+  header p { font-size: 13.5px; padding: 0 10px; }
+  .card, .comunidad-card, .glossary-card { padding: 18px 16px; border-radius: 15px; }
+  .card-title { font-size: 15.5px; }
+  .card-sub { font-size: 12.5px; margin-bottom: 14px; }
+  .stepper { max-width: 270px; margin: 16px auto 18px; }
+  .step-circle { width: 28px; height: 28px; font-size: 11px; border-width: 1.5px; }
+  .step-line { margin: 0 4px; }
+  .step-label { max-width: 270px; margin-top: -8px; margin-bottom: 14px; }
+  .step-lbl { font-size: 9px; }
+  .nav-tabs { gap: 5px; padding: 12px 0 0; }
+  .nav-tab { padding: 7px 13px; font-size: 12px; }
+  .input-row input { padding: 13px 12px; }
+  .input-prefix { padding: 0 11px; }
+  .btn { padding: 12px 18px; font-size: 13.5px; }
+  .quick-stats { gap: 6px; margin-bottom: 12px; }
+  .qs-item { padding: 9px 8px; }
+  .qs-val { font-size: 15px; }
+  .qs-label { font-size: 9px; }
+  .result-prices { grid-template-columns: 1fr; gap: 7px; }
+  .price-val { font-size: 17px; }
+  .stat-pill { font-size: 10.5px; padding: 4px 9px; }
+  .float-wa { width: 50px; height: 50px; right: 14px; }
+  .float-wa svg { width: 26px; height: 26px; }
+  .float-up { width: 38px; height: 38px; right: 14px; }
+  .costo-item { padding: 10px 12px; gap: 8px; }
+  .costo-name { font-size: 12.5px; }
+  .costo-desc { font-size: 10.5px; }
+  .costo-editable { width: 86px; padding: 4px 7px; font-size: 12.5px; }
+  .efectividad-val { font-size: 16px; }
+  .tip-rotator { padding: 9px 12px; font-size: 12px; margin-top: 12px; }
+  .historial-item { padding: 10px 12px; gap: 8px; }
+  .historial-name { font-size: 13px; }
+}
+
+/* Small phones (iPhone SE, etc.) */
+@media (max-width: 360px) {
+  .wrap { padding-left: 10px; padding-right: 10px; }
+  .card { padding: 16px 14px; }
+  header h1 { font-size: 26px; }
+  .nav-tab { padding: 6px 11px; font-size: 11.5px; }
+  .step-circle { width: 26px; height: 26px; font-size: 10.5px; }
+  .step-lbl { font-size: 8.5px; }
+  .stepper, .step-label { max-width: 240px; }
+}
+
+/* Tablets — 600px to 768px */
+@media (min-width: 600px) and (max-width: 767px) {
+  .wrap { max-width: 600px; padding: 0 24px 80px; }
+  .card, .comunidad-card, .glossary-card { padding: 22px 20px; }
+  header { padding: 32px 16px 24px; }
+  header h1 { font-size: 38px; }
+}
+
+/* Desktop — 768px to 1023px */
+@media (min-width: 768px) {
+  .wrap { max-width: 820px; padding: 0 28px 80px; }
+  header { padding: 44px 20px 28px; }
+  header h1 { font-size: 44px; line-height: 1.05; }
+  header p { font-size: 15px; max-width: 520px; }
+  .badge { font-size: 11px; padding: 7px 16px; }
+  .card, .comunidad-card, .glossary-card { padding: 26px 24px; border-radius: 18px; }
+  .card-title { font-size: 17px; margin-bottom: 6px; }
+  .card-sub { font-size: 14px; }
+  .nav-tabs { padding: 16px 0 0; gap: 8px; }
+  .nav-tab { padding: 9px 18px; font-size: 13px; }
+  .stepper { max-width: 380px; margin: 24px auto 8px; }
+  .step-circle { width: 36px; height: 36px; font-size: 14px; }
+  .step-label { max-width: 380px; }
+  .step-lbl { font-size: 11px; }
+  .results-grid { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .result-card { padding: 16px 14px; }
+  .result-prices { grid-template-columns: 1fr; gap: 7px; }
+  .price-val { font-size: 17px; }
+  .price-min .price-val { font-size: 13px; }
+  .stat-pill { font-size: 11px; padding: 4px 10px; }
+  .costos-grid { gap: 8px; }
+  .quick-stats { gap: 10px; margin-bottom: 16px; }
+  .qs-item { padding: 12px; }
+  .qs-val { font-size: 19px; }
+  .input-row input { font-size: 15px; padding: 13px 14px; }
+  .float-wa { width: 58px; height: 58px; right: 24px; bottom: 24px; }
+  .float-wa svg { width: 30px; height: 30px; }
+  .float-up { width: 44px; height: 44px; right: 24px; }
+  .tip-rotator { padding: 11px 16px; font-size: 13px; max-width: 600px; }
+  .counter-badge { font-size: 12px; padding: 6px 14px; }
+  details.faq summary { padding: 14px 18px; font-size: 14px; }
+  .faq-body { padding: 0 18px 14px; font-size: 13.5px; }
+  .historial-item { padding: 13px 16px; }
+  .link-item { padding: 12px 15px; }
+  .link-title { font-size: 14px; }
+  .link-desc { font-size: 12px; }
+}
+
+/* Wide desktop — 1024px+ */
+@media (min-width: 1024px) {
+  .wrap { max-width: 880px; padding: 0 32px 80px; }
+  header { padding: 56px 20px 32px; }
+  header h1 { font-size: 48px; }
+  .card, .comunidad-card, .glossary-card { padding: 28px 26px; }
+}
+
+/* Ultra-wide — 1280px+ */
+@media (min-width: 1280px) {
+  .wrap { max-width: 920px; }
+}
+
+/* Improved details/summary visual */
+details.faq[open] summary { color: var(--pg); }
+details.faq summary:hover { color: white; }
+
+/* Subtle pattern overlay for visual interest (very light) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.04) 1px, transparent 0);
+  background-size: 32px 32px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Scrollbar polish */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--pd); }
+::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.3); border-radius: 100px; border: 2px solid var(--pd); }
+::-webkit-scrollbar-thumb:hover { background: rgba(168, 85, 247, 0.5); }
+
+/* Selection color */
+::selection { background: rgba(168, 85, 247, 0.4); color: white; }
+::-moz-selection { background: rgba(168, 85, 247, 0.4); color: white; }
+
+/* Better readable text overall */
+.card-sub, .historia-body, .glossary-sub, .comunidad-sub, .video-sub { line-height: 1.65; }
+
+/* Iconography spacing inside titles */
+.card-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* Polish ejemplo banner */
+.ejemplo-banner { transition: all 0.2s ease; }
+.ejemplo-banner:hover { transform: translateY(-1px); }
+
+/* Polish progress banner */
+.progreso-banner { box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15); }
+
+/* Polish quick edit panel */
+.quick-edit-panel { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+
+/* Polish best badge animation */
+
+/* Print styles (in case someone wants to print results) */
+@media print {
+  body { background: white; color: black; }
+  .nav-tabs, .float-wa, .float-up, .toast, .tip-rotator { display: none !important; }
+  .card { border: 1px solid #ddd; box-shadow: none; }
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+    body::after { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div class="badge">🚀 Comunidad Arraiz</div>
+  <h1>Calculadora<br>Dropshipping</h1>
+  <p>Precios rentables para tus productos. Rápido, gratis y hecho para ti.</p>
+  <div id="counterBadge" class="counter-badge" style="display:none">📊 Has calculado <strong id="counterNum">0</strong> productos</div>
+  <div class="tip-rotator" id="tipRotator">
+    <span class="tip-rotator-icon">💡</span>
+    <span class="tip-rotator-text" id="tipRotatorText"></span>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('calc')">🧮 Calcular</button>
+  <button class="nav-tab" onclick="showSection('historial')">🕒 Historial</button>
+  <button class="nav-tab" onclick="showSection('comunidad')">🚀 Comunidad</button>
+</nav>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECCIÓN: CALCULADORA                       -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section-view active" id="sec-calc">
+
+  <!-- MODO TOGGLE -->
+  <div style="margin-top:16px">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modeStepBtn" onclick="setMode('step')">📋 Paso a paso <span style="font-size:10px;opacity:.7">(recomendado)</span></button>
+      <button class="mode-btn" id="modeQuickBtn" onclick="setMode('quick')">⚡ Rápido</button>
+    </div>
+  </div>
+
+  <!-- CALC PROGRESS BAR -->
+  <div class="calc-progress" id="calcProgress"><div class="calc-progress-bar" id="calcProgressBar" style="width:25%"></div></div>
+  <!-- STEP LABELS -->
+  <div class="step-label" id="stepLabels">
+    <div class="step-lbl active-lbl">Producto</div>
+    <div class="step-lbl">Costos</div>
+    <div class="step-lbl">Ganancia</div>
+    <div class="step-lbl">Resultado</div>
+  </div>
+  <!-- ── STEPPER (solo modo step) ── -->
+  <div class="stepper" id="stepperEl">
+    <div class="step-circle active" id="sc1">1</div>
+    <div class="step-line" id="sl1"></div>
+    <div class="step-circle" id="sc2">2</div>
+    <div class="step-line" id="sl2"></div>
+    <div class="step-circle" id="sc3">3</div>
+    <div class="step-line" id="sl3"></div>
+    <div class="step-circle" id="sc4">✓</div>
+  </div>
+
+
+  <!-- PROGRESO GUARDADO BANNER (aparece si hay progreso) -->
+  <div id="progresoBanner" style="display:none">
+    <div class="progreso-banner">
+      <div class="progreso-left">💾 Tienes un producto sin terminar
+        <span id="progresoNombre"></span>
+      </div>
+      <div class="progreso-btns">
+        <button class="progreso-si" onclick="restaurarProgreso()">Continuar</button>
+        <button class="progreso-no" onclick="descartarProgreso()">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EJEMPLO PRECARGADO -->
+  <div class="ejemplo-banner" id="ejemploBanner" style="display:none" onclick="cargarEjemplo()">
+    <div class="ejemplo-left">🎁 Ver ejemplo con producto real
+      <span>Faja colombiana · Costo $25.000 · Ver todos los precios calculados</span>
+    </div>
+    <button class="ejemplo-btn">Ver ejemplo</button>
+  </div>
+  <!-- PASO 1 -->
+  <div class="card card-anim" id="paso1">
+    <div class="card-title">📦 Paso 1 — Tu Producto</div>
+    <div class="card-sub">Ingresa el nombre y el costo que pagas al proveedor por 1 unidad.</div>
+    <div class="input-group">
+      <label>Nombre del Producto</label>
+      <div class="input-row">
+        <div class="input-prefix">📦</div>
+        <input type="text" id="inputNombre" placeholder="Ej: Faja, Collar LED…" autocomplete="off">
+      </div>
+    </div>
+    <div class="input-group">
+      <label>
+        Costo del Proveedor (COP)
+        <span class="tip-wrap">
+          <span class="tip-icon">?</span>
+          <span class="tip-box">Lo que le pagas al proveedor por 1 unidad. Puedes escribir 25 (= $25.000) o 25000.</span>
+        </span>
+      </label>
+      <div class="input-row">
+        <div class="input-prefix">$</div>
+        <input type="text" id="inputCosto" placeholder="Ej: 25.000 ó 25" autocomplete="off" inputmode="numeric">
+      </div>
+      <div class="input-hint">💡 Escribe <strong style="color:var(--gold2)">25</strong> o <strong style="color:var(--gold2)">25000</strong> — entendemos ambos</div>
+      <div class="preview-line" id="costoPreview"></div>
+      <div class="costo-alert" id="costoAlert"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="irPaso2()">Siguiente →</button>
+    </div>
+  </div>
+
+
+  <!-- FLUJO DE DINERO (visible en paso 2) -->
+  <div class="flujo-card hidden" id="flujoCard">
+    <div class="flujo-title">💸 ¿A dónde va tu dinero en cada pedido?</div>
+    <div class="flujo-bars" id="flujoBars">
+      <!-- filled by JS -->
+    </div>
+    <div class="flujo-total">
+      <span>💰 Te queda de ganancia</span>
+      <span id="flujoGanancia" style="color:var(--green)">—</span>
+    </div>
+    <div class="flujo-input-note">* Basado en precio de 1 unidad sugerido. Actualiza al cambiar los costos.</div>
+  </div>
+
+  <!-- PASO 2 -->
+  <div class="card hidden" id="paso2">
+    <div class="card-title">
+      ⚙️ Paso 2 — Costos Fijos
+      <span class="tip-wrap" style="margin-left:6px">
+        <span class="tip-icon">?</span>
+        <span class="tip-box">Estos costos aplican a cada pedido sin importar cuántas unidades vendas. Puedes editarlos si tu negocio es diferente.</span>
+      </span>
+    </div>
+    <div class="card-sub">Aplican a <strong>cada pedido</strong>. Los valores predeterminados están optimizados para ser realmente rentables — solo cambia si tu negocio tiene números diferentes.</div>
+
+    <!-- POR QUÉ ESTOS VALORES -->
+    <div class="costos-why-global">
+      💡 <strong>¿Por qué estos números?</strong> Son los costos reales promedio del dropshipping con COD en Colombia. Cambiarlos a la baja puede hacerte creer que eres más rentable de lo que realmente eres. <strong>Si no estás seguro, déjalos como están.</strong>
+    </div>
+    <div class="efectividad-wrap">
+      <div class="efectividad-top">
+        <div class="efectividad-label">
+          📊 Efectividad de entregas
+          <span class="tip-wrap" style="margin-left:4px"><span class="tip-icon">?</span><span class="tip-box">Porcentaje de pedidos que se entregan exitosamente. El resto se devuelve. Esto afecta tu CPA real.</span></span>
+        </div>
+        <div class="efectividad-val"><span id="efPct">59</span>%</div>
+      </div>
+      <input type="range" class="efectividad-slider" id="efSlider" min="30" max="85" value="59" oninput="updateEfectividad(this.value)">
+      <div class="efectividad-bottom"><span>30% (muy bajo)</span><span>59% (promedio Colombia)</span><span>85% (excelente)</span></div>
+      <div class="efectividad-cpa-result" id="efCpaResult">CPA base $20.000 ÷ 59% = <strong>CPA real: $33.900</strong></div>
+    </div>
+    <div class="costos-grid">
+      <div class="costo-item">
+        <div class="costo-left">
+          <div class="costo-icon">📣</div>
+          <div>
+            <div class="costo-name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">CPA Real (Ads) <span class="rec-badge" id="badge-cCPA">✓ Recomendado</span></div>
+            <div class="costo-desc">$20.000 ÷ 59% efectividad</div>
+            <div class="costo-why">⚠️ Si tu CPA real es $20.000 pero solo el 59% se entrega, el costo verdadero por venta exitosa es $33.900. Bajarlo es engañarte a ti mismo.</div>
+          </div>
+        </div>
+        <input class="costo-editable" id="cCPA" value="33.900" inputmode="numeric" data-default="33900">
+      </div>
+      <div class="costo-item">
+        <div class="costo-left">
+          <div class="costo-icon">🚚</div>
+          <div>
+            <div class="costo-name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">Envío / Transportadora <span class="rec-badge" id="badge-cEnvio">✓ Recomendado</span></div>
+            <div class="costo-desc">Promedio Servientrega, Coordinadora, etc.</div>
+            <div class="costo-why">💡 Varía entre $18.000 y $22.000 según la zona. Solo ajusta si tienes una tarifa negociada con tu transportadora.</div>
+          </div>
+        </div>
+        <input class="costo-editable" id="cEnvio" value="20.000" inputmode="numeric" data-default="20000">
+      </div>
+      <div class="costo-item">
+        <div class="costo-left">
+          <div class="costo-icon">🏢</div>
+          <div>
+            <div class="costo-name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">Admin + Herramientas <span class="rec-badge" id="badge-cAdmin">✓ Recomendado</span></div>
+            <div class="costo-desc">Apps, tiempo y operaciones por pedido</div>
+            <div class="costo-why">📊 Incluye: LucidBot, herramientas de tracking, tiempo de gestión. Distribuido entre todos tus pedidos del mes.</div>
+          </div>
+        </div>
+        <input class="costo-editable" id="cAdmin" value="5.400" inputmode="numeric" data-default="5400">
+      </div>
+      <div class="costo-item">
+        <div class="costo-left">
+          <div class="costo-icon">↩️</div>
+          <div>
+            <div class="costo-name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">Impacto Devoluciones <span class="rec-badge" id="badge-cDev">✓ Recomendado</span></div>
+            <div class="costo-desc">41% de pedidos no se entregan en Colombia</div>
+            <div class="costo-why">🔴 Este es el costo más ignorado. De cada 100 pedidos, 41 se devuelven con costo de re-envío o pérdida parcial. Ignorarlo es el error #1 de principiantes.</div>
+          </div>
+        </div>
+        <input class="costo-editable" id="cDev" value="3.150" inputmode="numeric" data-default="3150">
+      </div>
+    </div>
+    <div class="costo-total">
+      <div class="costo-total-label">🔒 Base Total Fija</div>
+      <div class="costo-total-val" id="totalFijoDisplay">$ 62.450</div>
+    </div>
+    <!-- DEFAULTS CHANGED WARNING -->
+    <div class="defaults-changed-banner" id="defaultsChangedBanner">
+      <span>⚠️</span>
+      <div>Estás usando <strong>valores personalizados</strong>. Asegúrate de que reflejen tu negocio real. Si no estás seguro,
+      <button onclick="resetDefaults()" style="background:transparent;border:none;color:var(--orange);font-weight:700;cursor:pointer;font-family:inherit;font-size:12.5px;text-decoration:underline;padding:0">restaura los valores recomendados</button>.</div>
+    </div>
+    <button class="reset-defaults-btn" id="resetDefaultsBtn" style="display:none" onclick="resetDefaults()">
+      🔄 Restaurar valores recomendados para máxima rentabilidad
+    </button>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="setStep(1)">← Atrás</button>
+      <button class="btn btn-primary" onclick="setStep(3)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- PASO 3 -->
+  <div class="card hidden" id="paso3">
+    <div class="card-title">🎯 Paso 3 — Ganancia Objetivo</div>
+    <div class="card-sub">¿Cuánto quieres ganar mínimo por pedido? Puedes dejar los valores recomendados.</div>
+    <div class="input-group">
+      <label>Ganancia por 1 unidad
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Mínimo recomendado: $15.000 por pedido de 1 unidad.</span></span>
+      </label>
+      <div class="input-row"><div class="input-prefix">$</div><input type="text" id="ganancia1" value="15.000" inputmode="numeric"></div>
+    </div>
+    <div class="input-group">
+      <label>Ganancia por unidad — Pack 2x</label>
+      <div class="input-row"><div class="input-prefix">$</div><input type="text" id="ganancia2" value="15.000" inputmode="numeric"></div>
+    </div>
+    <div class="input-group">
+      <label>Ganancia por unidad — Pack 3x
+        <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">En packs de 3 cobras menos por unidad pero ganas más en total. El cliente siente que ahorra.</span></span>
+      </label>
+      <div class="input-row"><div class="input-prefix">$</div><input type="text" id="ganancia3" value="10.000" inputmode="numeric"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="setStep(2)">← Atrás</button>
+      <button class="btn btn-gold" onclick="calcular()">🔥 Calcular precios</button>
+    </div>
+  </div>
+
+  <!-- MODO RÁPIDO -->
+  <div class="card hidden card-anim" id="pasoQuick">
+    <div class="card-title">⚡ Cálculo Rápido</div>
+    <div class="card-sub">Para usuarios que ya conocen el sistema. Solo nombre y costo.</div>
+    <div class="input-group">
+      <label>Nombre del Producto</label>
+      <div class="input-row"><div class="input-prefix">📦</div><input type="text" id="qNombre" placeholder="Ej: Faja" autocomplete="off"></div>
+    </div>
+    <div class="input-group">
+      <label>Costo del Proveedor</label>
+      <div class="input-row"><div class="input-prefix">$</div><input type="text" id="qCosto" placeholder="Ej: 25.000 ó 25" inputmode="numeric"></div>
+      <div class="preview-line" id="qCostoPreview"></div>
+    </div>
+    <div class="input-group">
+      <label>Ganancia mínima 1x / 2x / 3x</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <div class="input-row"><div class="input-prefix" style="font-size:11px;padding:0 8px">1x</div><input type="text" id="qG1" value="15.000" inputmode="numeric" style="padding:10px 8px;font-size:13px"></div>
+        <div class="input-row"><div class="input-prefix" style="font-size:11px;padding:0 8px">2x</div><input type="text" id="qG2" value="15.000" inputmode="numeric" style="padding:10px 8px;font-size:13px"></div>
+        <div class="input-row"><div class="input-prefix" style="font-size:11px;padding:0 8px">3x</div><input type="text" id="qG3" value="10.000" inputmode="numeric" style="padding:10px 8px;font-size:13px"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="calcularQuick()">🔥 Calcular</button>
+    </div>
+  </div>
+
+  <!-- PASO 4 (resultados) -->
+  <div id="paso4" class="hidden">
+    <div class="card card-anim">
+      <!-- SEMÁFORO -->
+      <div class="semaforo" id="semaforo">
+        <div class="semaforo-dot" id="semaforoDot">🟢</div>
+        <div class="semaforo-text">
+          <div class="semaforo-title" id="semaforoTitle">—</div>
+          <div class="semaforo-sub" id="semaforoSub">—</div>
+        </div>
+      </div>
+      <!-- QUICK STATS -->
+      <div class="quick-stats" id="quickStats" style="display:none">
+        <div class="qs-item"><div class="qs-val" id="qs1x">—</div><div class="qs-label">Precio 1x</div></div>
+        <div class="qs-item"><div class="qs-val" id="qs2x">—</div><div class="qs-label">Precio 2x</div></div>
+        <div class="qs-item"><div class="qs-val" id="qs3x">—</div><div class="qs-label">Precio 3x</div></div>
+      </div>
+      <div class="card-title">✅ <span id="resNombre" style="color:var(--gold)"></span></div>
+      <div class="card-sub">Costo: <strong style="color:white" id="resCosto"></strong> · Base fija: <strong style="color:white" id="resBase"></strong>
+        <button class="quick-edit-trigger" onclick="toggleQuickEdit()" style="margin-left:8px">⚙️ Cambiar costos</button>
+      </div>
+      <div class="quick-edit-panel" id="quickEditPanel">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Edita y recalcula sin volver al inicio:</div>
+        <div class="qe-grid">
+          <div class="qe-field"><div class="qe-label">📣 CPA Real</div><input class="qe-input" id="qeCPA" inputmode="numeric"></div>
+          <div class="qe-field"><div class="qe-label">🚚 Envío</div><input class="qe-input" id="qeEnvio" inputmode="numeric"></div>
+          <div class="qe-field"><div class="qe-label">🏢 Admin</div><input class="qe-input" id="qeAdmin" inputmode="numeric"></div>
+          <div class="qe-field"><div class="qe-label">↩️ Devoluciones</div><input class="qe-input" id="qeDev" inputmode="numeric"></div>
+        </div>
+        <div class="qe-actions">
+          <button class="qe-btn-recalc" onclick="aplicarQuickEdit()">🔄 Recalcular ahora</button>
+          <button class="qe-btn-cancel" onclick="toggleQuickEdit()">Cerrar</button>
+        </div>
+      </div>
+      <div class="results-grid" id="resultsGrid"></div>
+      <div id="consejoCard"></div>
+      <div class="action-buttons">
+        <button class="btn btn-share" onclick="compartirWhatsApp()">📲 Compartir</button>
+        <button class="btn btn-copy" onclick="copiarResultados()">📋 Copiar</button>
+      </div>
+    </div>
+    <div class="card card-anim">
+      <div class="card-title">💡 Precio Comercial</div>
+      <div class="card-sub">Sube el mínimo al siguiente precio psicológico para vender más fácil.</div>
+      <div id="guiaComercial" style="display:grid;gap:7px"></div>
+    </div>
+    <div class="reset-row">
+      <button class="btn btn-ghost" onclick="reiniciar()" style="flex:0;padding:10px 26px">🔄 Otro producto</button>
+    </div>
+  </div>
+
+</div><!-- /sec-calc -->
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECCIÓN: HISTORIAL                         -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section-view" id="sec-historial">
+  <div class="card" style="margin-top:16px">
+    <div class="card-title">🕒 Historial de Productos</div>
+    <div class="card-sub">Tus últimos 10 productos calculados. Toca uno para recalcular.</div>
+    <div id="historialList"></div>
+    <div style="margin-top:12px;display:flex;justify-content:flex-end">
+      <button class="btn btn-ghost" style="flex:0;font-size:12px;padding:7px 14px" onclick="limpiarHistorial()">🗑 Limpiar todo</button>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- POR QUÉ CALCULAR BIEN (collapsible at bottom) -->
+  <div style="margin-top:4px" id="whySectionDiv">
+    <details style="background:rgba(91,33,182,.12);border:1px solid rgba(168,85,247,.22);border-radius:16px;overflow:hidden">
+      <summary style="padding:16px 18px;font-weight:700;font-size:15px;color:var(--pg);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <span>💸 ¿Por qué es tan importante calcular bien mis precios?</span>
+        <span style="font-size:22px;font-weight:300;color:var(--pl);line-height:1;flex-shrink:0">+</span>
+      </summary>
+      <div style="padding:0 18px 18px">
+        <p style="font-size:13.5px;color:var(--muted);line-height:1.65;margin-bottom:12px">
+          María empezó su negocio de dropshipping. Vendió <strong style="color:white">50 pedidos</strong> en su primer mes y pensó que había ganado $3.000.000.<br><br>
+          Al revisar sus cuentas, le quedaron <strong style="color:white">$180.000</strong>. ¿Qué pasó? No calculó bien sus costos: los ads reales, los pedidos que no se entregaron, el envío, el admin…
+        </p>
+        <div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:9px;padding:11px 14px;font-size:13px;color:#fca5a5;line-height:1.55;margin-bottom:12px">
+          ⚠️ <strong style="color:white">El error más común:</strong> Muchos vendedores solo restan el costo del producto al precio de venta. Pero hay 4 costos fijos ocultos que siempre debes cubrir primero.
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">
+          Esta calculadora incluye <strong style="color:white">todos esos costos reales</strong> para que sepas exactamente cuánto ganas antes de invertir en publicidad.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <!-- RECURSOS AL FONDO (visible al hacer scroll en la calc) -->
+  <div style="margin-top:6px" id="bottomResources">
+    <div class="comunidad-card">
+    <div class="comunidad-title">🚀 Comunidad Arraiz</div>
+    <div class="comunidad-sub">Todo lo que necesitas para empezar a vender hoy. Esta calculadora es 100% gratuita 💜</div>
+    <a href="https://chat.whatsapp.com/F924BJmh5HNKg3WE5CaEOC" target="_blank" rel="noopener" class="link-item">
+      <div class="link-icon">📲</div><div class="link-content"><div class="link-title">Grupo WhatsApp — Obligatorio</div><div class="link-desc">Únete y recibe soporte en tiempo real</div></div><div class="link-arrow">→</div>
+    </a>
+    <a href="https://app.dropi.co/arraiz" target="_blank" rel="noopener" class="link-item">
+      <div class="link-icon">🛒</div><div class="link-content"><div class="link-title">Crear cuenta en Dropi Colombia</div><div class="link-desc">Regístrate con Comunidad Arraiz</div></div><div class="link-arrow">→</div>
+    </a>
+    <a href="https://n9.cl/05fq2" target="_blank" rel="noopener" class="link-item">
+      <div class="link-icon">⚠️</div><div class="link-content"><div class="link-title">Evitar comisiones en Dropi</div><div class="link-desc">Despacha sin comisión estando en Comunidad Arraiz</div></div><div class="link-arrow">→</div>
+    </a>
+    <a href="https://afiliados.lucidbot.co/auth/register?ut=e4kb71gv07" target="_blank" rel="noopener" class="link-item">
+      <div class="link-icon">🤖</div><div class="link-content"><div class="link-title">LucidBot — 7 días gratis</div><div class="link-desc">Automatiza mensajes y aumenta conversión</div></div><div class="link-arrow">→</div>
+    </a>
+    <a href="https://app.dropkiller.com/" target="_blank" rel="noopener" class="link-item">
+      <div class="link-icon">🔍</div><div class="link-content"><div class="link-title">DropKiller — Productos Ganadores</div><div class="link-desc">Código <strong style="color:var(--gold)">ARRAIZ18</strong> · 15% off</div></div><div class="link-arrow">→</div>
+    </a>
+    <div class="pronto-banner">🔮 <strong>Muy pronto:</strong> más herramientas gratuitas y apps exclusivas para miembros activos de Comunidad Arraiz en Dropi 🚀</div>
+  </div>
+    <div class="glossary-card">
+    <div class="glossary-title">📖 ¿No entiendes algo?</div>
+    <div class="glossary-sub">Explicamos todo en lenguaje simple. Toca cada pregunta para ver la respuesta.</div>
+    <details class="faq"><summary>¿Qué es el dropshipping?</summary><div class="faq-body">Vender productos <strong>sin tenerlos en tu casa</strong>. Tú haces la publicidad, el cliente compra, y el proveedor (Dropi) lo envía. Tú ganas la diferencia.<div class="faq-example">Compras una faja en Dropi por $25.000 y la vendes por $99.900. Tu ganancia después de costos es lo que sobra.</div></div></details>
+    <details class="faq"><summary>¿Qué es COD (contra entrega)?</summary><div class="faq-body">El cliente <strong>paga al recibir</strong> el producto. Muy común en Colombia. Funciona bien pero solo el <strong>59% de pedidos se entregan</strong> — el resto se devuelven.<div class="faq-example">Por eso los costos fijos cubren el impacto de los pedidos que no llegan al cliente.</div></div></details>
+    <details class="faq"><summary>¿Qué es el CPA y por qué es $33.900?</summary><div class="faq-body">CPA = <strong>Costo Por Adquisición</strong>. Tu CPA real es $20.000, pero como solo el 59% se entrega, el costo por entrega exitosa es <strong>$20.000 ÷ 0.59 = $33.900</strong>.<div class="faq-example">Gastas $100.000 en ads, consigues 5 pedidos COD, pero solo 3 se entregan. Tu costo real por venta: $33.900.</div></div></details>
+    <details class="faq"><summary>¿Por qué los costos fijos no se multiplican?</summary><div class="faq-body">Porque son costos <strong>por pedido</strong>, no por producto. Si vendes 1, 2 o 3 unidades en el mismo pedido, el envío, ads y admin siguen siendo los mismos $62.450.<div class="faq-example">Por eso los packs son más rentables: más ganancia sin aumentar costos fijos.</div></div></details>
+    <details class="faq"><summary>¿Puedo editar los costos fijos?</summary><div class="faq-body">Sí. En el <strong>Paso 2</strong> puedes modificar cada costo fijo según tu negocio. Si tienes mejor CPA o envío más barato, ajústalo y la calculadora recalculará automáticamente.<div class="faq-example">Ejemplo: si negocias envío a $15.000, cambia ese campo y todos los precios se actualizarán.</div></div></details>
+    <details class="faq"><summary>¿Qué significa precio mínimo vs sugerido?</summary><div class="faq-body"><strong>Precio mínimo:</strong> el piso matemático — por debajo de ese precio perderías dinero.<br><strong>Precio sugerido:</strong> el siguiente precio psicológico (.900) que convierte mejor y te da ganancia extra.<div class="faq-example">Si el mínimo es $97.500, el sugerido es $99.900 — ganas $2.400 extra solo por subir el precio.</div></div></details>
+  </div>
+  </div>
+
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECCIÓN: COMUNIDAD                         -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section-view" id="sec-comunidad">
+  <div class="card" style="margin-top:16px;text-align:center;padding:28px 20px">
+    <div style="font-size:36px;margin-bottom:12px">👇</div>
+    <div style="font-weight:700;font-size:16px;color:white;margin-bottom:8px">Links y Glosario</div>
+    <div style="font-size:13.5px;color:var(--muted);margin-bottom:18px;line-height:1.55">Los links de Dropi, WhatsApp, LucidBot y el glosario están al final de la sección <strong style="color:white">🧮 Calcular</strong> — solo haz scroll hacia abajo.</div>
+    <button class="btn btn-primary" onclick="showSectionDirect('calc');setTimeout(()=>document.getElementById('bottomResources').scrollIntoView({behavior:'smooth',block:'start'}),300)" style="flex:0;padding:11px 24px;font-size:13.5px">Ir a los recursos →</button>
+  </div>
+</div><!-- /sec-comunidad -->
+
+
+  <div class="disclaimer">
+    ⚖️ <strong>Aviso:</strong> Los cálculos son <strong>estimaciones</strong> basadas en promedios del mercado COD Colombia. Tu negocio real puede variar según proveedor, zona, efectividad de entregas y temporada.
+  </div>
+
+<footer>💜 Comunidad Arraiz</footer>
+</div><!-- /wrap -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FLOTANTES -->
+<a href="https://chat.whatsapp.com/F924BJmh5HNKg3WE5CaEOC" target="_blank" rel="noopener" class="float-wa" aria-label="WhatsApp Comunidad Arraiz">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<div class="float-up" id="floatUp" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Volver arriba">↑</div>
+
+<script>
+// Global error guard - log without crashing
+window.addEventListener('error', function(ev){
+  try{ console.error('[Calc]', ev.message, 'at', (ev.filename||'?')+':'+ev.lineno); }catch(_){}
+}, true);
+
+// ═══════════════════════════════════════════════════════
+// CONSTANTES Y ESTADO
+// ═══════════════════════════════════════════════════════
+let COSTOS_FIJOS = 62450;
+let lastResult = null;
+let currentMode = 'step';
+
+const TIERS = [49900,59900,69900,79900,89900,99900,109900,119900,129900,139900,149900,
+  159900,169900,179900,189900,199900,219900,239900,259900,279900,299900,
+  329900,349900,379900,399900,449900,499900,549900,599900];
+
+function nextTier(min){for(const t of TIERS)if(t>=min)return t;return Math.ceil(min/10000)*10000-100}
+function tierAfter(p){for(const t of TIERS)if(t>p)return t;return p+10000}
+function ladderPrices(costo,g1,g2,g3){
+  const cf=COSTOS_FIJOS;
+  const min1=costo+cf+g1,min2=costo*2+cf+g2*2,min3=costo*3+cf+g3*3;
+  const com1=nextTier(min1); const gan1=com1-costo-cf;
+  let com2=Math.max(nextTier(min2),tierAfter(com1));
+  let gan2=com2-costo*2-cf,s=0;
+  while(gan2<gan1&&s++<20){com2=tierAfter(com2);gan2=com2-costo*2-cf}
+  let com3=Math.max(nextTier(min3),tierAfter(com2));
+  let gan3=com3-costo*3-cf;s=0;
+  while(gan3<gan2&&s++<20){com3=tierAfter(com3);gan3=com3-costo*3-cf}
+  return{min1,min2,min3,com1,com2,com3}
+}
+function parseAmount(v){
+  if(v==null)return NaN;
+  v=v.toString().trim().replace(/\./g,'').replace(/,/g,'').replace(/\s/g,'').replace(/\$/g,'');
+  const n=parseFloat(v);if(isNaN(n))return NaN;
+  if(n>0&&n<1000)return n*1000;return n
+}
+function fCOP(n){return'$ '+Math.round(n).toLocaleString('es-CO')}
+function formatLive(input){
+  const raw=input.value.replace(/[^\d]/g,'');
+  if(!raw){input.value='';return}
+  input.value=parseInt(raw,10).toLocaleString('es-CO')
+}
+function getVerdict(m){
+  if(m>=30)return{cls:'good',icon:'🔥',txt:'Bueno para escalar'}
+  if(m>=15)return{cls:'warn',icon:'⚠️',txt:'Ajustado — revisa costos'}
+  return{cls:'bad',icon:'❌',txt:'No recomendado'}
+}
+
+// ═══════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════
+function toast(msg,type='success'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show '+type;
+  clearTimeout(window._tt);window._tt=setTimeout(()=>el.classList.remove('show'),2600)
+}
+
+// ═══════════════════════════════════════════════════════
+// PROGRESO GUARDADO
+// ═══════════════════════════════════════════════════════
+const PROGRESO_KEY='arr_progreso';
+function guardarProgreso(){
+  const n=document.getElementById('inputNombre').value.trim();
+  const c=document.getElementById('inputCosto').value.trim();
+  if(!n&&!c)return;
+  const data={nombre:n,costo:c,g1:document.getElementById('ganancia1').value,
+    g2:document.getElementById('ganancia2').value,g3:document.getElementById('ganancia3').value,ts:Date.now()};
+  try{localStorage.setItem(PROGRESO_KEY,JSON.stringify(data))}catch{}
+}
+function cargarProgresoGuardado(){
+  try{
+    const raw=localStorage.getItem(PROGRESO_KEY);
+    if(!raw)return;
+    const data=JSON.parse(raw);
+    // Solo mostrar si tiene menos de 24h y tiene datos
+    if(!data.nombre||Date.now()-data.ts>86400000){localStorage.removeItem(PROGRESO_KEY);return}
+    document.getElementById('progresoNombre').textContent=data.nombre?` — "${data.nombre}"`:'';
+    document.getElementById('progresoBanner').style.display='block';
+    window._progresoData=data;
+  }catch{}
+}
+function restaurarProgreso(){
+  if(!window._progresoData)return;
+  const d=window._progresoData;
+  document.getElementById('inputNombre').value=d.nombre||'';
+  document.getElementById('inputCosto').value=d.costo||'';
+  if(d.g1)document.getElementById('ganancia1').value=d.g1;
+  if(d.g2)document.getElementById('ganancia2').value=d.g2;
+  if(d.g3)document.getElementById('ganancia3').value=d.g3;
+  document.getElementById('progresoBanner').style.display='none';
+  const preview=document.getElementById('costoPreview');
+  const v=parseAmount(d.costo);
+  if(!isNaN(v)&&v>0){const raw=d.costo.replace(/[^\d]/g,'');const n=parseInt(raw,10);if(n>0&&n<1000)preview.textContent='→ Lo entendemos como '+fCOP(v);}
+  toast('✅ Progreso restaurado');
+  cerrarHistoria();
+}
+function descartarProgreso(){
+  try{localStorage.removeItem(PROGRESO_KEY)}catch{}
+  document.getElementById('progresoBanner').style.display='none';
+  window._progresoData=null;
+}
+
+// Auto-save progress every 3s while user types
+setInterval(guardarProgreso,3000);
+
+// ═══════════════════════════════════════════════════════
+// MINI HISTORIA
+// ═══════════════════════════════════════════════════════
+function cerrarHistoria(){
+  const card=document.getElementById('historiaCard');
+  card.style.transition='opacity .3s,transform .3s';
+  card.style.opacity='0';card.style.transform='translateY(-8px)';
+  setTimeout(()=>{card.style.display='none';
+    document.getElementById('ejemploBanner').style.display='flex';
+  },280);
+  try{localStorage.setItem('arr_historia_visto','1')}catch{}
+  const hint = document.getElementById('firstTimeHint');
+  if (hint) { hint.style.display = 'block'; setTimeout(()=>{ hint.style.opacity='0'; hint.style.transition='opacity .5s'; setTimeout(()=>hint.style.display='none',500); }, 4000); }
+}
+function initHistoria(){
+  try{
+    if(localStorage.getItem('arr_historia_visto')){
+      document.getElementById('historiaCard').style.display='none';
+      document.getElementById('ejemploBanner').style.display='flex';
+      initFirstTimeHint();
+      return;
+    }
+  }catch{}
+}
+
+// ═══════════════════════════════════════════════════════
+// EJEMPLO PRECARGADO
+// ═══════════════════════════════════════════════════════
+function cargarEjemplo(){
+  document.getElementById('inputNombre').value='Faja Colombiana';
+  document.getElementById('inputCosto').value='25.000';
+  document.getElementById('ganancia1').value='15.000';
+  document.getElementById('ganancia2').value='15.000';
+  document.getElementById('ganancia3').value='10.000';
+  document.getElementById('costoPreview').textContent='';
+  checkCostoAlert('25000');
+  cerrarHistoria();
+  toast('🎁 Ejemplo cargado — toca Siguiente para ver los resultados');
+  setMode('step');setStep(1);
+  setTimeout(()=>{
+    const el=document.getElementById('paso1');
+    if(el){const y=el.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}
+  },100);
+}
+
+// ═══════════════════════════════════════════════════════
+// ALERTA COSTO
+// ═══════════════════════════════════════════════════════
+function checkCostoAlert(rawVal){
+  const n=parseAmount(rawVal);
+  const el=document.getElementById('costoAlert');
+  if(isNaN(n)||n<=0){el.style.display='none';return}
+  if(n<5000){
+    el.className='costo-alert danger';el.style.display='block';
+    el.innerHTML='⚠️ Costo muy bajo ($'+Math.round(n).toLocaleString('es-CO')+'). Con costos fijos de $62.450, el margen puede ser muy bajo. Verifica el precio con el proveedor.';
+  }else if(n>200000){
+    el.className='costo-alert warn';el.style.display='block';
+    el.innerHTML='💡 Producto de alto costo. Asegúrate de que el precio de venta al cliente sea competitivo. Los packs 2x y 3x serán clave para ser rentable.';
+  }else{el.style.display='none'}
+}
+
+// ═══════════════════════════════════════════════════════
+// FLUJO DE DINERO
+// ═══════════════════════════════════════════════════════
+function renderFlujo(costo){
+  const cf=COSTOS_FIJOS;
+  const g1=parseAmount(document.getElementById('ganancia1').value)||15000;
+  const lp=ladderPrices(costo,g1,15000,10000);
+  const precio=lp.com1;
+  const items=[
+    {label:'📣 Ads (CPA real)',val:parseAmount(document.getElementById('cCPA').value)||33900,color:'#7c3aed'},
+    {label:'🚚 Envío',val:parseAmount(document.getElementById('cEnvio').value)||20000,color:'#0f766e'},
+    {label:'🏢 Admin/herramientas',val:parseAmount(document.getElementById('cAdmin').value)||5400,color:'#1d4ed8'},
+    {label:'↩️ Devoluciones',val:parseAmount(document.getElementById('cDev').value)||3150,color:'#b45309'},
+    {label:'📦 Producto (proveedor)',val:costo,color:'#6d28d9'},
+  ];
+  const ganancia=precio-items.reduce((s,i)=>s+i.val,0);
+  const bars=document.getElementById('flujoBars');
+  bars.innerHTML=items.map(i=>{
+    const pct=Math.round(i.val/precio*100);
+    return`<div class="flujo-row">
+      <div class="flujo-label">${i.label}</div>
+      <div class="flujo-bar-wrap"><div class="flujo-bar" style="background:${i.color};width:0" data-w="${pct}%">${pct>8?pct+'%':''}</div></div>
+      <div class="flujo-pct" style="color:${i.color}">${fCOP(i.val)}</div>
+    </div>`
+  }).join('');
+  const ganPct=Math.round(Math.max(ganancia,0)/precio*100);
+  bars.innerHTML+=`<div class="flujo-row">
+    <div class="flujo-label" style="color:var(--green);font-weight:700">💰 Tu ganancia</div>
+    <div class="flujo-bar-wrap"><div class="flujo-bar" style="background:var(--green);width:0" data-w="${ganPct}%">${ganPct>8?ganPct+'%':''}</div></div>
+    <div class="flujo-pct" style="color:var(--green)">${fCOP(Math.max(ganancia,0))}</div>
+  </div>`;
+  document.getElementById('flujoGanancia').textContent=fCOP(Math.max(ganancia,0))+' de '+fCOP(precio);
+  // Animate bars
+  setTimeout(()=>{
+    document.querySelectorAll('.flujo-bar[data-w]').forEach(b=>{b.style.width=b.dataset.w})
+  },80);
+}
+
+// ═══════════════════════════════════════════════════════
+// LIVE INPUTS
+// ═══════════════════════════════════════════════════════
+function initLiveInputs(){
+  ['inputCosto','ganancia1','ganancia2','ganancia3','qCosto','qG1','qG2','qG3',
+   'cCPA','cEnvio','cAdmin','cDev'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.addEventListener('input',()=>{
+      formatLive(el);
+      if(id==='inputCosto'||id==='qCosto'){
+        const raw=el.value.replace(/[^\d]/g,'');
+        const n=parseInt(raw,10);
+        const pv=document.getElementById(id==='inputCosto'?'costoPreview':'qCostoPreview');
+        if(raw&&n>0&&n<1000){pv.textContent='→ Lo entendemos como '+fCOP(n*1000)}else{pv.textContent=''}
+        if(id==='inputCosto')checkCostoAlert(el.value);
+      }
+      if(['cCPA','cEnvio','cAdmin','cDev'].includes(id)){recalcBase();}
+    })
+  });
+}
+function recalcBase(){
+  const cf=['cCPA','cEnvio','cAdmin','cDev'].reduce((s,id)=>{const v=parseAmount(document.getElementById(id).value);return s+(isNaN(v)?0:v)},0);
+  if(cf>0){COSTOS_FIJOS=cf;document.getElementById('totalFijoDisplay').textContent=fCOP(cf)}
+  checkDefaultsChanged();
+}
+
+// ═══════════════════════════════════════════════════════
+// NAVEGACIÓN SECCIONES
+// ═══════════════════════════════════════════════════════
+function showSectionDirect(id){
+  document.querySelectorAll('.section-view').forEach(s=>s.classList.remove('active'));
+  const t = document.getElementById('sec-'+id);
+  if (!t) return;
+  t.classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
+    const ids=['calc','historial','comunidad'];
+    t.classList.toggle('active', ids[i]===id);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showSection(id){
+  document.querySelectorAll('.section-view').forEach(s=>s.classList.remove('active'));
+  const target = document.getElementById('sec-'+id);
+  if (!target) { console.warn('Section not found:', id); return; }
+  target.classList.add('active');
+  // Activate the matching nav tab using the id (not event.target — that breaks when called programmatically)
+  document.querySelectorAll('.nav-tab').forEach(t=>{
+    const onclick = t.getAttribute('onclick') || '';
+    t.classList.toggle('active', onclick.includes("'"+id+"'"));
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='historial')renderHistorial();
+}
+
+// ═══════════════════════════════════════════════════════
+// MODO CALCULADORA
+// ═══════════════════════════════════════════════════════
+function setMode(m){
+  currentMode=m;
+  document.getElementById('modeStepBtn').className='mode-btn'+(m==='step'?' active':'');
+  document.getElementById('modeQuickBtn').className='mode-btn'+(m==='quick'?' active':'');
+  const step=m==='step';
+  document.getElementById('stepperEl').classList.toggle('hidden',!step);
+  ['paso1','paso2','paso3'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+  document.getElementById('pasoQuick').classList.toggle('hidden',step);
+  document.getElementById('paso4').classList.add('hidden');
+  document.getElementById('flujoCard').classList.add('hidden');
+  if(step)setStep(1);
+}
+
+// ═══════════════════════════════════════════════════════
+// STEPPER
+// ═══════════════════════════════════════════════════════
+function setStep(n){
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById('paso'+i);
+    if(el)el.classList.toggle('hidden',i!==n);
+    const sc=document.getElementById('sc'+i);
+    if(sc){sc.classList.remove('active','done');if(i<n)sc.classList.add('done');if(i===n)sc.classList.add('active')}
+  }
+  for(let i=1;i<=3;i++){const sl=document.getElementById('sl'+i);if(sl)sl.classList.toggle('done',i<n)}
+  // Flujo visible solo en paso 2
+  document.getElementById('flujoCard').classList.toggle('hidden', n!==2);
+  if(n===2){
+    const costo=parseAmount(document.getElementById('inputCosto').value);
+    if(!isNaN(costo)&&costo>0)renderFlujo(costo);
+    checkDefaultsChanged();
+  }
+  updateProgressBar(n);
+  const activeId=n===4?'paso4':'paso'+n;
+  const activeEl=document.getElementById(activeId);
+  if(activeEl){const y=activeEl.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}
+}
+
+function irPaso2(){
+  const nombre=document.getElementById('inputNombre').value.trim();
+  const costo=parseAmount(document.getElementById('inputCosto').value);
+  if(!nombre){toast('📦 Ingresa el nombre del producto','error');document.getElementById('inputNombre').focus();return}
+  if(isNaN(costo)||costo<=0){toast('💰 Ingresa un costo válido','error');document.getElementById('inputCosto').focus();return}
+  setStep(2)
+}
+
+// ═══════════════════════════════════════════════════════
+// ANIMACIÓN NÚMERO
+// ═══════════════════════════════════════════════════════
+function animateNum(el,target,duration=700){
+  const start=performance.now();
+  function step(now){
+    const p=Math.min((now-start)/duration,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent='$ '+Math.round(target*ease).toLocaleString('es-CO');
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step)
+}
+
+// ═══════════════════════════════════════════════════════
+// SEMÁFORO
+// ═══════════════════════════════════════════════════════
+function setSemaforo(maxMar){
+  const sem=document.getElementById('semaforo');
+  const dot=document.getElementById('semaforoDot');
+  const title=document.getElementById('semaforoTitle');
+  const sub=document.getElementById('semaforoSub');
+  sem.className='semaforo';
+  if(maxMar>=30){sem.classList.add('s-green');dot.textContent='🟢';title.textContent='Producto Excelente — 🔥 Listo para escalar';sub.textContent='Margen mayor al 30%. Puedes invertir más en ads con confianza.'}
+  else if(maxMar>=15){sem.classList.add('s-yellow');dot.textContent='🟡';title.textContent='Producto Aceptable — ⚠️ Analiza bien';sub.textContent='Margen entre 15% y 30%. Considera subir el precio o renegociar con el proveedor.'}
+  else{sem.classList.add('s-red');dot.textContent='🔴';title.textContent='Producto No Recomendado — ❌ Busca otro';sub.textContent='Margen menor al 15%. Con los costos actuales no es rentable.'}
+}
+
+// ═══════════════════════════════════════════════════════
+// CONSEJO PERSONALIZADO
+// ═══════════════════════════════════════════════════════
+function renderConsejo(nombre,costo,escenarios){
+  const e1=escenarios[0],e2=escenarios[1],e3=escenarios[2];
+  const maxMar=Math.max(e1.mar,e2.mar,e3.mar);
+  const bestPack=e3.gan>e2.gan?e3:e2;
+  let cls,title,body,tip;
+  if(maxMar>=30){
+    cls='c-green';title='🔥 ¡Este producto está listo para escalar!';
+    body=`<strong>${nombre}</strong> tiene un margen del <strong>${maxMar}%</strong> — eso es excelente. La mejor estrategia es empujar el <strong>${bestPack.label}</strong> a <strong>${fCOP(bestPack.com)}</strong>, donde ganas <strong>${fCOP(bestPack.gan)}</strong> por pedido.`;
+    tip=`💡 Consejo: Arranca con un presupuesto de ads moderado para validar. Una vez tengas 10+ pedidos entregados, escala duplicando el presupuesto cada semana.`;
+  }else if(maxMar>=15){
+    const precioMejor=nextTier(e1.com+1);
+    const ganExtra=precioMejor-e1.com;
+    cls='c-yellow';title='⚠️ Producto aceptable — puedes mejorarlo';
+    body=`El margen actual es del <strong>${maxMar}%</strong>. Estás en zona segura pero con poco margen de error. Hay <strong>2 formas de mejorar:</strong> subir el precio de 1x a <strong>${fCOP(precioMejor)}</strong> (ganas <strong>+${fCOP(ganExtra)}</strong> extra) o negociar mejor precio con tu proveedor.`;
+    tip=`💡 Consejo: Antes de escalar en ads, intenta vender 5-10 pedidos orgánicamente (WhatsApp, redes) para validar que el producto convierte bien a ese precio.`;
+  }else{
+    const precioNecesario=nextTier(costo+COSTOS_FIJOS+15000);
+    cls='c-red';title='❌ Este producto no es rentable con el precio actual';
+    body=`Con un costo de <strong>${fCOP(costo)}</strong> y los costos fijos de <strong>${fCOP(COSTOS_FIJOS)}</strong>, necesitas vender a mínimo <strong>${fCOP(precioNecesario)}</strong> para tener 15%+ de margen. Revisa si el mercado acepta ese precio.`;
+    tip=`💡 Opciones: 1) Busca un proveedor más barato. 2) Sube el precio y prueba si convierte. 3) Cambia a un producto con mayor margen.`;
+  }
+  document.getElementById('consejoCard').innerHTML=`
+    <div class="consejo-card ${cls}">
+      <div class="consejo-title">${title}</div>
+      <div class="consejo-body">${body}<div class="consejo-tip">${tip}</div></div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// DESGLOSE "¿CÓMO SE CALCULÓ?"
+// ═══════════════════════════════════════════════════════
+function toggleBreakdown(id){
+  const panel=document.getElementById('bp-'+id);
+  const btn=document.getElementById('bpbtn-'+id);
+  const isOpen=panel.classList.contains('open');
+  panel.classList.toggle('open',!isOpen);
+  btn.textContent=isOpen?'🔍 ¿Cómo se calculó este precio?':'🔼 Ocultar desglose';
+}
+function buildBreakdown(e,costo,idx){
+  const uds=idx+1;
+  const cf=COSTOS_FIJOS;
+  const cpa=parseAmount(document.getElementById('cCPA').value)||33900;
+  const env=parseAmount(document.getElementById('cEnvio').value)||20000;
+  const adm=parseAmount(document.getElementById('cAdmin').value)||5400;
+  const dev=parseAmount(document.getElementById('cDev').value)||3150;
+  const gan=e.gan;
+  const ganU=e.ganU;
+  return`<div id="bp-${idx}" class="breakdown-panel">
+    <div class="breakdown-row"><span>📦 Costo proveedor × ${uds}</span><span>${fCOP(costo*uds)}</span></div>
+    <div class="breakdown-row"><span>📣 Ads (CPA real)</span><span>${fCOP(cpa)}</span></div>
+    <div class="breakdown-row"><span>🚚 Envío</span><span>${fCOP(env)}</span></div>
+    <div class="breakdown-row"><span>🏢 Admin + herramientas</span><span>${fCOP(adm)}</span></div>
+    <div class="breakdown-row"><span>↩️ Impacto devoluciones</span><span>${fCOP(dev)}</span></div>
+    <div class="breakdown-row breakdown-total-row"><span>= Precio mínimo (piso)</span><span>${fCOP(e.min)}</span></div>
+    <div class="breakdown-row" style="margin-top:6px"><span>↑ Ajuste al precio comercial</span><span style="color:var(--green)">+${fCOP(e.com-e.min)}</span></div>
+    <div class="breakdown-row breakdown-total-row"><span>= Precio de venta sugerido</span><span>${fCOP(e.com)}</span></div>
+    <div class="breakdown-row" style="margin-top:6px"><span>💰 Ganancia neta total</span><span style="color:var(--green);font-weight:800">${fCOP(gan)}</span></div>
+    ${uds>1?`<div class="breakdown-row"><span>📦 Ganancia por unidad</span><span style="color:var(--green)">${fCOP(ganU)}</span></div>`:''}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// GLOSARIO INLINE (palabras tocables)
+// ═══════════════════════════════════════════════════════
+const GLOSARIO_INLINE={
+  'margen':'El % de tu precio de venta que es ganancia real. Ej: vendes a $100K, ganas $30K → margen 30%.',
+  'CPA':'Costo Por Adquisición. Lo que gastas en publicidad por cada cliente. Tu CPA real es $33.900 porque solo el 59% de pedidos se entregan.',
+  'ROI':'Retorno sobre inversión. Cuánto ganas por cada peso invertido en el producto y costos.',
+  'pack':'Vender 2 o 3 unidades en el mismo pedido. Los costos fijos no cambian, pero tu ganancia sube.',
+  'costos fijos':'Los $62.450 que pagas por cada pedido (ads, envío, admin, devoluciones). No importa cuántas unidades vendas.',
+};
+function glosarizar(texto){
+  return texto.replace(/\b(margen|CPA|ROI|pack|costos fijos)\b/gi,(match)=>{
+    const def=GLOSARIO_INLINE[match.toLowerCase()]||GLOSARIO_INLINE[match];
+    if(!def)return match;
+    return`<span class="glos-word">${match}<span class="glos-popup">${def}</span></span>`;
+  })
+}
+
+// ═══════════════════════════════════════════════════════
+// CALCULAR (paso a paso)
+// ═══════════════════════════════════════════════════════
+function calcular(){
+  const nombre=document.getElementById('inputNombre').value.trim();
+  const costo=parseAmount(document.getElementById('inputCosto').value);
+  const g1=parseAmount(document.getElementById('ganancia1').value)||15000;
+  const g2=parseAmount(document.getElementById('ganancia2').value)||15000;
+  const g3=parseAmount(document.getElementById('ganancia3').value)||10000;
+  _renderResultados(nombre,costo,g1,g2,g3);
+  setStep(4);
+  // Limpiar progreso guardado
+  try{localStorage.removeItem(PROGRESO_KEY)}catch{}
+}
+
+// ═══════════════════════════════════════════════════════
+// CALCULAR RÁPIDO
+// ═══════════════════════════════════════════════════════
+function calcularQuick(){
+  const nombre=document.getElementById('qNombre').value.trim();
+  const costo=parseAmount(document.getElementById('qCosto').value);
+  const g1=parseAmount(document.getElementById('qG1').value)||15000;
+  const g2=parseAmount(document.getElementById('qG2').value)||15000;
+  const g3=parseAmount(document.getElementById('qG3').value)||10000;
+  if(!nombre){toast('📦 Ingresa el nombre','error');return}
+  if(isNaN(costo)||costo<=0){toast('💰 Ingresa un costo válido','error');return}
+  _renderResultados(nombre,costo,g1,g2,g3);
+  document.getElementById('pasoQuick').classList.add('hidden');
+  document.getElementById('paso4').classList.remove('hidden');
+  const el=document.getElementById('paso4');
+  if(el){setTimeout(()=>{const y=el.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})},50)}
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER RESULTADOS
+// ═══════════════════════════════════════════════════════
+function _renderResultados(nombre,costo,g1,g2,g3){
+  const{min1,min2,min3,com1,com2,com3}=ladderPrices(costo,g1,g2,g3);
+  const cf=COSTOS_FIJOS;
+  const gan1=com1-costo-cf,gan2=com2-costo*2-cf,gan3=com3-costo*3-cf;
+  const mar1=Math.round(gan1/com1*100),mar2=Math.round(gan2/com2*100),mar3=Math.round(gan3/com3*100);
+  document.getElementById('resNombre').textContent=nombre;
+  document.getElementById('resCosto').textContent=fCOP(costo);
+  document.getElementById('resBase').textContent=fCOP(cf);
+  const maxMar=Math.max(mar1,mar2,mar3);
+  setSemaforo(maxMar);
+  // Quick stats
+  const qs = document.getElementById('quickStats');
+  if (qs) {
+    qs.style.display = 'grid';
+    const fmt = n => fCOP(n).replace('$ ','');
+    document.getElementById('qs1x').textContent = fmt(com1);
+    document.getElementById('qs2x').textContent = fmt(com2);
+    document.getElementById('qs3x').textContent = fmt(com3);
+  }
+  const escenarios=[
+    {cls:'r1x',icon:'1️⃣',label:'1 Unidad',min:min1,com:com1,gan:gan1,ganU:gan1,mar:mar1},
+    {cls:'r2x',icon:'2️⃣',label:'Pack 2x', min:min2,com:com2,gan:gan2,ganU:Math.round(gan2/2),mar:mar2},
+    {cls:'r3x',icon:'3️⃣',label:'Pack 3x', min:min3,com:com3,gan:gan3,ganU:Math.round(gan3/3),mar:mar3},
+  ];
+  document.getElementById('resultsGrid').innerHTML=escenarios.map((e,i)=>{
+    const v=getVerdict(e.mar);
+    return`<div class="result-card ${e.cls}">
+      <div class="result-badge">${e.icon} ${e.label}</div>
+      <div class="result-prices">
+        <div class="price-box"><div class="price-label">💰 Sugerido</div><div class="price-val num-anim" data-target="${e.com}">${fCOP(e.com)}</div></div>
+        <div class="price-box price-min"><div class="price-label">📉 Mínimo</div><div class="price-val">${fCOP(e.min)}</div></div>
+      </div>
+      <div class="result-stats">
+        <span class="stat-pill">💸 Total: <strong>${fCOP(e.gan)}</strong></span>
+        <span class="stat-pill">📦 c/u: <strong>${fCOP(e.ganU)}</strong></span>
+        <span class="stat-pill">📊 <span class="glos-word">margen<span class="glos-popup">${GLOSARIO_INLINE['margen']}</span></span>: ${e.mar}%</span>
+      </div>
+      <div class="verdict ${v.cls}">${v.icon} ${v.txt}</div>
+      <button class="breakdown-btn" id="bpbtn-${i}" data-bp-idx="${i}">🔍 ¿Cómo se calculó este precio?</button>
+      ${buildBreakdown(e,costo,i)}
+    </div>`
+  }).join('');
+  // Animación números
+  setTimeout(()=>{document.querySelectorAll('.num-anim[data-target]').forEach(el=>animateNum(el,parseInt(el.dataset.target)))},100);
+  // Event delegation for breakdown buttons (iOS-safe)
+  const grid = document.getElementById('resultsGrid');
+  if(grid){
+    grid.onclick = function(ev){
+      const btn = ev.target.closest('[data-bp-idx]');
+      if(!btn) return;
+      const idx = parseInt(btn.dataset.bpIdx, 10);
+      if(!isNaN(idx)) toggleBreakdown(idx);
+    }
+  }
+  // Guia comercial
+  document.getElementById('guiaComercial').innerHTML=escenarios.map(e=>`
+    <div class="guia-row">
+      <div><div style="font-size:13px;font-weight:600">${e.icon} ${e.label}</div><div style="font-size:11px;color:var(--dim);margin-top:2px">Mínimo: ${fCOP(e.min)}</div></div>
+      <div style="text-align:right"><div style="font-weight:800;font-size:16px;color:var(--gold)">${fCOP(e.com)}</div><div style="font-size:10.5px;color:var(--green);font-weight:600">+${fCOP(e.com-e.min)} extra</div></div>
+    </div>`).join('');
+  // Consejo
+  renderConsejo(nombre,costo,escenarios);
+  lastResult={nombre,costo,escenarios};
+  guardarHistorial({nombre,costo,g1,g2,g3,escenarios,cf,mar1,mar2,mar3,com1,com2,com3,gan1,gan2,gan3});
+  incrementCounter();
+}
+
+// ═══════════════════════════════════════════════════════
+// REINICIAR
+// ═══════════════════════════════════════════════════════
+function reiniciar(){
+  document.getElementById('inputNombre').value='';
+  document.getElementById('inputCosto').value='';
+  document.getElementById('costoPreview').textContent='';
+  document.getElementById('costoAlert').style.display='none';
+  document.getElementById('ganancia1').value='15.000';
+  document.getElementById('ganancia2').value='15.000';
+  document.getElementById('ganancia3').value='10.000';
+  lastResult=null;
+  try{localStorage.removeItem(PROGRESO_KEY)}catch{}
+  if(currentMode==='step'){setStep(1)}
+  else{
+    document.getElementById('pasoQuick').classList.remove('hidden');
+    document.getElementById('paso4').classList.add('hidden');
+    const el=document.getElementById('pasoQuick');
+    if(el){const y=el.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}
+  }
+  setTimeout(()=>document.getElementById(currentMode==='step'?'inputNombre':'qNombre').focus(),350)
+}
+
+// ═══════════════════════════════════════════════════════
+// COMPARTIR / COPIAR
+// ═══════════════════════════════════════════════════════
+function buildShareText(md=true){
+  if(!lastResult)return'';
+  const{nombre,costo,escenarios}=lastResult;
+  const b=md?'*':'';
+  let t=`🛒 ${b}Calculadora Comunidad Arraiz${b}\n\n📦 Producto: ${b}${nombre}${b}\n💰 Costo: ${fCOP(costo)}\n\n${b}Precios sugeridos:${b}\n`;
+  escenarios.forEach(e=>{t+=`${e.icon} ${e.label}: ${b}${fCOP(e.com)}${b} (gana ${fCOP(e.gan)})\n`});
+  t+='\n💜 Comunidad Arraiz';return t
+}
+function compartirWhatsApp(){if(!lastResult)return;window.open('https://wa.me/?text='+encodeURIComponent(buildShareText(true)),'_blank')}
+function copiarResultados(){
+  if(!lastResult)return;
+  const txt=buildShareText(false);
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>toast('✅ Copiado al portapapeles'),()=>fallbackCopy(txt))}
+  else fallbackCopy(txt)
+}
+function fallbackCopy(txt){
+  const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');toast('✅ Copiado')}catch{toast('No se pudo copiar','error')}
+  document.body.removeChild(ta)
+}
+
+// ═══════════════════════════════════════════════════════
+// HISTORIAL
+// ═══════════════════════════════════════════════════════
+function getHistorial(){try{return JSON.parse(localStorage.getItem('arr_historial')||'[]')}catch{return[]}}
+function guardarHistorial(item){
+  let h=getHistorial();h.unshift({...item,ts:Date.now()});
+  if(h.length>10)h=h.slice(0,10);
+  try{localStorage.setItem('arr_historial',JSON.stringify(h))}catch{}
+}
+function limpiarHistorial(){try{localStorage.removeItem('arr_historial')}catch{}toast('🗑 Historial limpiado');renderHistorial()}
+function renderHistorial(){
+  const list=document.getElementById('historialList');const h=getHistorial();
+  if(!h.length){
+    list.innerHTML=`<div class="empty-state">
+      <div class="empty-state-icon">📭</div>
+      <div class="empty-state-title">Todavía no has calculado ningún producto</div>
+      <div class="empty-state-sub">Cada producto que calcules aparecerá aquí automáticamente. Puedes guardar notas, ver el margen y relanzarlos en 1 toque.</div>
+      <button class="btn btn-primary" onclick="showSectionDirect('calc')" style="flex:0;padding:10px 22px;font-size:13px">🧮 Calcular mi primer producto</button>
+    </div>`;return}
+  list.innerHTML=h.map((item,i)=>{
+    const date=new Date(item.ts).toLocaleDateString('es-CO',{day:'2-digit',month:'short'});
+    const nota=item.nota||'';
+    return`<div style="background:rgba(31,8,56,.5);border:1px solid rgba(168,85,247,.15);border-radius:11px;margin-bottom:8px;overflow:hidden">
+      <div class="historial-item" style="margin-bottom:0;border:none;border-radius:0;background:transparent" data-action="reload" data-idx="${i}">
+        <div class="historial-left">
+          <div class="historial-name">${item.nombre}</div>
+          <div class="historial-meta">Costo: ${fCOP(item.costo)} · ${date} · <span style="color:var(--green)">${item.mar1||0}% margen</span></div>
+          <div id="hnotadisplay-${i}" class="nota-display${nota?' show':''}">${nota?'📌 '+nota:''}</div>
+        </div>
+        <div class="historial-prices"><div class="historial-price1">${fCOP(item.com1)}</div><div style="font-size:10px;color:var(--dim)">1x sugerido</div></div>
+        <div class="historial-del" data-action="delete" data-idx="${i}">✕</div>
+      </div>
+      <div style="padding:0 14px 8px;display:flex;align-items:center;gap:8px;border-top:1px solid rgba(168,85,247,.1)">
+        <button id="hexpbtn-${i}" class="expand-btn" data-action="toggle" data-idx="${i}">📝 ${nota?'Ver nota':'Agregar nota'} ▾</button>
+      </div>
+      <div id="hexp-${i}" class="historial-item-expanded">
+        <textarea id="hnota-${i}" class="nota-input" rows="2" placeholder="Ej: Proveedor X, ya probado, escalar en semana 3…">${nota}</textarea>
+        <button class="nota-save-btn" data-action="save" data-idx="${i}">💾 Guardar nota</button>
+      </div>
+    </div>`}).join('');
+  // Event delegation - more reliable than inline onclicks on iOS Safari
+  bindHistorialEvents();
+}
+function bindHistorialEvents(){
+  const list = document.getElementById('historialList');
+  if(!list) return;
+  list.onclick = function(ev){
+    const target = ev.target.closest('[data-action]');
+    if(!target) return;
+    const action = target.dataset.action;
+    const idx = parseInt(target.dataset.idx, 10);
+    if(isNaN(idx)) return;
+    if(action === 'delete'){ ev.stopPropagation(); eliminarHistorial(idx); }
+    else if(action === 'toggle'){ ev.stopPropagation(); toggleHistorialItem(idx); }
+    else if(action === 'save'){ ev.stopPropagation(); saveNota(idx); }
+    else if(action === 'reload'){ recargarHistorial(idx); }
+  }
+}
+function eliminarHistorial(idx){const h=getHistorial();h.splice(idx,1);try{localStorage.setItem('arr_historial',JSON.stringify(h))}catch{}toast('Eliminado');renderHistorial()}
+function recargarHistorial(idx){
+  const item=getHistorial()[idx];if(!item)return;
+  document.getElementById('inputNombre').value=item.nombre;
+  document.getElementById('inputCosto').value=item.costo.toLocaleString('es-CO');
+  document.getElementById('ganancia1').value=(item.g1||15000).toLocaleString('es-CO');
+  document.getElementById('ganancia2').value=(item.g2||15000).toLocaleString('es-CO');
+  document.getElementById('ganancia3').value=(item.g3||10000).toLocaleString('es-CO');
+  showSection('calc');
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{t.classList.toggle('active',i===0)});
+  setMode('step');setStep(1);toast('✅ Producto cargado')
+}
+
+
+// ═══════════════════════════════════════════════════════
+// FLOAT UP
+// ═══════════════════════════════════════════════════════
+window.addEventListener('scroll',()=>{document.getElementById('floatUp').classList.toggle('show',window.scrollY>400)},{passive:true});
+
+// ═══════════════════════════════════════════════════════
+// FAQ ACCORDION
+// ═══════════════════════════════════════════════════════
+document.querySelectorAll('details.faq').forEach(d=>{
+  d.addEventListener('toggle',()=>{if(d.open)document.querySelectorAll('details.faq').forEach(o=>{if(o!==d&&o.open)o.open=false})})
+});
+
+// ═══════════════════════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════════════════════
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'||(e.target&&e.target.tagName==='TEXTAREA'))return;
+  if(!document.getElementById('paso1').classList.contains('hidden'))irPaso2();
+  else if(!document.getElementById('paso2').classList.contains('hidden'))setStep(3);
+  else if(!document.getElementById('paso3').classList.contains('hidden'))calcular();
+});
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded',()=>{
+  initLiveInputs();
+  ['ganancia1','ganancia2','ganancia3'].forEach(id=>formatLive(document.getElementById(id)));
+  initHistoria();
+  cargarProgresoGuardado();
+  updateCounter();
+  showRandomTip();
+});
+
+// ═══════════════════════════════════════════════════════
+// EFECTIVIDAD DE ENTREGA
+// ═══════════════════════════════════════════════════════
+let CPA_BASE = 20000;
+function updateEfectividad(val) {
+  val = parseInt(val);
+  document.getElementById('efPct').textContent = val;
+  const cpaReal = Math.round(CPA_BASE / (val / 100));
+  document.getElementById('efCpaResult').innerHTML =
+    'CPA base $' + CPA_BASE.toLocaleString('es-CO') + ' ÷ ' + val + '% = <strong>CPA real: ' + fCOP(cpaReal) + '</strong>';
+  // Update the CPA input live
+  const cpaInput = document.getElementById('cCPA');
+  if (cpaInput) {
+    cpaInput.value = cpaReal.toLocaleString('es-CO');
+    recalcBase();
+  }
+  // Update flujo if visible
+  const costo = parseAmount(document.getElementById('inputCosto').value);
+  if (!isNaN(costo) && costo > 0 && !document.getElementById('flujoCard').classList.contains('hidden')) {
+    renderFlujo(costo);
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════
+// NOTAS EN HISTORIAL
+// ═══════════════════════════════════════════════════════
+function toggleHistorialItem(idx) {
+  const expanded = document.getElementById('hexp-' + idx);
+  const btn = document.getElementById('hexpbtn-' + idx);
+  if (!expanded) return;
+  const isOpen = expanded.classList.contains('open');
+  expanded.classList.toggle('open', !isOpen);
+  btn.textContent = isOpen ? '📝 Agregar nota ▾' : '▴ Cerrar';
+}
+function saveNota(idx) {
+  const input = document.getElementById('hnota-' + idx);
+  if (!input) return;
+  const nota = input.value.trim();
+  let h = getHistorial();
+  if (!h[idx]) return;
+  h[idx].nota = nota;
+  try { localStorage.setItem('arr_historial', JSON.stringify(h)); } catch {}
+  const display = document.getElementById('hnotadisplay-' + idx);
+  if (display) {
+    display.textContent = nota ? '📌 ' + nota : '';
+    display.className = 'nota-display' + (nota ? ' show' : '');
+  }
+  toast('✅ Nota guardada');
+}
+
+
+// ═══════════════════════════════════════════════════════
+// VALORES RECOMENDADOS Y DEFAULTS
+// ═══════════════════════════════════════════════════════
+const DEFAULTS_MAP = {cCPA:33900, cEnvio:20000, cAdmin:5400, cDev:3150};
+let customizedFields = new Set();
+
+function checkDefaultsChanged(){
+  let anyChanged = false;
+  Object.entries(DEFAULTS_MAP).forEach(([id, def]) => {
+    const val = parseAmount(document.getElementById(id).value);
+    const changed = !isNaN(val) && Math.abs(val - def) > 50;
+    const badge = document.getElementById('badge-' + id);
+    if (badge) {
+      badge.className = changed ? 'custom-badge' : 'rec-badge';
+      badge.textContent = changed ? '✏️ Personalizado' : '✓ Recomendado';
+    }
+    if (changed) { customizedFields.add(id); anyChanged = true; }
+    else customizedFields.delete(id);
+  });
+  const banner = document.getElementById('defaultsChangedBanner');
+  const resetBtn = document.getElementById('resetDefaultsBtn');
+  if (banner) banner.classList.toggle('show', anyChanged);
+  if (resetBtn) resetBtn.style.display = anyChanged ? 'flex' : 'none';
+}
+
+function resetDefaults(){
+  Object.entries(DEFAULTS_MAP).forEach(([id, def]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = def.toLocaleString('es-CO');
+  });
+  recalcBase();
+  checkDefaultsChanged();
+  // Also reset slider
+  const slider = document.getElementById('efSlider');
+  if (slider) { slider.value = 59; updateEfectividad(59); }
+  toast('✅ Valores recomendados restaurados', 'success');
+}
+
+// ═══════════════════════════════════════════════════════
+// PROGRESS BAR & STEP LABELS
+// ═══════════════════════════════════════════════════════
+function updateProgressBar(step) {
+  const bar = document.getElementById('calcProgressBar');
+  const prog = document.getElementById('calcProgress');
+  const labels = document.querySelectorAll('.step-lbl');
+  if (!bar || !prog) return;
+  const pcts = {1:25, 2:50, 3:75, 4:100};
+  prog.style.display = 'block';
+  bar.style.width = (pcts[step] || 25) + '%';
+  labels.forEach((l, i) => l.classList.toggle('active-lbl', i === step - 1));
+  if (step === 4) setTimeout(() => { prog.style.display = 'none'; }, 1200);
+}
+
+// ═══════════════════════════════════════════════════════
+// FIRST TIME HINT
+// ═══════════════════════════════════════════════════════
+function initFirstTimeHint(){
+  try {
+    if (!localStorage.getItem('arr_historia_visto')) return; // historia not dismissed yet
+    const hint = document.getElementById('firstTimeHint');
+    if (hint && !localStorage.getItem('arr_firsthint_done')) hint.style.display = 'block';
+  } catch {}
+}
+
+
+// WHY SECTION TOGGLE
+document.addEventListener('DOMContentLoaded', () => {
+  const det = document.querySelector('#whySection details');
+  if (det) det.addEventListener('toggle', () => {
+    const arrow = document.getElementById('whyArrow');
+    if (arrow) arrow.style.transform = det.open ? 'rotate(45deg)' : 'rotate(0deg)';
+  });
+});
+
+
+// ═══════════════════════════════════════════════════════
+// CONTADOR DE PRODUCTOS
+// ═══════════════════════════════════════════════════════
+function updateCounter() {
+  let count = 0;
+  try { count = parseInt(localStorage.getItem('arr_total_calculados') || '0', 10) || 0; } catch {}
+  if (count > 0) {
+    document.getElementById('counterBadge').style.display = 'inline-flex';
+    document.getElementById('counterNum').textContent = count;
+  }
+}
+function incrementCounter() {
+  let count = 0;
+  try { count = parseInt(localStorage.getItem('arr_total_calculados') || '0', 10) || 0; } catch {}
+  count++;
+  try { localStorage.setItem('arr_total_calculados', String(count)); } catch {}
+  updateCounter();
+  return count;
+}
+
+// ═══════════════════════════════════════════════════════
+// TIPS ROTATIVOS
+// ═══════════════════════════════════════════════════════
+const TIPS = [
+  '<strong>Tip:</strong> Los packs de 3 unidades dan más ganancia total — el cliente siente que ahorra y tú ganas más.',
+  '<strong>Tip:</strong> Margen mayor al 30% = producto bueno para escalar con confianza.',
+  '<strong>Tip:</strong> Si tu CPA sube en ads, ajústalo aquí mismo para ver el impacto real en tu ganancia.',
+  '<strong>Tip:</strong> Los precios terminados en .900 venden mejor que los redondos en Colombia.',
+  '<strong>Tip:</strong> Antes de escalar en ads, valida con 5-10 ventas orgánicas primero.',
+  '<strong>Tip:</strong> El 41% de pedidos COD se devuelven — ese costo SIEMPRE debe estar en tu cálculo.',
+  '<strong>Tip:</strong> Productos con margen menor al 15% son trampa — buscan otro proveedor o cambia de producto.',
+  '<strong>Tip:</strong> Edita los costos fijos solo si tu negocio realmente los tiene diferentes.',
+  '<strong>Tip:</strong> El historial guarda automáticamente tus últimos 10 productos para que los compares.',
+  '<strong>Tip:</strong> Vender 2x o 3x no aumenta tus costos fijos — solo el costo del producto sube.',
+];
+function showRandomTip() {
+  const el = document.getElementById('tipRotatorText');
+  if (!el) return;
+  const tip = TIPS[Math.floor(Math.random() * TIPS.length)];
+  el.innerHTML = tip;
+}
+// Rotate tip every 8 seconds
+setInterval(() => {
+  const el = document.getElementById('tipRotator');
+  if (!el) return;
+  el.style.opacity = '0';
+  el.style.transition = 'opacity .3s';
+  setTimeout(() => { showRandomTip(); el.style.opacity = '1'; }, 300);
+}, 8000);
+
+// ═══════════════════════════════════════════════════════
+// QUICK EDIT COSTS (en pantalla resultados)
+// ═══════════════════════════════════════════════════════
+function toggleQuickEdit() {
+  const panel = document.getElementById('quickEditPanel');
+  if (!panel) return;
+  const isOpen = panel.classList.contains('open');
+  if (!isOpen) {
+    // Cargar valores actuales
+    document.getElementById('qeCPA').value = document.getElementById('cCPA').value;
+    document.getElementById('qeEnvio').value = document.getElementById('cEnvio').value;
+    document.getElementById('qeAdmin').value = document.getElementById('cAdmin').value;
+    document.getElementById('qeDev').value = document.getElementById('cDev').value;
+    // Live format
+    ['qeCPA','qeEnvio','qeAdmin','qeDev'].forEach(id => {
+      const el = document.getElementById(id);
+      el.oninput = () => formatLive(el);
+    });
+  }
+  panel.classList.toggle('open');
+}
+function aplicarQuickEdit() {
+  document.getElementById('cCPA').value = document.getElementById('qeCPA').value;
+  document.getElementById('cEnvio').value = document.getElementById('qeEnvio').value;
+  document.getElementById('cAdmin').value = document.getElementById('qeAdmin').value;
+  document.getElementById('cDev').value = document.getElementById('qeDev').value;
+  recalcBase();
+  // Recalcular con datos actuales
+  if (lastResult) {
+    _renderResultados(lastResult.nombre, lastResult.costo,
+      parseAmount(document.getElementById('ganancia1').value)||15000,
+      parseAmount(document.getElementById('ganancia2').value)||15000,
+      parseAmount(document.getElementById('ganancia3').value)||10000);
+    toast('🔄 Recalculado con nuevos costos');
+  }
+  document.getElementById('quickEditPanel').classList.remove('open');
+}
+
+</script>
+</body>
+</html>
