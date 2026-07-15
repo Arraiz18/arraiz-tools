@@ -596,7 +596,9 @@ let retriesVal=2;
 
 function init(){
   try{const c=localStorage.getItem('cal_config');if(c)config={...DEFAULT_CONFIG,...JSON.parse(c)};}catch(_){}
+  const hasSavedUrls=localStorage.getItem('cal_urls')!==null;
   try{const u=localStorage.getItem('cal_urls');if(u)urls=JSON.parse(u);}catch(_){}
+  if(!hasSavedUrls&&PRESETS.default){urls=[...PRESETS.default];saveUrls();}
   retriesVal=config.retries||2;
   applyConfigToUI();
   renderUrlList();
