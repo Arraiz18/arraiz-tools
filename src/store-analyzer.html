@@ -1,537 +1,577 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="theme-color" content="#160329">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Store Analyzer · Arraiz Tools</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c3aed'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='52' font-family='system-ui'%3E🛍%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--pd:#160329;--pk:#25094a;--pm:#5b21b6;--pb:#7c3aed;--pl:#a855f7;--pg:#c084fc;--gold:#f59e0b;--gold2:#fcd34d;--green:#10b981;--red:#ef4444;--orange:#f97316;--txt:#f5f3ff;--muted:#b8a5e0;--dim:#8b7aaa;--cbg:rgba(91,33,182,0.12);--cbr:rgba(168,85,247,0.22)}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Plus Jakarta Sans',-apple-system,sans-serif}
-html{scroll-behavior:smooth}
-body{background:var(--pd);color:var(--txt);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
-body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at top left,rgba(124,58,237,.22),transparent 50%),radial-gradient(ellipse at bottom right,rgba(168,85,247,.15),transparent 50%);pointer-events:none}
-body::after{content:'';position:fixed;inset:0;z-index:0;background-image:radial-gradient(circle at 1px 1px,rgba(168,85,247,.04) 1px,transparent 0);background-size:32px 32px;pointer-events:none;opacity:.5}
-.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 18px 80px}
-.back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;margin:24px 0 0;padding:8px 0;transition:color .2s}
-.back:hover{color:var(--pg)}
-header{padding:28px 0 24px;text-align:center}
-.tool-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(124,58,237,.2);border:1px solid rgba(168,85,247,.3);color:var(--pg);font-weight:800;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:14px}
-header h1{font-weight:800;font-size:clamp(26px,6vw,36px);line-height:1.1;letter-spacing:-.025em;background:linear-gradient(135deg,#fff 0%,var(--pg) 70%,var(--gold2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
-header p{color:var(--muted);font-size:14px;line-height:1.6;max-width:520px;margin:0 auto}
-.card{background:var(--cbg);border:1px solid var(--cbr);border-radius:18px;padding:24px 22px;margin-top:20px}
-.card-title{font-weight:800;font-size:13px;color:white;margin-bottom:18px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.7px}
-/* Input row */
-.input-row{display:flex;gap:10px;flex-wrap:wrap}
-.domain-input{flex:1;min-width:220px;background:rgba(255,255,255,.05);border:1px solid rgba(168,85,247,.3);border-radius:12px;padding:12px 16px;color:var(--txt);font-size:15px;font-weight:600;outline:none;transition:border-color .2s}
-.domain-input:focus{border-color:var(--pl);box-shadow:0 0 0 3px rgba(168,85,247,.12)}
-.domain-input::placeholder{color:rgba(184,165,224,.4);font-weight:400}
-.btn{padding:12px 22px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;font-family:inherit;letter-spacing:-.01em;white-space:nowrap}
-.btn-primary{background:linear-gradient(135deg,var(--pb),var(--pm));color:white}
-.btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,.4)}
-.btn-secondary{background:rgba(255,255,255,.07);border:1px solid rgba(168,85,247,.22);color:var(--muted)}
-.btn-secondary:hover:not(:disabled){background:rgba(255,255,255,.12);color:var(--txt)}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-/* Spinner */
-.spinner{display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+:root{--bg:#14101f;--bg-card:#1a1430;--bg-raised:#1f1840;--bg-input:#100d20;--purple:#6f58f4;--purple2:#b14cfc;--cyan:#10e6fe;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--text:#ece7fa;--text-sec:#9c92b5;--text-muted:#6f6788;--border:rgba(177,76,252,.18);--border-card:rgba(255,255,255,.07);--font-sans:"Inter",system-ui,sans-serif;--font-mono:"JetBrains Mono",monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#6f58f455;border-radius:3px}
+
+/* HEADER */
+.sp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 20px;background:linear-gradient(135deg,var(--purple) 0%,var(--purple2) 100%);position:sticky;top:0;z-index:10;box-shadow:0 2px 20px rgba(111,88,244,.4)}
+.sp-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;color:#fff;letter-spacing:.2px}
+.sp-brand-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.sp-back{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.25);transition:all .15s}
+.sp-back:hover{background:rgba(255,255,255,.15);color:#fff}
+
+/* LAYOUT */
+.sp-main{max-width:800px;margin:0 auto;padding:20px 16px 40px}
+
+/* SEARCH BAR */
+.search-section{padding:20px 0}
+.search-label{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.search-form{display:flex;gap:8px}
+.search-input{flex:1;background:var(--bg-input);border:1px solid var(--border-card);border-radius:10px;color:var(--text);font-size:14px;padding:11px 16px;outline:none;transition:border-color .15s;font-family:var(--font-sans)}
+.search-input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(111,88,244,.2)}
+.search-input::placeholder{color:var(--text-muted)}
+.search-btn{display:flex;align-items:center;gap:8px;padding:11px 22px;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:var(--font-sans)}
+.search-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(111,88,244,.5)}
+.search-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* TABS */
+.sp-tabs{display:flex;gap:2px;background:var(--bg-raised);border:1px solid var(--border-card);border-radius:10px;padding:4px;margin-bottom:16px;width:fit-content}
+.sp-tab{padding:7px 16px;border-radius:7px;border:none;background:none;color:var(--text-muted);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;font-family:var(--font-sans)}
+.sp-tab.active{background:var(--purple);color:#fff}
+.sp-tab:hover:not(.active){background:rgba(111,88,244,.15);color:var(--text)}
+
+/* EMPTY STATE */
+.sp-empty{display:flex;flex-direction:column;align-items:center;gap:12px;padding:60px 24px;text-align:center;color:var(--text-muted)}
+.sp-empty-icon{font-size:48px;opacity:.4}
+.sp-empty-title{font-size:18px;font-weight:700;color:var(--text-sec)}
+.sp-empty-sub{font-size:13px;line-height:1.6;max-width:360px}
+
+/* LOADING */
+.sp-loading{display:flex;flex-direction:column;align-items:center;gap:16px;padding:60px 24px;text-align:center;color:var(--text-muted)}
+.sp-spinner{width:40px;height:40px;border:3px solid rgba(111,88,244,.2);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* Error / info */
-.msg-box{border-radius:12px;padding:14px 18px;font-size:13px;font-weight:600;margin-top:16px;line-height:1.5}
-.msg-err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5}
-.msg-warn{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.22);color:var(--gold2)}
-.msg-ok{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);color:#6ee7b7}
-/* Stat cards */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
-.stat-card{background:rgba(255,255,255,.04);border:1px solid rgba(168,85,247,.15);border-radius:14px;padding:16px 18px;text-align:center}
-.stat-label{font-size:10.5px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
-.stat-val{font-size:24px;font-weight:800;color:var(--txt);letter-spacing:-.02em}
-.stat-sub{font-size:11px;color:var(--dim);margin-top:3px}
-/* Tech pills */
-.tech-grid{display:flex;flex-wrap:wrap;gap:8px}
-.tech-pill{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;font-size:12px;font-weight:700;border:1px solid}
-.cat-pixel{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25);color:#fca5a5}
-.cat-analytics{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.25);color:#93c5fd}
-.cat-reviews{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--gold2)}
-.cat-chat{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:#6ee7b7}
-.cat-email{background:rgba(168,85,247,.1);border-color:rgba(168,85,247,.25);color:var(--pg)}
-.cat-pagos{background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.25);color:#fdba74}
-.cat-apps{background:rgba(139,122,170,.1);border-color:rgba(139,122,170,.22);color:var(--muted)}
-/* Bars */
-.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.bar-label{font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0;width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:8px;overflow:hidden}
-.bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--pb),var(--pl));transition:width .5s ease}
-.bar-cnt{font-size:11.5px;font-weight:700;color:var(--dim);flex-shrink:0;min-width:28px;text-align:right}
-/* Price histogram */
-.hist-bars{display:flex;align-items:flex-end;gap:6px;height:90px;margin-top:14px}
-.hist-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.hist-bar{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--pl),var(--pm));min-height:4px;transition:height .5s ease}
-.hist-range{font-size:10px;color:var(--dim);font-weight:600;text-align:center;white-space:nowrap}
-.hist-count{font-size:10.5px;color:var(--pg);font-weight:700}
-/* Product grid */
-.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:600px){.prod-grid{grid-template-columns:repeat(2,1fr)}}
-.prod-card{background:rgba(255,255,255,.04);border:1px solid rgba(168,85,247,.12);border-radius:14px;overflow:hidden;transition:border-color .2s}
-.prod-card:hover{border-color:rgba(168,85,247,.3)}
-.prod-img{width:100%;aspect-ratio:1;object-fit:cover;background:rgba(255,255,255,.04);display:block}
-.prod-img-placeholder{width:100%;aspect-ratio:1;background:rgba(168,85,247,.06);display:flex;align-items:center;justify-content:center;font-size:28px}
-.prod-info{padding:10px 12px}
-.prod-name{font-size:12px;font-weight:600;color:var(--txt);margin-bottom:4px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.prod-price{font-size:13px;font-weight:800;color:var(--pg)}
-.prod-badge{display:inline-block;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.25);color:var(--gold2);font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px;margin-bottom:6px}
-/* Store header */
-.store-header{display:flex;align-items:center;gap:16px;margin-bottom:8px;flex-wrap:wrap}
-.store-name{font-size:22px;font-weight:800;letter-spacing:-.02em}
-.store-domain{font-size:12px;color:var(--dim);font-weight:600}
-.shopify-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);color:#6ee7b7;font-size:11px;font-weight:800;padding:4px 10px;border-radius:100px}
-/* Action btns */
-.action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-/* Sections hidden until loaded */
-.results{display:none}
-footer{text-align:center;padding:36px 0 10px;color:var(--dim);font-size:12px;font-weight:600}
+
+/* ERROR */
+.sp-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:16px 20px;color:var(--red);font-size:13px;display:flex;align-items:flex-start;gap:12px}
+
+/* STORE HEADER */
+.sp-store-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sp-store-name{font-size:22px;font-weight:800;color:var(--text)}
+.sp-store-meta{font-size:12px;color:var(--text-muted);margin-top:3px}
+.sp-store-badge{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:rgba(16,230,254,.1);border:1px solid rgba(16,230,254,.3);font-size:12px;font-weight:600;color:var(--cyan)}
+
+/* STAT GRID */
+.sp-statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.sp-stat{background:rgba(255,255,255,.04);border:1px solid var(--border-card);border-radius:12px;padding:14px 16px;text-align:center;transition:border-color .2s}
+.sp-stat:hover{border-color:var(--border)}
+.sp-stat-wide{grid-column:1 / -1}
+.sp-stat-val{display:block;font-size:22px;font-weight:800;color:var(--text);font-family:var(--font-mono)}
+.sp-stat-lbl{display:block;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+
+/* CHIPS */
+.sp-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.sp-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-size:12px;font-weight:600;color:var(--text-sec)}
+.sp-chip b{color:var(--text)}
+.sp-chip-px{background:rgba(16,230,254,.12);border-color:rgba(16,230,254,.3);color:var(--cyan)}
+.sp-chip-app{background:rgba(177,76,252,.14);border-color:rgba(177,76,252,.35);color:#d7b6ff}
+.sp-chip-cat{background:rgba(111,88,244,.15);border-color:rgba(111,88,244,.35)}
+
+/* ADS BOX */
+.sp-ads{background:rgba(16,230,254,.07);border:1px solid rgba(16,230,254,.22);border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px}
+.sp-ads b{color:var(--cyan);font-size:15px}
+.sp-ads-link{margin-left:auto;color:var(--purple2);text-decoration:none;font-weight:700;font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid rgba(177,76,252,.3);transition:all .15s}
+.sp-ads-link:hover{background:rgba(177,76,252,.15)}
+
+/* SECTION TITLE */
+.sp-section-title{font-weight:800;font-size:13px;margin-bottom:10px;color:var(--text);display:flex;align-items:center;gap:7px}
+
+/* BEST SELLERS */
+.sp-prodlist{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.sp-prod{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.04);text-decoration:none;color:var(--text);transition:background .12s;border:1px solid transparent}
+.sp-prod:hover{background:rgba(177,76,252,.15);border-color:rgba(177,76,252,.25)}
+.sp-rank{flex:0 0 auto;width:20px;font-weight:800;color:var(--purple2);text-align:center;font-size:13px;font-family:var(--font-mono)}
+.sp-prod img,.sp-noimg{flex:0 0 auto;width:46px;height:46px;border-radius:8px;object-fit:cover;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:18px}
+.sp-pinfo{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.sp-pname{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-ptype{font-size:11px;color:var(--text-muted)}
+.sp-pprice{font-size:13px;font-weight:800;color:var(--green);flex-shrink:0;font-family:var(--font-mono)}
+
+/* TYPE BARS */
+.sp-typebars{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.sp-typebar-row{display:flex;align-items:center;gap:10px}
+.sp-typebar-name{font-size:12px;font-weight:600;min-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-sec)}
+.sp-typebar-wrap{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.sp-typebar-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple2));border-radius:3px;transition:width .6s ease}
+.sp-typebar-count{font-size:11px;color:var(--text-muted);min-width:28px;text-align:right;font-family:var(--font-mono)}
+
+/* META ROW */
+.sp-meta-row{font-size:12px;color:var(--text-muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border-card)}
+
+/* FOOTER */
+.sp-foot{padding:12px 20px;border-top:1px solid var(--border-card);font-size:11px;color:var(--text-muted);background:#0f0c18;text-align:center;margin-top:20px}
+
+/* CARD */
+.sp-card{background:var(--bg-card);border:1px solid var(--border-card);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.sp-card-head{padding:14px 18px;border-bottom:1px solid var(--border-card);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sp-card-title{font-size:14px;font-weight:700;color:var(--text)}
+.sp-card-body{padding:16px 18px}
+
+/* ALERTS */
+.alert-info{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:10px;background:rgba(16,230,254,.08);border:1px solid rgba(16,230,254,.25);color:var(--cyan);font-size:12px;margin-bottom:14px}
+
+/* SPARKLINE */
+.sp-spark{width:60px;height:18px;vertical-align:middle;opacity:.9}
+
+/* RECENT */
+.recent-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.recent-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.04);cursor:pointer;transition:background .12s;border:1px solid transparent}
+.recent-item:hover{background:rgba(111,88,244,.12);border-color:rgba(111,88,244,.25)}
+.recent-item span{font-size:12px;font-family:var(--font-mono);color:var(--text-sec);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.recent-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:12px;padding:2px 6px;transition:color .1s}
+.recent-del:hover{color:var(--red)}
+
+/* PRICE HISTOGRAM */
+.hist-bars{display:flex;align-items:flex-end;gap:3px;height:60px;margin-bottom:6px}
+.hist-bar{flex:1;background:linear-gradient(180deg,var(--purple2),var(--purple));border-radius:3px 3px 0 0;min-height:3px;transition:height .4s ease;cursor:default;position:relative}
+.hist-bar:hover{filter:brightness(1.3)}
+.hist-bar::after{content:attr(data-tip);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#0f0c18;color:var(--text);font-size:10px;padding:3px 7px;border-radius:5px;white-space:nowrap;font-family:var(--font-mono);display:none;z-index:5}
+.hist-bar:hover::after{display:block}
+.hist-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);font-family:var(--font-mono)}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="index.html">← Arraiz Tools</a>
-  <header>
-    <div class="tool-badge">🛍 Herramienta</div>
-    <h1>Store Analyzer</h1>
-    <p>Analiza cualquier tienda Shopify: productos, precios, tecnologías instaladas, mejores vendidos y más.</p>
-  </header>
 
-  <!-- INPUT -->
-  <div class="card">
-    <div class="card-title">🔍 Dominio de la tienda</div>
-    <div class="input-row">
-      <input class="domain-input" type="text" id="domainInput" placeholder="ejemplo.com o https://tienda.myshopify.com" autocomplete="off" autocorrect="off" spellcheck="false">
-      <button class="btn btn-primary" id="btnAnalyze">
-        <span id="btnIcon">🔍</span> <span id="btnTxt">Analizar</span>
-      </button>
+<header class="sp-head">
+  <div class="sp-brand">
+    <div class="sp-brand-icon">🔍</div>
+    Store Analyzer
+    <span style="font-size:11px;font-weight:500;opacity:.7;margin-left:2px">· Arraiz Tools</span>
+  </div>
+  <a href="index.html" class="sp-back">← Arraiz Tools</a>
+</header>
+
+<div class="sp-main">
+
+  <!-- SEARCH -->
+  <div class="search-section">
+    <div class="search-label">Analizar tienda Shopify</div>
+    <div class="search-form">
+      <input type="text" class="search-input" id="store-input" placeholder="Ej: mitienda.com o https://mitienda.myshopify.com" autocomplete="off" onkeydown="if(event.key==='Enter')analyze()"/>
+      <button class="search-btn" id="analyze-btn" onclick="analyze()">🔍 Analizar</button>
     </div>
-    <div id="msgBox" style="display:none"></div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text-muted)">Ingresa cualquier URL de tienda Shopify · Los datos son públicos y reales</div>
   </div>
 
-  <!-- RESULTS -->
-  <div class="results" id="results">
-
-    <!-- Store info -->
-    <div class="card" id="secInfo">
-      <div class="card-title">🏪 Información de la Tienda</div>
-      <div class="store-header">
-        <div>
-          <div class="store-name" id="storeName">—</div>
-          <div class="store-domain" id="storeDomain">—</div>
-        </div>
-        <div class="shopify-badge">✓ Shopify</div>
-      </div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:4px" id="storeDesc">—</div>
-      <div class="action-row">
-        <button class="btn btn-secondary" id="btnCopyReport">📋 Copiar reporte</button>
-        <button class="btn btn-secondary" id="btnExportJson">📥 Exportar JSON</button>
-      </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="card" id="secStats">
-      <div class="card-title">📊 Estadísticas de Productos</div>
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-label">Total productos</div>
-          <div class="stat-val" id="statTotal">—</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Precio promedio</div>
-          <div class="stat-val" id="statAvg">—</div>
-          <div class="stat-sub">USD</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Precio mínimo</div>
-          <div class="stat-val" id="statMin">—</div>
-          <div class="stat-sub">USD</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Precio máximo</div>
-          <div class="stat-val" id="statMax">—</div>
-          <div class="stat-sub">USD</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Technologies -->
-    <div class="card" id="secTech">
-      <div class="card-title">🔧 Tecnologías Detectadas</div>
-      <div id="techGrid" class="tech-grid"></div>
-      <div id="techNone" style="display:none;color:var(--dim);font-size:13px">No se detectaron tecnologías conocidas.</div>
-    </div>
-
-    <!-- Categories -->
-    <div class="card" id="secCats">
-      <div class="card-title">🏷️ Top Categorías</div>
-      <div id="catsContent"></div>
-    </div>
-
-    <!-- Price distribution -->
-    <div class="card" id="secPriceDist">
-      <div class="card-title">💰 Distribución de Precios</div>
-      <div class="hist-bars" id="priceHist"></div>
-    </div>
-
-    <!-- Best sellers -->
-    <div class="card" id="secBest">
-      <div class="card-title">🏆 Mejores Vendidos</div>
-      <div class="prod-grid" id="bestGrid"></div>
-    </div>
-
-    <!-- Featured products -->
-    <div class="card" id="secFeatured">
-      <div class="card-title">⭐ Productos Destacados</div>
-      <div class="prod-grid" id="featuredGrid"></div>
-    </div>
-
+  <!-- RECENT SEARCHES -->
+  <div id="recent-section">
+    <div class="sp-section-title" style="font-size:12px;color:var(--text-muted)">🕒 Búsquedas recientes</div>
+    <div class="recent-list" id="recent-list"></div>
   </div>
 
-  <footer>Arraiz Tools · arraiztools.online</footer>
+  <!-- RESULTS AREA -->
+  <div id="results-area">
+    <div class="sp-empty" id="empty-state">
+      <div class="sp-empty-icon">🛍️</div>
+      <div class="sp-empty-title">Analiza una tienda Shopify</div>
+      <div class="sp-empty-sub">Ingresa la URL de cualquier tienda Shopify para ver productos, tecnología detectada, mejores vendedores y más datos reales.</div>
+    </div>
+  </div>
+
 </div>
 
+<footer class="sp-foot">
+  Datos reales de Shopify (API pública). Tráfico/visitas requiere proveedor externo (SimilarWeb). · Arraiz Tools
+</footer>
+
 <script>
-// ── Tech signatures ────────────────────────────────────
-const TECHS = [
-  { name:'Meta Pixel',       emoji:'📘', cat:'pixel',     patterns:['connect.facebook.net','fbq('] },
-  { name:'TikTok Pixel',     emoji:'🎵', cat:'pixel',     patterns:['analytics.tiktok.com','ttq.'] },
-  { name:'Google Analytics', emoji:'📊', cat:'analytics', patterns:['googletagmanager.com','gtag('] },
-  { name:'Google Ads',       emoji:'📢', cat:'analytics', patterns:['googleadservices.com','AW-'] },
-  { name:'Pinterest',        emoji:'📌', cat:'pixel',     patterns:['pintrk(','pinterest.com/v3'] },
-  { name:'Snapchat Pixel',   emoji:'👻', cat:'pixel',     patterns:['tr.snapchat.com','snaptr'] },
-  { name:'Microsoft Clarity',emoji:'🔵', cat:'analytics', patterns:['clarity.ms'] },
-  { name:'Hotjar',           emoji:'🔥', cat:'analytics', patterns:['hotjar.com'] },
-  { name:'Lucky Orange',     emoji:'🍊', cat:'analytics', patterns:['luckyorange.com'] },
-  { name:'Klaviyo',          emoji:'📧', cat:'email',     patterns:['klaviyo.com'] },
-  { name:'Omnisend',         emoji:'📨', cat:'email',     patterns:['omnisend.com'] },
-  { name:'Privy',            emoji:'💌', cat:'email',     patterns:['privymce.com'] },
-  { name:'Judge.me',         emoji:'⭐', cat:'reviews',   patterns:['judge.me'] },
-  { name:'Loox',             emoji:'📸', cat:'reviews',   patterns:['loox.io'] },
-  { name:'Yotpo',            emoji:'💬', cat:'reviews',   patterns:['yotpo.com'] },
-  { name:'Stamped.io',       emoji:'🏅', cat:'reviews',   patterns:['stamped.io'] },
-  { name:'Tidio',            emoji:'💭', cat:'chat',      patterns:['tidiochat.com'] },
-  { name:'Gorgias',          emoji:'🎧', cat:'chat',      patterns:['gorgias.com'] },
-  { name:'Afterpay',         emoji:'💳', cat:'pagos',     patterns:['afterpay.com'] },
-  { name:'Klarna',           emoji:'🛒', cat:'pagos',     patterns:['klarna.com'] },
-  { name:'Smile.io',         emoji:'😊', cat:'apps',      patterns:['smile.io'] },
-  { name:'Recharge',         emoji:'🔁', cat:'apps',      patterns:['rechargepayments.com'] },
-  { name:'ReConvert',        emoji:'↩️', cat:'apps',      patterns:['reconvert.com'] },
-  { name:'Releasit COD',     emoji:'💵', cat:'apps',      patterns:['releasit.com'] },
-  { name:'Vitals',           emoji:'⚡', cat:'apps',      patterns:['vitals.co'] },
-  { name:'PageFly',          emoji:'📄', cat:'apps',      patterns:['pagefly.io'] },
-  { name:'Zipify',           emoji:'🗜️', cat:'apps',      patterns:['zipify.com'] },
-  { name:'Wheelio',          emoji:'🎡', cat:'apps',      patterns:['wheelio.com','spinasale.com'] },
+const CORS = 'https://api.allorigins.win/raw?url=';
+
+// Tech signatures matching the real AdGrab extension
+const PIXEL_SIGS = [
+  {name:'Meta Pixel', re:/connect\.facebook\.net|fbevents\.js|fbq\(/, idRe:/fbq\s*\(\s*['"]init['"]\s*,\s*['"](\d{6,})['"]/},
+  {name:'TikTok Pixel', re:/analytics\.tiktok\.com|ttq\.(load|page|track)/, idRe:/ttq\.load\s*\(\s*['"]([A-Za-z0-9]+)['"]/},
+  {name:'Google Analytics 4', re:/googletagmanager\.com\/gtag\/js|gtag\(/, idRe:/(G-[A-Z0-9]{6,})/},
+  {name:'Google Ads', re:/AW-\d{6,}/, idRe:/(AW-\d{6,})/},
+  {name:'Pinterest', re:/pintrk\(|s\.pinimg\.com/, idRe:/pintrk\s*\(\s*['"]load['"]\s*,\s*['"](\d{6,})['"]/},
+  {name:'Snapchat', re:/snaptr\(|sc-static\.net/},
+  {name:'Microsoft Clarity', re:/clarity\.ms/},
+  {name:'Hotjar', re:/static\.hotjar\.com|hjSettings/},
+];
+const APP_SIGS = [
+  [/vitals\.co|app-vitals/i,'Vitals'],[/judge\.me/i,'Judge.me'],[/loox\.io/i,'Loox'],
+  [/stamped\.io/i,'Stamped'],[/yotpo/i,'Yotpo'],[/okendo/i,'Okendo'],
+  [/reconvert/i,'ReConvert'],[/zipify/i,'Zipify'],[/pagefly/i,'PageFly'],
+  [/gempages/i,'GemPages'],[/releasit/i,'Releasit COD'],[/geteasysell|easysell/i,'EasySell COD'],
+  [/tyslo/i,'Tyslo COD'],[/klaviyo/i,'Klaviyo'],[/omnisend/i,'Omnisend'],
+  [/privy\.com|privy\.js/i,'Privy'],[/gorgias/i,'Gorgias'],[/tidio/i,'Tidio'],
 ];
 
-// ── Helpers ────────────────────────────────────────────
-const $ = id => document.getElementById(id);
-const PROXY = 'https://api.allorigins.win/raw?url=';
+let recentSearches = [];
+try {recentSearches = JSON.parse(localStorage.getItem('sa_recent')||'[]');} catch(_){}
+renderRecent();
 
-function cleanDomain(raw) {
-  raw = raw.trim();
-  try { raw = new URL(raw.includes('://') ? raw : 'https://' + raw).hostname; } catch(e) {}
-  return raw.replace(/^www\./, '').replace(/\/$/, '');
-}
-
-function fmt(n, dec = 2) {
-  if (n === null || n === undefined || isNaN(n)) return '—';
-  return Number(n).toFixed(dec);
-}
-
-function showMsg(type, html) {
-  const box = $('msgBox');
-  box.className = 'msg-box msg-' + type;
-  box.innerHTML = html;
-  box.style.display = 'block';
-}
-function hideMsg() { $('msgBox').style.display = 'none'; }
-
-function setBtn(loading) {
-  $('btnIcon').textContent = loading ? '' : '🔍';
-  $('btnTxt').textContent  = loading ? 'Analizando...' : 'Analizar';
-  $('btnAnalyze').disabled = loading;
-  if (loading) {
-    const sp = document.createElement('span');
-    sp.className = 'spinner';
-    sp.id = 'btnSpinner';
-    $('btnAnalyze').insertBefore(sp, $('btnIcon'));
-  } else {
-    const sp = $('btnSpinner');
-    if (sp) sp.remove();
+function normalizeUrl(input) {
+  let u = input.trim();
+  if (!/^https?:\/\//i.test(u)) u = 'https://'+u;
+  // Remove trailing slashes and paths
+  try {
+    const parsed = new URL(u);
+    return parsed.origin; // just https://domain.com
+  } catch(e) {
+    return u.split('/').slice(0,3).join('/');
   }
 }
 
-// ── Fetch helpers ──────────────────────────────────────
-async function fetchJson(url) {
-  const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  return r.json();
-}
-
-async function fetchHtmlViaProxy(url) {
-  const r = await fetch(PROXY + encodeURIComponent(url));
-  if (!r.ok) throw new Error('proxy error');
-  return r.text();
-}
-
-// ── Main analyze ───────────────────────────────────────
 async function analyze() {
-  const raw = $('domainInput').value;
-  if (!raw.trim()) { showMsg('err', '⚠️ Ingresa un dominio para analizar.'); return; }
+  const raw = document.getElementById('store-input').value.trim();
+  if (!raw) {alert('Ingresa una URL para analizar.');return;}
+  const baseUrl = normalizeUrl(raw);
+  const host = new URL(baseUrl).hostname.replace(/^www\./,'');
 
-  const domain = cleanDomain(raw);
-  hideMsg();
-  setBtn(true);
-  $('results').style.display = 'none';
-
-  let products = [], bestSellers = [], htmlStr = '', storeTitle = '', storeDesc = '';
-
-  // 1. Fetch products
+  setLoading();
   try {
-    const data = await fetchJson(`https://${domain}/products.json?limit=250`);
-    products = data.products || [];
-    if (!products.length) throw new Error('empty');
+    const data = await fetchStoreData(baseUrl, host);
+    renderStore(data, host, baseUrl);
+    addRecent(raw);
   } catch(e) {
-    // Try via proxy
-    try {
-      const data = await fetchJson(`${PROXY}${encodeURIComponent('https://'+domain+'/products.json?limit=250')}`);
-      products = data.products || [];
-    } catch(e2) {
-      setBtn(false);
-      showMsg('err', `❌ No se pudo acceder a <strong>${domain}</strong>. Verifica que sea una tienda Shopify activa y que su API esté pública.<br><small style="opacity:.7">Error: ${e2.message}</small>`);
-      return;
+    showError('No se pudo analizar la tienda: '+e.message+'. Verifica que sea una tienda Shopify activa.');
+  }
+  document.getElementById('analyze-btn').disabled = false;
+  document.getElementById('analyze-btn').textContent = '🔍 Analizar';
+}
+
+async function fetchStoreData(baseUrl, host) {
+  // 1. Fetch products.json (Shopify public API - no CORS issues)
+  let products = [];
+  try {
+    const r = await fetchWithTimeout(baseUrl+'/products.json?limit=250', 15000);
+    if (r.ok) products = (await r.json()).products || [];
+  } catch(_) {}
+  if (!products.length) throw new Error('No se encontraron productos. ¿Es esta una tienda Shopify activa?');
+
+  // 2. Fetch HTML for tech detection (via proxy)
+  let html = '';
+  try {
+    const r = await fetchWithTimeout(CORS+encodeURIComponent(baseUrl), 12000);
+    if (r.ok) html = await r.text();
+  } catch(_) {}
+
+  // 3. Detect tech from HTML
+  const tech = detectTech(html, baseUrl);
+
+  // 4. Parse store meta from HTML
+  const meta = parseStoreMeta(html);
+
+  // 5. Stats
+  let priceMin = Infinity, priceMax = -Infinity;
+  const typeCounts = {};
+  let oldest = null;
+  const byHandle = new Map();
+  for (const p of products) {
+    byHandle.set(p.handle, p);
+    if (p.product_type) typeCounts[p.product_type] = (typeCounts[p.product_type]||0)+1;
+    if (p.created_at && (!oldest || p.created_at < oldest)) oldest = p.created_at;
+    for (const v of p.variants||[]) {
+      const pr = Number(v.price);
+      if (isFinite(pr)) {if(pr<priceMin)priceMin=pr;if(pr>priceMax)priceMax=pr;}
     }
   }
 
-  // Check it's Shopify
-  if (!Array.isArray(products)) {
-    setBtn(false);
-    showMsg('err', '❌ Este dominio no parece ser una tienda Shopify o su API está restringida.');
-    return;
-  }
-
-  // 2. Best sellers
+  // 6. Best sellers from collections
+  let order = [];
   try {
-    const data = await fetchJson(`https://${domain}/collections/all/products.json?sort_by=best-selling&limit=12`);
-    bestSellers = data.products || [];
-  } catch(e) {
-    try {
-      const data = await fetchJson(`${PROXY}${encodeURIComponent('https://'+domain+'/collections/all/products.json?sort_by=best-selling&limit=12')}`);
-      bestSellers = data.products || [];
-    } catch(e2) { bestSellers = products.slice(0, 12); }
-  }
-
-  // 3. Fetch HTML for tech detection
-  try {
-    htmlStr = await fetchHtmlViaProxy('https://' + domain);
-    // Extract title
-    const titleMatch = htmlStr.match(/<title[^>]*>([^<]+)<\/title>/i);
-    if (titleMatch) storeTitle = titleMatch[1].replace(/\s*[\|\-–—·].*$/, '').trim();
-    const descMatch = htmlStr.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)
-                  || htmlStr.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["']/i);
-    if (descMatch) storeDesc = descMatch[1].trim();
-  } catch(e) {
-    storeTitle = domain;
-  }
-
-  if (!storeTitle) storeTitle = domain;
-
-  // 4. Compute stats
-  const prices = [];
-  products.forEach(p => {
-    (p.variants || []).forEach(v => {
-      const pr = parseFloat(v.price);
-      if (!isNaN(pr) && pr > 0) prices.push(pr);
-    });
-  });
-
-  const avg = prices.length ? prices.reduce((a,b) => a+b, 0) / prices.length : 0;
-  const mn  = prices.length ? Math.min(...prices) : 0;
-  const mx  = prices.length ? Math.max(...prices) : 0;
-
-  // 5. Categories
-  const cats = {};
-  products.forEach(p => {
-    const t = (p.product_type || 'Sin categoría').trim() || 'Sin categoría';
-    cats[t] = (cats[t] || 0) + 1;
-  });
-  const sortedCats = Object.entries(cats).sort((a,b) => b[1]-a[1]).slice(0, 10);
-
-  // 6. Tech detection
-  const detected = htmlStr ? TECHS.filter(t => t.patterns.some(p => htmlStr.includes(p))) : [];
-
-  // 7. Price distribution
-  const ranges = buildPriceRanges(prices, 5);
-
-  // ── Render ─────────────────────────────────────────
-  // Store info
-  $('storeName').textContent   = storeTitle;
-  $('storeDomain').textContent = domain;
-  $('storeDesc').textContent   = storeDesc || '(sin descripción)';
-
-  // Stats
-  $('statTotal').textContent = products.length;
-  $('statAvg').textContent   = prices.length ? '$' + fmt(avg) : '—';
-  $('statMin').textContent   = prices.length ? '$' + fmt(mn)  : '—';
-  $('statMax').textContent   = prices.length ? '$' + fmt(mx)  : '—';
-
-  // Tech
-  const techGrid = $('techGrid');
-  techGrid.innerHTML = '';
-  if (detected.length) {
-    $('techNone').style.display = 'none';
-    detected.forEach(t => {
-      const pill = document.createElement('div');
-      pill.className = 'tech-pill cat-' + t.cat;
-      pill.innerHTML = `${t.emoji} ${t.name} <span style="opacity:.5;font-size:10px;margin-left:2px">${t.cat}</span>`;
-      techGrid.appendChild(pill);
-    });
-  } else {
-    $('techNone').style.display = htmlStr ? 'block' : 'none';
-    if (!htmlStr) {
-      const warn = document.createElement('div');
-      warn.style.cssText = 'color:var(--dim);font-size:13px';
-      warn.textContent = 'No se pudo cargar el HTML de la tienda para detectar tecnologías.';
-      techGrid.appendChild(warn);
+    const r = await fetchWithTimeout(baseUrl+'/collections/all?sort_by=best-selling', 10000);
+    if (r.ok) {
+      const colHtml = await r.text();
+      const seen = new Set();
+      const re = /\/products\/([^"'?#\s\\>]+)/g;
+      let m;
+      while ((m = re.exec(colHtml))) {
+        let h; try{h=decodeURIComponent(m[1]);}catch{h=m[1];}
+        if(!seen.has(h)){seen.add(h);order.push(h);}
+        if(order.length>=8)break;
+      }
     }
-  }
+  } catch(_) {}
 
-  // Categories
-  const catEl = $('catsContent');
-  catEl.innerHTML = '';
-  const maxCat = sortedCats[0]?.[1] || 1;
-  sortedCats.forEach(([name, cnt]) => {
-    const pct = Math.round(cnt / maxCat * 100);
-    catEl.innerHTML += `<div class="bar-row">
-      <div class="bar-label" title="${name}">${name}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
-      <div class="bar-cnt">${cnt}</div>
-    </div>`;
-  });
-  if (!sortedCats.length) catEl.innerHTML = '<div style="color:var(--dim);font-size:13px">Sin datos de categorías.</div>';
+  let best = order.map(h=>byHandle.get(h)).filter(Boolean);
+  if (!best.length) best = products.slice(0,8);
+  const bestSellers = best.slice(0,8).map(p=>({
+    title:p.title, handle:p.handle,
+    type:p.product_type||'',
+    price:p.variants&&p.variants[0]?p.variants[0].price:null,
+    image:(p.images&&p.images[0]&&p.images[0].src)||(p.variants&&p.variants[0]&&p.variants[0].featured_image&&p.variants[0].featured_image.src)||'',
+  }));
 
-  // Price histogram
-  const histEl = $('priceHist');
-  histEl.innerHTML = '';
-  const maxBin = Math.max(...ranges.map(r => r.count), 1);
-  ranges.forEach(r => {
-    const h = Math.round(r.count / maxBin * 80);
-    histEl.innerHTML += `<div class="hist-col">
-      <div class="hist-count">${r.count}</div>
-      <div class="hist-bar" style="height:${h}px"></div>
-      <div class="hist-range">${r.label}</div>
-    </div>`;
-  });
+  const typesTop = Object.entries(typeCounts).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([name,n])=>({name,n}));
+  const allTypes = Object.values(typeCounts);
+  const priceHistogram = buildHistogram(products);
 
-  // Best sellers
-  renderProductGrid($('bestGrid'), bestSellers.slice(0, 6), true);
-
-  // Featured
-  renderProductGrid($('featuredGrid'), products.slice(0, 6), false);
-
-  // Action buttons
-  window._reportData = { domain, products, detected, cats, prices, bestSellers };
-
-  $('btnCopyReport').onclick = () => copyReport(domain, products, detected, avg, mn, mx);
-  $('btnExportJson').onclick = () => exportJson(domain, products, detected, cats, prices);
-
-  // Show results
-  $('results').style.display = 'block';
-  $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  setBtn(false);
-  hideMsg();
-}
-
-// ── Product grid renderer ──────────────────────────────
-function renderProductGrid(el, prods, showBadge) {
-  el.innerHTML = '';
-  if (!prods.length) { el.innerHTML = '<div style="color:var(--dim);font-size:13px;grid-column:1/-1">Sin productos disponibles.</div>'; return; }
-  prods.forEach((p, i) => {
-    const imgSrc = p.images?.[0]?.src || null;
-    const price  = p.variants?.[0]?.price || '—';
-    const imgHtml = imgSrc
-      ? `<img class="prod-img" src="${imgSrc}" alt="${p.title}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=prod-img-placeholder>🛍</div>'">`
-      : `<div class="prod-img-placeholder">🛍</div>`;
-    const badge = showBadge ? `<div class="prod-badge">#${i+1} más vendido</div>` : '';
-    el.innerHTML += `<div class="prod-card">
-      ${imgHtml}
-      <div class="prod-info">
-        ${badge}
-        <div class="prod-name">${p.title}</div>
-        <div class="prod-price">$${parseFloat(price).toFixed(2)}</div>
-      </div>
-    </div>`;
-  });
-}
-
-// ── Price ranges ───────────────────────────────────────
-function buildPriceRanges(prices, n) {
-  if (!prices.length) return Array(n).fill(null).map((_, i) => ({ label: '$0', count: 0 }));
-  const mn = Math.min(...prices), mx = Math.max(...prices);
-  const step = (mx - mn) / n || 1;
-  return Array(n).fill(null).map((_, i) => {
-    const lo = mn + i * step, hi = mn + (i + 1) * step;
-    return {
-      label: '$' + lo.toFixed(0) + '–$' + hi.toFixed(0),
-      count: prices.filter(p => p >= lo && (i === n - 1 ? p <= hi : p < hi)).length
-    };
-  });
-}
-
-// ── Copy report ────────────────────────────────────────
-function copyReport(domain, products, detected, avg, mn, mx) {
-  const lines = [
-    `== Store Analyzer · Arraiz Tools ==`,
-    `Dominio: ${domain}`,
-    `Fecha: ${new Date().toLocaleString('es-CO')}`,
-    ``,
-    `PRODUCTOS: ${products.length}`,
-    `Precio promedio: $${fmt(avg)}`,
-    `Precio mínimo: $${fmt(mn)} | Máximo: $${fmt(mx)}`,
-    ``,
-    `TECNOLOGÍAS DETECTADAS (${detected.length}):`,
-    ...detected.map(t => `  · ${t.name} [${t.cat}]`),
-    ``,
-    `Generado por arraiztools.online`
-  ];
-  navigator.clipboard.writeText(lines.join('\n'))
-    .then(() => showMsg('ok', '✅ Reporte copiado al portapapeles.'))
-    .catch(() => showMsg('warn', '⚠️ No se pudo copiar. Usa un navegador moderno.'));
-}
-
-// ── Export JSON ────────────────────────────────────────
-function exportJson(domain, products, detected, cats, prices) {
-  const data = {
-    domain,
-    analyzed_at: new Date().toISOString(),
-    total_products: products.length,
-    prices: { avg: prices.length ? prices.reduce((a,b)=>a+b,0)/prices.length : null, min: Math.min(...prices)||null, max: Math.max(...prices)||null },
-    technologies: detected.map(t => ({ name: t.name, category: t.cat })),
-    categories: Object.fromEntries(Object.entries(cats).sort((a,b)=>b[1]-a[1])),
-    products: products.map(p => ({
-      id: p.id, title: p.title, type: p.product_type,
-      price: p.variants?.[0]?.price,
-      image: p.images?.[0]?.src || null
-    }))
+  return {
+    host, url:baseUrl, meta, products,
+    stats:{count:products.length, priceMin:isFinite(priceMin)?priceMin:null, priceMax:isFinite(priceMax)?priceMax:null, types:Object.keys(typeCounts).length, typesTop, oldest},
+    bestSellers, tech, priceHistogram
   };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'store_' + domain.replace(/\./g, '_') + '_' + new Date().toISOString().slice(0,10) + '.json';
-  a.click();
 }
 
-// ── Events ─────────────────────────────────────────────
-$('btnAnalyze').addEventListener('click', analyze);
-$('domainInput').addEventListener('keydown', e => { if (e.key === 'Enter') analyze(); });
+function detectTech(html, baseUrl) {
+  const pixels = [];
+  for (const sig of PIXEL_SIGS) {
+    if (sig.re.test(html)) {
+      let id = null;
+      if (sig.idRe) {const m=html.match(sig.idRe);if(m)id=m[1];}
+      pixels.push(id?{name:sig.name,id}:{name:sig.name});
+    }
+  }
+  const apps = [];
+  for (const [re,name] of APP_SIGS) {
+    if (re.test(html) && !apps.includes(name)) apps.push(name);
+  }
+  return {pixels, apps};
+}
+
+function parseStoreMeta(html) {
+  const meta = {};
+  let m;
+  if ((m=html.match(/Shopify\.shop\s*=\s*"([^"]+)"/))) meta.shop=m[1];
+  if ((m=html.match(/Shopify\.locale\s*=\s*"([^"]+)"/))) meta.locale=m[1];
+  if ((m=html.match(/Shopify\.country\s*=\s*"([^"]+)"/))) meta.country=m[1];
+  if ((m=html.match(/Shopify\.currency\s*=\s*\{[^}]*?"active"\s*:\s*"([A-Z]{3})"/))) meta.currency=m[1];
+  if ((m=html.match(/Shopify\.theme\s*=\s*\{[^}]*?"name"\s*:\s*"([^"]+)"/))) meta.theme=m[1];
+  if (!meta.currency) {
+    // Try metatag
+    const mm = html.match(/content="([A-Z]{3})" data-currency|"currency":"([A-Z]{3})"/);
+    if (mm) meta.currency = mm[1]||mm[2];
+  }
+  return meta;
+}
+
+function buildHistogram(products) {
+  const prices = products.flatMap(p=>(p.variants||[]).map(v=>Number(v.price)).filter(isFinite));
+  if (!prices.length) return null;
+  const mn=Math.min(...prices), mx=Math.max(...prices);
+  const BINS=8; const step=(mx-mn)/BINS||1;
+  const bins=Array(BINS).fill(0);
+  for (const p of prices) {
+    const i=Math.min(Math.floor((p-mn)/step),BINS-1);
+    bins[i]++;
+  }
+  return {bins, min:mn, max:mx, step};
+}
+
+async function fetchWithTimeout(url, ms=15000) {
+  const ctrl = new AbortController();
+  const tid = setTimeout(()=>ctrl.abort(), ms);
+  try {
+    const r = await fetch(url, {signal:ctrl.signal});
+    clearTimeout(tid); return r;
+  } catch(e) { clearTimeout(tid); throw e; }
+}
+
+function fmtPrice(val, currency, locale) {
+  const n = Number(val);
+  if (!isFinite(n)) return '';
+  try {
+    return new Intl.NumberFormat(locale||'es',{style:'currency',currency:currency||'USD',maximumFractionDigits:0}).format(n);
+  } catch {
+    return (currency||'')+(Math.round(n)).toLocaleString();
+  }
+}
+function flag(cc) {
+  if (!/^[A-Za-z]{2}$/.test(cc||'')) return '';
+  return String.fromCodePoint(...cc.toUpperCase().split('').map(c=>0x1f1e6+(c.charCodeAt(0)-65)));
+}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function setLoading() {
+  document.getElementById('analyze-btn').disabled=true;
+  document.getElementById('analyze-btn').textContent='⏳ Analizando...';
+  document.getElementById('results-area').innerHTML=`<div class="sp-loading"><div class="sp-spinner"></div><div>Analizando tienda...</div><div style="font-size:12px;color:var(--text-muted)">Cargando productos, tecnología y más datos reales</div></div>`;
+  document.getElementById('recent-section').style.display='none';
+}
+function showError(msg) {
+  document.getElementById('results-area').innerHTML=`<div class="sp-error">❌ <div><b>Error</b><br>${esc(msg)}</div></div><div class="sp-empty" style="padding-top:20px"><div class="sp-empty-sub">Asegúrate de que la URL sea una tienda Shopify activa y que sea accesible públicamente.</div></div>`;
+  document.getElementById('recent-section').style.display='';
+}
+
+function renderStore(data, host, baseUrl) {
+  const {meta={}, stats={}, bestSellers=[], tech={}, priceHistogram} = data;
+  const currency = meta.currency||'USD';
+  const locale = meta.locale||'es';
+  const priceRange = stats.priceMin!=null&&stats.priceMax!=null
+    ? `${fmtPrice(stats.priceMin,currency,locale)} – ${fmtPrice(stats.priceMax,currency,locale)}`
+    : '—';
+  const oldest = stats.oldest ? new Date(stats.oldest).toLocaleDateString(locale) : '—';
+  const adsSearch = `https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=${encodeURIComponent(meta.country||'ALL')}&q=${encodeURIComponent(host)}&search_type=keyword_unordered&media_type=all`;
+
+  // Best sellers rows
+  const bestRows = bestSellers.map((p,i)=>{
+    const href = baseUrl+'/products/'+encodeURIComponent(p.handle);
+    return `<a class="sp-prod" href="${esc(href)}" target="_blank" rel="noopener">
+      <span class="sp-rank">${i+1}</span>
+      ${p.image?`<img loading="lazy" src="${esc(p.image)}" alt="" onerror="this.style.display='none'">`:
+        `<span class="sp-noimg">🛍</span>`}
+      <span class="sp-pinfo">
+        <span class="sp-pname">${esc(p.title)}</span>
+        <span class="sp-ptype">${esc(p.type)}</span>
+      </span>
+      ${p.price!=null?`<span class="sp-pprice">${esc(fmtPrice(p.price,currency,locale))}</span>`:''}
+    </a>`;
+  }).join('');
+
+  // Category chips
+  const catChips = (stats.typesTop||[]).map(t=>`<span class="sp-chip sp-chip-cat">📦 ${esc(t.name)} <b>${t.n}</b></span>`).join('');
+
+  // Type bars
+  const maxN = (stats.typesTop||[]).length ? Math.max(...(stats.typesTop||[]).map(t=>t.n)) : 1;
+  const typeBars = (stats.typesTop||[]).map(t=>`
+    <div class="sp-typebar-row">
+      <span class="sp-typebar-name">${esc(t.name)}</span>
+      <div class="sp-typebar-wrap"><div class="sp-typebar-fill" style="width:${Math.round(t.n/maxN*100)}%"></div></div>
+      <span class="sp-typebar-count">${t.n}</span>
+    </div>`).join('');
+
+  // Pixel chips
+  const pxChips = (tech.pixels||[]).map(p=>`<span class="sp-chip sp-chip-px">🎯 ${esc(p.name)}${p.id?` <span style="opacity:.7;font-size:10px">${esc(p.id)}</span>`:''}</span>`).join('');
+
+  // App chips
+  const appChips = (tech.apps||[]).map(a=>`<span class="sp-chip sp-chip-app">🧩 ${esc(a)}</span>`).join('');
+
+  // Histogram
+  let histHtml = '';
+  if (priceHistogram&&priceHistogram.bins.length) {
+    const {bins,min,max,step} = priceHistogram;
+    const maxBin = Math.max(...bins,1);
+    histHtml = `<div class="sp-card"><div class="sp-card-head"><span class="sp-card-title">💰 Distribución de precios</span></div><div class="sp-card-body">
+      <div class="hist-bars">${bins.map((n,i)=>{
+        const lo=min+i*step,hi=lo+step;
+        return `<div class="hist-bar" style="height:${Math.round(n/maxBin*100)}%" data-tip="${fmtPrice(lo,currency,locale)}-${fmtPrice(hi,currency,locale)}: ${n} vars"></div>`;
+      }).join('')}</div>
+      <div class="hist-labels"><span>${fmtPrice(min,currency,locale)}</span><span>${fmtPrice((min+max)/2,currency,locale)}</span><span>${fmtPrice(max,currency,locale)}</span></div>
+    </div></div>`;
+  }
+
+  document.getElementById('results-area').innerHTML = `
+    <!-- Store header -->
+    <div class="sp-card">
+      <div class="sp-card-head">
+        <div>
+          <div class="sp-store-name">${esc(host)}</div>
+          <div class="sp-store-meta">
+            ${flag(meta.country)} ${esc(meta.country||'')}
+            ${meta.theme?`· 🎨 ${esc(meta.theme)}`:''}
+            ${currency?`· ${esc(currency)}`:''}
+            ${meta.shop?`<br><span style="font-size:11px;font-family:var(--font-mono)">${esc(meta.shop)}</span>`:''}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <span class="sp-store-badge">✅ Shopify</span>
+          <a href="${esc(baseUrl)}" target="_blank" rel="noopener" style="font-size:11px;color:var(--text-muted);text-decoration:none;padding:4px 10px;border-radius:8px;border:1px solid var(--border-card);transition:all .15s" onmouseover="this.style.borderColor='var(--border)'" onmouseout="this.style.borderColor='var(--border-card)'">↗ Abrir tienda</a>
+        </div>
+      </div>
+      <div class="sp-card-body">
+        <!-- Stats -->
+        <div class="sp-statgrid">
+          <div class="sp-stat">
+            <span class="sp-stat-val">${stats.count??'—'}</span>
+            <span class="sp-stat-lbl">Productos</span>
+          </div>
+          <div class="sp-stat">
+            <span class="sp-stat-val">${stats.types??'—'}</span>
+            <span class="sp-stat-lbl">Categorías</span>
+          </div>
+          <div class="sp-stat sp-stat-wide">
+            <span class="sp-stat-val" style="font-size:18px">${esc(priceRange)}</span>
+            <span class="sp-stat-lbl">Rango de precios</span>
+          </div>
+        </div>
+        <!-- Ads link -->
+        <div class="sp-ads">
+          📣 <span style="color:var(--text-sec)">Anuncios activos en Meta Ads Library</span>
+          <a class="sp-ads-link" href="${esc(adsSearch)}" target="_blank" rel="noopener">Ver anuncios ↗</a>
+        </div>
+        <!-- Categories chips -->
+        ${catChips?`<div class="sp-section-title">📦 Categorías principales</div><div class="sp-chips">${catChips}</div>`:''}
+        <!-- Type bars -->
+        ${typeBars?`<div class="sp-typebars">${typeBars}</div>`:''}
+      </div>
+    </div>
+
+    <!-- Tech detected -->
+    ${(pxChips||appChips)?`
+    <div class="sp-card">
+      <div class="sp-card-head"><span class="sp-card-title">🛠 Tecnología detectada</span></div>
+      <div class="sp-card-body">
+        ${pxChips?`<div class="sp-section-title">🎯 Píxeles de tracking</div><div class="sp-chips">${pxChips}</div>`:''}
+        ${!pxChips?`<div class="alert-info">ℹ️ No se detectaron píxeles de tracking en el HTML público. Pueden estar cargándose dinámicamente.</div>`:''}
+        ${appChips?`<div class="sp-section-title">🧩 Aplicaciones Shopify</div><div class="sp-chips">${appChips}</div>`:''}
+        ${!appChips?`<div class="alert-info" style="margin-top:8px">ℹ️ No se detectaron apps de Shopify conocidas.</div>`:''}
+      </div>
+    </div>`:`
+    <div class="sp-card">
+      <div class="sp-card-head"><span class="sp-card-title">🛠 Tecnología detectada</span></div>
+      <div class="sp-card-body">
+        <div class="alert-info">ℹ️ No se pudo cargar el HTML de la tienda para detectar tecnología. Los datos de productos sí se cargaron correctamente.</div>
+      </div>
+    </div>`}
+
+    <!-- Price histogram -->
+    ${histHtml}
+
+    <!-- Best sellers -->
+    <div class="sp-card">
+      <div class="sp-card-head">
+        <span class="sp-card-title">🏆 Más vendidos <span style="font-size:12px;font-weight:400;color:var(--text-muted)">(ranking real de Shopify)</span></span>
+        <span style="font-size:11px;color:var(--text-muted)">${bestSellers.length} productos</span>
+      </div>
+      <div class="sp-card-body" style="padding:10px">
+        <div class="sp-prodlist">
+          ${bestRows||'<div style="padding:20px;text-align:center;color:var(--text-muted)">No se pudo obtener el ranking de productos.</div>'}
+        </div>
+        <div class="sp-meta-row">📅 Catálogo desde: <b>${esc(oldest)}</b> · ${stats.count} productos en total</div>
+      </div>
+    </div>
+
+    <!-- Traffic note -->
+    <div class="sp-card">
+      <div class="sp-card-head"><span class="sp-card-title">📈 Tráfico estimado</span></div>
+      <div class="sp-card-body">
+        <div class="alert-info">ℹ️ Los datos de tráfico (visitas/mes) requieren una API key de SimilarWeb u otro proveedor externo. Esta herramienta muestra datos reales de Shopify — productos, precios, categorías y tecnología. La extensión AdGrab permite conectar tu propia key para ver tráfico.</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('recent-section').style.display='none';
+}
+
+// RECENT
+function addRecent(url) {
+  recentSearches = [url, ...recentSearches.filter(u=>u!==url)].slice(0,8);
+  localStorage.setItem('sa_recent',JSON.stringify(recentSearches));
+  renderRecent();
+}
+function renderRecent() {
+  const el = document.getElementById('recent-list');
+  const sec = document.getElementById('recent-section');
+  if (!recentSearches.length) {sec.style.display='none';return;}
+  sec.style.display='';
+  el.innerHTML = recentSearches.map((u,i)=>`
+    <div class="recent-item" onclick="loadRecent(${i})">
+      <span>🔗</span>
+      <span>${esc(u)}</span>
+      <button class="recent-del" onclick="event.stopPropagation();deleteRecent(${i})">✕</button>
+    </div>`).join('');
+}
+function loadRecent(i) {
+  document.getElementById('store-input').value = recentSearches[i];
+  analyze();
+}
+function deleteRecent(i) {
+  recentSearches.splice(i,1);
+  localStorage.setItem('sa_recent',JSON.stringify(recentSearches));
+  renderRecent();
+}
+
+// Trigger on Enter already handled above
 </script>
 </body>
 </html>
