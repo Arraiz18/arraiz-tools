@@ -335,12 +335,23 @@ function parseStoreMeta(html) {
   if ((m=html.match(/Shopify\.shop\s*=\s*"([^"]+)"/))) meta.shop=m[1];
   if ((m=html.match(/Shopify\.locale\s*=\s*"([^"]+)"/))) meta.locale=m[1];
   if ((m=html.match(/Shopify\.country\s*=\s*"([^"]+)"/))) meta.country=m[1];
+  // Shopify.currency can appear as {"active":"COP","rate":"1.0"} in either quote order
   if ((m=html.match(/Shopify\.currency\s*=\s*\{[^}]*?"active"\s*:\s*"([A-Z]{3})"/))) meta.currency=m[1];
   if ((m=html.match(/Shopify\.theme\s*=\s*\{[^}]*?"name"\s*:\s*"([^"]+)"/))) meta.theme=m[1];
   if (!meta.currency) {
-    // Try metatag
-    const mm = html.match(/content="([A-Z]{3})" data-currency|"currency":"([A-Z]{3})"/);
-    if (mm) meta.currency = mm[1]||mm[2];
+    const mm = html.match(/"currencyCode"\s*:\s*"([A-Z]{3})"|content="([A-Z]{3})"\s+data-currency|"currency"\s*:\s*"([A-Z]{3})"/);
+    if (mm) meta.currency = mm[1]||mm[2]||mm[3];
+  }
+  // Fallback: infer currency from country when Shopify didn't expose it in the HTML
+  if (!meta.currency && meta.country) {
+    const byCountry = {CO:'COP',MX:'MXN',AR:'ARS',CL:'CLP',PE:'PEN',EC:'USD',US:'USD',ES:'EUR',BR:'BRL',PA:'USD',CR:'CRC',GT:'GTQ',DO:'DOP',UY:'UYU',PY:'PYG',BO:'BOB',VE:'VES'};
+    meta.currency = byCountry[meta.country] || null;
+  }
+  // Last resort default for LATAM-focused dropshipping tool
+  if (!meta.currency) meta.currency = 'COP';
+  if (!meta.locale) {
+    const localeByCcy = {COP:'es-CO',MXN:'es-MX',ARS:'es-AR',CLP:'es-CL',PEN:'es-PE',EUR:'es-ES',BRL:'pt-BR',USD:'en-US'};
+    meta.locale = localeByCcy[meta.currency] || 'es-CO';
   }
   return meta;
 }

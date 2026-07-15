@@ -15,7 +15,35 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
+/* ─── LOGIN OVERLAY ─── */
+.auth-overlay{position:fixed;inset:0;z-index:200;background:rgba(9,3,20,.88);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-card{position:relative;width:100%;max-width:360px;background:#1b0a35;border:1px solid rgba(168,85,247,.3);border-radius:20px;padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.auth-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.08);border:none;color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.auth-close:hover{background:rgba(255,255,255,.15);color:white}
+.auth-title{font-weight:800;font-size:20px;color:white;margin-bottom:4px}
+.auth-sub{font-size:12.5px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.auth-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:11px;background:white;color:#1a1a2e;border:none;border-radius:12px;font-weight:700;font-size:13.5px;cursor:pointer;margin-bottom:14px;transition:transform .15s}
+.auth-google:hover{transform:translateY(-1px)}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1)}
+.auth-field{margin-bottom:10px}
+.auth-field input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 14px;color:white;font-size:13.5px;font-family:inherit;outline:none;transition:border-color .15s}
+.auth-field input:focus{border-color:var(--pl)}
+.auth-submit{width:100%;padding:11px;background:linear-gradient(135deg,var(--pb),var(--pl));color:white;border:none;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;margin-top:4px;transition:transform .15s}
+.auth-submit:hover{transform:translateY(-1px)}
+.auth-toggle{text-align:center;margin-top:14px;font-size:12.5px;color:var(--muted)}
+.auth-toggle a{color:var(--pg);font-weight:700;text-decoration:none;cursor:pointer}
+.auth-msg{font-size:12px;text-align:center;margin-top:10px;min-height:16px}
+.auth-msg.err{color:var(--red)}
+.auth-msg.ok{color:var(--green)}
+.auth-guest{display:block;text-align:center;margin-top:16px;font-size:11.5px;color:var(--dim);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.user-badge{position:fixed;top:14px;right:14px;z-index:60;display:flex;align-items:center;gap:8px;background:rgba(27,10,53,.85);border:1px solid rgba(168,85,247,.3);border-radius:100px;padding:6px 14px 6px 6px;font-size:12px;color:var(--muted);backdrop-filter:blur(6px)}
+.user-badge-av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--pb),var(--pg));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white}
+.user-badge-out{background:none;border:none;color:var(--dim);font-size:11px;cursor:pointer;text-decoration:underline}
+@media(max-width:480px){.user-badge{top:10px;right:10px;padding:5px 10px 5px 5px;font-size:11px}}
+
 :root {
   --pd: #160329; --pk: #25094a; --pm: #5b21b6; --pb: #7c3aed;
   --pl: #a855f7; --pg: #c084fc; --pp: #f3e8ff;
@@ -188,6 +216,35 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
 </head>
 <body>
 
+<!-- LOGIN OVERLAY -->
+<div class="auth-overlay" id="authOverlay" style="display:none">
+  <div class="auth-card">
+    <button class="auth-close" id="authCloseBtn" title="Entrar como invitado" aria-label="Cerrar">✕</button>
+    <div class="auth-title">Bienvenido 👋</div>
+    <div class="auth-sub">Inicia sesión para guardar tu progreso, o entra como invitado (✕) y sigue directo.</div>
+    <button class="auth-google" id="authGoogleBtn">
+      <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.6 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 12 24 12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.6 29.6 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.1-5.1l-6.5-5.5C29.6 35.1 26.9 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.6 5.1C9.6 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.5 5.5C41.5 35.9 44 30.3 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+      Continuar con Google
+    </button>
+    <div class="auth-divider">o con tu correo</div>
+    <form id="authForm">
+      <div class="auth-field"><input type="email" id="authEmail" placeholder="Correo electrónico" required autocomplete="email"></div>
+      <div class="auth-field"><input type="password" id="authPassword" placeholder="Contraseña" required autocomplete="current-password" minlength="6"></div>
+      <button type="submit" class="auth-submit" id="authSubmitBtn">Iniciar sesión</button>
+    </form>
+    <div class="auth-toggle" id="authToggle">¿No tienes cuenta? <a id="authToggleLink">Regístrate</a></div>
+    <div class="auth-msg" id="authMsg"></div>
+    <span class="auth-guest" id="authGuestLink">Continuar sin cuenta →</span>
+  </div>
+</div>
+
+<!-- USER BADGE (shown when logged in) -->
+<div class="user-badge" id="userBadge" style="display:none">
+  <span class="user-badge-av" id="userBadgeAv"></span>
+  <span id="userBadgeName"></span>
+  <button class="user-badge-out" id="userBadgeOut">Salir</button>
+</div>
+
 <div class="wrap">
 
   <!-- HEADER -->
@@ -197,7 +254,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
     <p>Herramientas <strong style="color:var(--gold2)">100% gratis</strong> hechas para emprendedores de dropshipping. Todo lo que necesitas en un solo lugar.</p>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-num" id="statTools">8</div>
+        <div class="hero-stat-num" id="statTools">9</div>
         <div class="hero-stat-lbl">Herramientas</div>
       </div>
       <div class="hero-stat">
@@ -212,12 +269,12 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
   </header>
 
   <!-- TOOLS SECTION -->
-  <h2 class="section-title">🛠 Herramientas <span class="section-title-pill">8 disponibles</span></h2>
+  <h2 class="section-title">🛠 Herramientas <span class="section-title-pill">9 disponibles</span></h2>
 
-  <div class="tools-grid">
+  <div class="tools-grid" id="toolsGrid">
 
     <!-- TOOL 1 — CALCULADORA COD (ACTIVA) -->
-    <a class="tool-card active" href="calculadora-cod.html">
+    <a class="tool-card active" href="calculadora-cod.html" data-tool="calculadora-cod" onclick="trackToolClick('calculadora-cod')">
       <div class="tool-card-top">
         <div class="tool-icon">💰</div>
         <div class="tool-info">
@@ -229,7 +286,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
     </a>
 
     <!-- TOOL 2 — ROAS (ACTIVA) -->
-    <a class="tool-card active" href="roas.html">
+    <a class="tool-card active" href="roas.html" data-tool="roas" onclick="trackToolClick('roas')">
       <div class="tool-card-top">
         <div class="tool-icon">📊</div>
         <div class="tool-info">
@@ -241,7 +298,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
     </a>
 
     <!-- TOOL 3 — SIMULADOR PRESUPUESTO (ACTIVA) -->
-    <a class="tool-card active" href="presupuesto.html">
+    <a class="tool-card active" href="presupuesto.html" data-tool="presupuesto" onclick="trackToolClick('presupuesto')">
       <div class="tool-card-top">
         <div class="tool-icon">🎯</div>
         <div class="tool-info">
@@ -253,7 +310,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
     </a>
 
     <!-- TOOL 4 — PUNTO DE EQUILIBRIO (ACTIVA) -->
-    <a class="tool-card active" href="equilibrio.html">
+    <a class="tool-card active" href="equilibrio.html" data-tool="equilibrio" onclick="trackToolClick('equilibrio')">
       <div class="tool-card-top">
         <div class="tool-icon">⚖️</div>
         <div class="tool-info">
@@ -265,7 +322,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
     </a>
 
     <!-- TOOL 5 — CAMARA DE COMERCIO (ACTIVA) -->
-    <a class="tool-card active" href="gdoox.html">
+    <a class="tool-card active" href="gdoox.html" data-tool="gdoox" onclick="trackToolClick('gdoox')">
       <div class="tool-card-top">
         <div class="tool-icon">🏛</div>
         <div class="tool-info">
@@ -277,7 +334,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
     </a>
 
     <!-- TOOL 6 — STORE ANALYZER (ACTIVA) -->
-    <a class="tool-card active" href="store-analyzer.html">
+    <a class="tool-card active" href="store-analyzer.html" data-tool="store-analyzer" onclick="trackToolClick('store-analyzer')">
       <div class="tool-card-top">
         <div class="tool-icon">🔍</div>
         <div class="tool-info">
@@ -289,7 +346,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
     </a>
 
     <!-- TOOL 7 — ARRAIZ FINANZAS (ACTIVA) -->
-    <a class="tool-card active" href="finanzas.html">
+    <a class="tool-card active" href="finanzas.html" data-tool="finanzas" onclick="trackToolClick('finanzas')">
       <div class="tool-card-top">
         <div class="tool-icon">💹</div>
         <div class="tool-info">
@@ -300,8 +357,20 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
       <div class="tool-cta">Abrir herramienta <span class="tool-cta-arrow">→</span></div>
     </a>
 
+    <!-- TOOL 9 — META ADS FINDER (ACTIVA) -->
+    <a class="tool-card active" href="meta-ads.html" data-tool="meta-ads" onclick="trackToolClick('meta-ads')">
+      <div class="tool-card-top">
+        <div class="tool-icon">📣</div>
+        <div class="tool-info">
+          <div class="tool-name">Meta Ads Finder<span class="tool-tag tag-active">✓ Activa</span></div>
+        </div>
+      </div>
+      <div class="tool-desc">Busca anuncios en la Biblioteca de Meta con todos los filtros: país, estado, plataforma, tipo de contenido, fechas y más. Abre directamente con un clic.</div>
+      <div class="tool-cta">Abrir herramienta <span class="tool-cta-arrow">→</span></div>
+    </a>
+
     <!-- TOOL 8 — CALENTADOR DE COOKIES (ACTIVA) -->
-    <a class="tool-card active" href="calentador.html">
+    <a class="tool-card active" href="calentador.html" data-tool="calentador" onclick="trackToolClick('calentador')">
       <div class="tool-card-top">
         <div class="tool-icon">🔥</div>
         <div class="tool-info">
@@ -376,6 +445,109 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--pl);outline-offset:
 <a href="https://chat.whatsapp.com/F924BJmh5HNKg3WE5CaEOC" target="_blank" rel="noopener" class="float-wa" aria-label="WhatsApp Comunidad Arraiz">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 </a>
+
+<script>
+// ── Login con Supabase (Google + email/contraseña + invitado) ──
+const SB_URL = 'https://icczfoqojneknifwlxyz.supabase.co';
+const SB_KEY = 'sb_publishable_ifjdi825J_scnFFTuHD-vg_lHvYirkF';
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
+let authMode = 'signin';
+
+function showAuthOverlay(){document.getElementById('authOverlay').style.display='flex';}
+function hideAuthOverlay(){document.getElementById('authOverlay').style.display='none';}
+function setAuthMsg(msg,type){const el=document.getElementById('authMsg');el.textContent=msg||'';el.className='auth-msg'+(type?' '+type:'');}
+
+function initAuth(){
+  const guestSkip = localStorage.getItem('at_guest_skip')==='1';
+  sb.auth.getSession().then(({data})=>{
+    if (data.session) { onLoggedIn(data.session.user); }
+    else if (!guestSkip) { showAuthOverlay(); }
+  });
+  sb.auth.onAuthStateChange((_event, session)=>{
+    if (session) { onLoggedIn(session.user); hideAuthOverlay(); }
+  });
+
+  document.getElementById('authCloseBtn').onclick = ()=>{
+    localStorage.setItem('at_guest_skip','1');
+    hideAuthOverlay();
+  };
+  document.getElementById('authGuestLink').onclick = ()=>{
+    localStorage.setItem('at_guest_skip','1');
+    hideAuthOverlay();
+  };
+  document.getElementById('authGoogleBtn').onclick = async ()=>{
+    setAuthMsg('');
+    const {error} = await sb.auth.signInWithOAuth({provider:'google', options:{redirectTo:window.location.href}});
+    if (error) setAuthMsg('No se pudo conectar con Google: '+error.message,'err');
+  };
+  function bindToggleLink(){
+    document.getElementById('authToggleLink').onclick = toggleAuthMode;
+  }
+  function toggleAuthMode(){
+    authMode = authMode==='signin' ? 'signup' : 'signin';
+    document.getElementById('authSubmitBtn').textContent = authMode==='signin' ? 'Iniciar sesión' : 'Crear cuenta';
+    document.getElementById('authToggle').innerHTML = authMode==='signin'
+      ? '¿No tienes cuenta? <a id="authToggleLink">Regístrate</a>'
+      : '¿Ya tienes cuenta? <a id="authToggleLink">Inicia sesión</a>';
+    bindToggleLink();
+    setAuthMsg('');
+  }
+  bindToggleLink();
+  document.getElementById('authForm').onsubmit = async (e)=>{
+    e.preventDefault();
+    const email = document.getElementById('authEmail').value.trim();
+    const password = document.getElementById('authPassword').value;
+    setAuthMsg('Un momento...','');
+    if (authMode==='signin') {
+      const {error} = await sb.auth.signInWithPassword({email,password});
+      if (error) setAuthMsg('Error: '+error.message,'err'); else setAuthMsg('¡Listo! Entrando...','ok');
+    } else {
+      const {error} = await sb.auth.signUp({email,password});
+      if (error) setAuthMsg('Error: '+error.message,'err');
+      else setAuthMsg('Cuenta creada. Revisa tu correo si pide confirmación, o inicia sesión.','ok');
+    }
+  };
+}
+
+function onLoggedIn(user){
+  const badge = document.getElementById('userBadge');
+  const name = user.user_metadata?.full_name || user.email || 'Usuario';
+  document.getElementById('userBadgeAv').textContent = name.trim()[0]?.toUpperCase()||'U';
+  document.getElementById('userBadgeName').textContent = name.split(' ')[0];
+  badge.style.display = 'flex';
+  document.getElementById('userBadgeOut').onclick = async ()=>{
+    await sb.auth.signOut();
+    localStorage.removeItem('at_guest_skip');
+    location.reload();
+  };
+}
+initAuth();
+
+// ── Uso de herramientas: cuenta clics y reordena por popularidad ──
+const USAGE_KEY = 'at_tool_usage';
+function getUsage(){try{return JSON.parse(localStorage.getItem(USAGE_KEY)||'{}');}catch(_){return {};}}
+function trackToolClick(tool){
+  const usage = getUsage();
+  usage[tool] = usage[tool] || {count:0, last:null};
+  usage[tool].count++;
+  usage[tool].last = Date.now();
+  localStorage.setItem(USAGE_KEY, JSON.stringify(usage));
+}
+function reorderToolsByUsage(){
+  const usage = getUsage();
+  const grid = document.getElementById('toolsGrid');
+  if (!grid) return;
+  const cards = Array.from(grid.querySelectorAll('.tool-card[data-tool]'));
+  if (!cards.some(c=>usage[c.dataset.tool]&&usage[c.dataset.tool].count>0)) return; // sin uso todavía, deja orden original
+  cards.sort((a,b)=>{
+    const ca = (usage[a.dataset.tool]||{}).count||0;
+    const cb = (usage[b.dataset.tool]||{}).count||0;
+    return cb-ca;
+  });
+  cards.forEach(c=>grid.appendChild(c));
+}
+reorderToolsByUsage();
+</script>
 
 </body>
 </html>

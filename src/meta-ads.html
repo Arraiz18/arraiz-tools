@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Meta Ads Finder · Arraiz Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#07060e;--bg2:#0e0c1c;--bg-card:#120f24;--bg-raised:#1a1632;--bg-input:#0d0b1a;
+  --purple:#7c3aed;--purple2:#9d5cf6;--purple3:#c084fc;--purple-glow:rgba(124,58,237,.22);
+  --blue:#3b82f6;--cyan:#22d3ee;--green:#10b981;--red:#ef4444;--amber:#f59e0b;
+  --fb:#1877f2;--ig:#e1306c;
+  --text:#f0eef8;--text2:#9d93bf;--text3:#534c6e;
+  --border:rgba(124,58,237,.14);--border2:rgba(124,58,237,.32);--border3:rgba(255,255,255,.055);
+  --r:8px;--r2:12px;--r3:16px;
+  --font:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#7c3aed55;border-radius:3px}
+
+/* HEADER */
+.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;background:linear-gradient(135deg,#1877f2,#7c3aed);position:sticky;top:0;z-index:10;box-shadow:0 2px 20px rgba(24,119,242,.35)}
+.hd-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;color:#fff}
+.hd-icon{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hd-sub{font-size:11px;font-weight:400;opacity:.75;margin-left:4px}
+.hd-back{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.85);text-decoration:none;font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.3);transition:all .15s}
+.hd-back:hover{background:rgba(255,255,255,.15);color:#fff}
+
+/* WRAP */
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 60px}
+
+/* SEARCH HERO */
+.search-hero{background:linear-gradient(135deg,#1877f210,#7c3aed10);border:1px solid #1877f230;border-radius:var(--r3);padding:24px;margin-bottom:24px}
+.search-hero-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.search-hero-sub{font-size:12px;color:var(--text2);margin-bottom:18px}
+.main-search-row{display:flex;gap:8px}
+.main-search-type{flex-shrink:0}
+.main-search-type select{background:var(--bg-input);border:1px solid var(--border3);border-radius:var(--r);color:var(--text);font-size:13px;padding:10px 12px;outline:none;cursor:pointer;-webkit-appearance:none;height:44px;font-family:var(--font)}
+.main-search-type select:focus{border-color:var(--purple)}
+.main-input{flex:1;background:var(--bg-input);border:1px solid var(--border3);border-radius:var(--r);color:var(--text);font-size:14px;padding:10px 16px;outline:none;transition:border-color .15s;height:44px;font-family:var(--font)}
+.main-input:focus{border-color:var(--fb);box-shadow:0 0 0 3px rgba(24,119,242,.2)}
+.main-input::placeholder{color:var(--text3)}
+.search-go-btn{display:flex;align-items:center;gap:8px;padding:0 22px;height:44px;background:var(--fb);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;font-family:var(--font)}
+.search-go-btn:hover{background:#1565c0;transform:translateY(-1px);box-shadow:0 4px 16px rgba(24,119,242,.4)}
+.search-go-btn:active{transform:translateY(0)}
+
+/* FILTERS GRID */
+.filters-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:16px}
+.filter-group{display:flex;flex-direction:column;gap:5px}
+.filter-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
+.filter-select,.filter-input{background:var(--bg-input);border:1px solid var(--border3);border-radius:var(--r);color:var(--text);font-size:12.5px;padding:8px 12px;outline:none;width:100%;transition:border-color .15s;font-family:var(--font);height:36px}
+.filter-select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239d93bf' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.filter-select:focus,.filter-input:focus{border-color:var(--purple)}
+.filter-input::placeholder{color:var(--text3)}
+.filter-date-row{display:flex;gap:6px}
+.filter-date-row .filter-input{padding:8px 8px}
+
+/* PLATFORM TOGGLES */
+.platform-row{display:flex;gap:6px;flex-wrap:wrap}
+.plat-btn{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:1px solid var(--border3);background:var(--bg-raised);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.plat-btn:hover{border-color:var(--border2);color:var(--text)}
+.plat-btn.active-fb{background:rgba(24,119,242,.18);border-color:rgba(24,119,242,.5);color:#60a5fa}
+.plat-btn.active-ig{background:rgba(225,48,108,.15);border-color:rgba(225,48,108,.4);color:#f472b6}
+.plat-btn.active-all{background:rgba(124,58,237,.2);border-color:var(--border2);color:var(--purple3)}
+
+/* URL PREVIEW */
+.url-preview-box{background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--text3);word-break:break-all;line-height:1.6;display:flex;align-items:flex-start;gap:8px}
+.url-preview-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;margin-top:1px}
+.url-preview-text{flex:1;color:var(--purple3)}
+
+/* ACTION BUTTONS */
+.action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .15s;font-family:var(--font);white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-fb{background:var(--fb);color:#fff;box-shadow:0 0 16px rgba(24,119,242,.3)}
+.btn-fb:hover{background:#1565c0;box-shadow:0 0 24px rgba(24,119,242,.5)}
+.btn-ghost{background:transparent;color:var(--text2);border-color:var(--border3)}
+.btn-ghost:hover{background:var(--bg-raised);color:var(--text);border-color:var(--border)}
+.btn-save{background:transparent;color:var(--purple3);border-color:var(--border2)}
+.btn-save:hover{background:rgba(124,58,237,.12)}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+/* SECTION */
+.section{margin-bottom:28px}
+.section-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title-sub{font-size:11px;font-weight:400;color:var(--text3);margin-left:auto}
+
+/* QUICK SEARCHES */
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.quick-card{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r2);background:var(--bg-card);border:1px solid var(--border3);cursor:pointer;transition:all .2s}
+.quick-card:hover{border-color:var(--border2);box-shadow:0 0 14px var(--purple-glow);transform:translateY(-2px)}
+.quick-icon{font-size:22px;flex-shrink:0}
+.quick-title{font-size:13px;font-weight:700;color:var(--text);line-height:1.2}
+.quick-desc{font-size:11px;color:var(--text2);margin-top:2px}
+.quick-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px;display:inline-block}
+.tag-co{background:rgba(255,215,0,.15);color:#fcd34d;border:1px solid rgba(255,215,0,.3)}
+.tag-mx{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25)}
+.tag-es{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.25)}
+.tag-latam{background:rgba(124,58,237,.18);color:var(--purple3);border:1px solid var(--border2)}
+
+/* SAVED */
+.saved-list{display:flex;flex-direction:column;gap:6px}
+.saved-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);background:var(--bg-card);border:1px solid var(--border3);cursor:pointer;transition:all .15s}
+.saved-item:hover{border-color:var(--border2);background:var(--bg-raised)}
+.saved-item-kw{flex:1;font-size:13px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.saved-item-meta{font-size:11px;color:var(--text3);flex-shrink:0}
+.saved-item-open{font-size:11px;color:var(--fb);font-weight:700;flex-shrink:0}
+.saved-item-del{background:none;border:none;color:var(--text3);cursor:pointer;padding:2px 6px;border-radius:4px;font-size:13px;transition:color .1s}
+.saved-item-del:hover{color:var(--red)}
+
+/* HISTORY */
+.hist-list{display:flex;flex-direction:column;gap:5px}
+.hist-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--r);background:var(--bg-raised);cursor:pointer;transition:background .12s;font-size:12px}
+.hist-item:hover{background:rgba(124,58,237,.12)}
+.hist-kw{flex:1;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--mono)}
+.hist-meta{color:var(--text3);flex-shrink:0}
+.hist-del{background:none;border:none;color:var(--text3);cursor:pointer;padding:1px 5px;font-size:12px;transition:color .1s}
+.hist-del:hover{color:var(--red)}
+
+/* TIPS */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.tip-card{background:var(--bg-card);border:1px solid var(--border3);border-radius:var(--r2);padding:14px 16px}
+.tip-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.tip-body{font-size:12px;color:var(--text2);line-height:1.6}
+.tip-body code{background:var(--bg-raised);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-family:var(--mono);color:var(--purple3);font-size:11px}
+
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--bg-card);border:1px solid var(--border3);border-radius:10px;padding:4px;margin-bottom:16px;width:fit-content}
+.tab{padding:6px 14px;border-radius:7px;border:none;background:none;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.tab.active{background:var(--purple);color:#fff}
+.tab:hover:not(.active){background:var(--bg-raised);color:var(--text)}
+
+/* EMPTY */
+.empty{text-align:center;padding:28px;color:var(--text3);font-size:13px}
+
+/* FOOTER */
+footer{padding:16px 24px;text-align:center;font-size:11px;color:var(--text3);border-top:1px solid var(--border3);margin-top:20px}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="hd-brand">
+    <div class="hd-icon">📣</div>
+    Meta Ads Finder
+    <span class="hd-sub">· Arraiz Tools</span>
+  </div>
+  <a href="index.html" class="hd-back">← Arraiz Tools</a>
+</header>
+
+<div class="wrap">
+
+  <!-- SEARCH HERO -->
+  <div class="search-hero">
+    <div class="search-hero-title">🔍 Buscar en Meta Ads Library</div>
+    <div class="search-hero-sub">Configura todos los filtros y abre la biblioteca de anuncios con un clic — igual que AdGrab</div>
+
+    <div class="main-search-row">
+      <div class="main-search-type">
+        <select id="search-type" onchange="updateUrl()">
+          <option value="keyword_unordered">🔑 Keyword</option>
+          <option value="keyword_exact_phrase">💬 Frase exacta</option>
+          <option value="page">🏢 Anunciante</option>
+        </select>
+      </div>
+      <input class="main-input" id="search-query" type="text" placeholder="Ej: envío gratis, ropa mujer, suplementos, dominio.com..." autocomplete="off" oninput="updateUrl()" onkeydown="if(event.key==='Enter')openAds()"/>
+      <button class="search-go-btn" onclick="openAds()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Abrir en Meta
+      </button>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters-grid">
+      <!-- Country -->
+      <div class="filter-group">
+        <span class="filter-label">🌎 País</span>
+        <select class="filter-select" id="f-country" onchange="updateUrl()">
+          <option value="ALL">🌍 Todos los países</option>
+          <optgroup label="LATAM">
+            <option value="CO" selected>🇨🇴 Colombia</option>
+            <option value="MX">🇲🇽 México</option>
+            <option value="AR">🇦🇷 Argentina</option>
+            <option value="CL">🇨🇱 Chile</option>
+            <option value="PE">🇵🇪 Perú</option>
+            <option value="EC">🇪🇨 Ecuador</option>
+            <option value="VE">🇻🇪 Venezuela</option>
+            <option value="BO">🇧🇴 Bolivia</option>
+            <option value="PY">🇵🇾 Paraguay</option>
+            <option value="UY">🇺🇾 Uruguay</option>
+            <option value="CR">🇨🇷 Costa Rica</option>
+            <option value="PA">🇵🇦 Panamá</option>
+            <option value="GT">🇬🇹 Guatemala</option>
+            <option value="DO">🇩🇴 Rep. Dominicana</option>
+          </optgroup>
+          <optgroup label="Español">
+            <option value="ES">🇪🇸 España</option>
+          </optgroup>
+          <optgroup label="Internacional">
+            <option value="US">🇺🇸 Estados Unidos</option>
+            <option value="BR">🇧🇷 Brasil</option>
+            <option value="GB">🇬🇧 Reino Unido</option>
+          </optgroup>
+        </select>
+      </div>
+      <!-- Status -->
+      <div class="filter-group">
+        <span class="filter-label">📊 Estado</span>
+        <select class="filter-select" id="f-status" onchange="updateUrl()">
+          <option value="active" selected>✅ Activos</option>
+          <option value="all">📋 Todos</option>
+          <option value="inactive">⏸ Inactivos</option>
+        </select>
+      </div>
+      <!-- Media type -->
+      <div class="filter-group">
+        <span class="filter-label">🎬 Tipo de contenido</span>
+        <select class="filter-select" id="f-media" onchange="updateUrl()">
+          <option value="all">Todos los tipos</option>
+          <option value="video">🎥 Video</option>
+          <option value="image">🖼 Imagen</option>
+          <option value="meme">😄 Meme</option>
+          <option value="none">Sin imagen</option>
+        </select>
+      </div>
+      <!-- Sort -->
+      <div class="filter-group">
+        <span class="filter-label">🔃 Ordenar por</span>
+        <select class="filter-select" id="f-sort" onchange="updateUrl()">
+          <option value="total_impressions">Total impresiones</option>
+          <option value="last_seen_date">Último visto</option>
+          <option value="first_seen_date">Primer visto</option>
+        </select>
+      </div>
+      <!-- Date from -->
+      <div class="filter-group">
+        <span class="filter-label">📅 Desde</span>
+        <input type="date" class="filter-input" id="f-date-from" onchange="updateUrl()"/>
+      </div>
+      <!-- Date to -->
+      <div class="filter-group">
+        <span class="filter-label">📅 Hasta</span>
+        <input type="date" class="filter-input" id="f-date-to" onchange="updateUrl()"/>
+      </div>
+    </div>
+
+    <!-- Platform toggles -->
+    <div style="margin-top:14px">
+      <div class="filter-label" style="margin-bottom:6px">📱 Plataformas</div>
+      <div class="platform-row">
+        <button class="plat-btn active-all" id="plat-all" onclick="setPlatform('all')">🌐 Todas</button>
+        <button class="plat-btn" id="plat-fb" onclick="setPlatform('facebook')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Facebook
+        </button>
+        <button class="plat-btn" id="plat-ig" onclick="setPlatform('instagram')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Instagram
+        </button>
+        <button class="plat-btn" id="plat-messenger" onclick="setPlatform('messenger')">💬 Messenger</button>
+        <button class="plat-btn" id="plat-audience" onclick="setPlatform('audience_network')">📡 Audience Network</button>
+      </div>
+    </div>
+
+    <!-- URL Preview -->
+    <div class="url-preview-box">
+      <span class="url-preview-label">URL</span>
+      <span class="url-preview-text" id="url-preview">—</span>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-row">
+      <button class="btn btn-fb" onclick="openAds()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Abrir en Meta Ads Library
+      </button>
+      <button class="btn btn-save" onclick="saveSearch()">⭐ Guardar búsqueda</button>
+      <button class="btn btn-ghost btn-sm" onclick="copyUrl()">📋 Copiar URL</button>
+      <button class="btn btn-ghost btn-sm" onclick="resetFilters()">↩ Resetear filtros</button>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="setTab('quick')">⚡ Búsquedas rápidas</button>
+    <button class="tab" onclick="setTab('saved')">⭐ Guardadas</button>
+    <button class="tab" onclick="setTab('history')">🕒 Historial</button>
+    <button class="tab" onclick="setTab('tips')">💡 Tips</button>
+  </div>
+
+  <!-- QUICK SEARCHES -->
+  <div id="tab-quick" class="section">
+    <div class="section-title">⚡ Búsquedas rápidas para Dropshipping<span class="section-title-sub">Haz clic para cargar los filtros</span></div>
+    <div class="quick-grid">
+      <div class="quick-card" onclick="quickSearch('envío gratis','CO','active','video')">
+        <div class="quick-icon">🚚</div>
+        <div><div class="quick-title">Envío Gratis Colombia</div><div class="quick-desc">Anuncios activos con envío gratis</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('paga al recibir','CO','active','all')">
+        <div class="quick-icon">💵</div>
+        <div><div class="quick-title">Paga al Recibir (COD)</div><div class="quick-desc">Dropshipping COD Colombia</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('contra entrega','CO','active','all')">
+        <div class="quick-icon">📦</div>
+        <div><div class="quick-title">Contra Entrega</div><div class="quick-desc">Modelo COD en Colombia</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('envio gratis mexico','MX','active','video')">
+        <div class="quick-icon">🇲🇽</div>
+        <div><div class="quick-title">Envío Gratis México</div><div class="quick-desc">Dropshipping en México</div><span class="quick-tag tag-mx">🇲🇽 MX</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('ropa mujer','CO','active','all')">
+        <div class="quick-icon">👗</div>
+        <div><div class="quick-title">Ropa Mujer CO</div><div class="quick-desc">Moda femenina Colombia</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('suplementos fitness','CO','active','video')">
+        <div class="quick-icon">💪</div>
+        <div><div class="quick-title">Suplementos / Fitness</div><div class="quick-desc">Nicho fitness activo</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('mascotas','CO','active','all')">
+        <div class="quick-icon">🐾</div>
+        <div><div class="quick-title">Mascotas</div><div class="quick-desc">Nicho pet care Colombia</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('gadgets tecnologia','CO','active','video')">
+        <div class="quick-icon">📱</div>
+        <div><div class="quick-title">Gadgets / Tecnología</div><div class="quick-desc">Productos tech trending</div><span class="quick-tag tag-latam">LATAM</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('belleza cuidado piel','CO','active','video')">
+        <div class="quick-icon">✨</div>
+        <div><div class="quick-title">Belleza / Cuidado piel</div><div class="quick-desc">Nicho beauty Colombia</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('hogar decoracion','CO','active','all')">
+        <div class="quick-icon">🏠</div>
+        <div><div class="quick-title">Hogar / Decoración</div><div class="quick-desc">Productos para el hogar</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('juguetes ninos','CO','active','all')">
+        <div class="quick-icon">🧸</div>
+        <div><div class="quick-title">Juguetes / Niños</div><div class="quick-desc">Nicho infancia Colombia</div><span class="quick-tag tag-co">🇨🇴 CO</span></div>
+      </div>
+      <div class="quick-card" onclick="quickSearch('dropshipping','ES','active','all')">
+        <div class="quick-icon">🌍</div>
+        <div><div class="quick-title">Dropshipping España</div><div class="quick-desc">Mercado español activo</div><span class="quick-tag tag-es">🇪🇸 ES</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAVED -->
+  <div id="tab-saved" class="section" style="display:none">
+    <div class="section-title">⭐ Búsquedas guardadas<span class="section-title-sub"><button class="btn btn-ghost btn-sm" onclick="clearSaved()">🗑 Limpiar</button></span></div>
+    <div class="saved-list" id="saved-list"><div class="empty">No tienes búsquedas guardadas. Guarda desde el botón ⭐ Guardar búsqueda.</div></div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="tab-history" class="section" style="display:none">
+    <div class="section-title">🕒 Historial reciente<span class="section-title-sub"><button class="btn btn-ghost btn-sm" onclick="clearHistory()">🗑 Limpiar</button></span></div>
+    <div class="hist-list" id="hist-list"><div class="empty">Sin historial todavía.</div></div>
+  </div>
+
+  <!-- TIPS -->
+  <div id="tab-tips" class="section" style="display:none">
+    <div class="section-title">💡 Tips para buscar anuncios</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-title">🎯 Busca keywords del producto</div>
+        <div class="tip-body">Usa el nombre del producto o su beneficio principal. Ej: <code>adelgazar rápido</code>, <code>anti age serum</code>, <code>reloj inteligente</code></div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">🏢 Busca por anunciante</div>
+        <div class="tip-body">Cambia el tipo a <code>Anunciante</code> y escribe el nombre de la marca o el dominio para ver TODOS sus anuncios activos.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">📅 Filtra por fecha</div>
+        <div class="tip-body">Los anuncios que llevan meses activos son los más rentables. Filtra <code>Desde</code> hace 3-6 meses para ver qué está funcionando.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">🎥 Prioriza videos</div>
+        <div class="tip-body">Los anuncios en video que llevan meses activos son los que más convierten. Filtra por <code>Video</code> para verlos primero.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">🌎 Cambia el país</div>
+        <div class="tip-body">Analiza el mismo nicho en diferentes países para ver si el producto ya funciona en CO, MX o ES antes de importarlo.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">💡 Frases COD</div>
+        <div class="tip-body">Busca <code>paga al recibir</code>, <code>contra entrega</code> o <code>sin tarjeta</code> para ver específicamente anuncios de dropshipping COD.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Meta Ads Finder abre la Biblioteca de Anuncios oficial de Meta con los filtros configurados. Los datos son públicos y pertenecen a Meta. · Arraiz Tools</footer>
+
+<script>
+let currentPlatform = 'all';
+let saved = [];
+let history = [];
+try{saved=JSON.parse(localStorage.getItem('maf_saved')||'[]');}catch(_){}
+try{history=JSON.parse(localStorage.getItem('maf_history')||'[]');}catch(_){}
+renderSaved();renderHistory();updateUrl();
+
+// BUILD URL
+function buildUrl() {
+  const q = document.getElementById('search-query').value.trim();
+  const type = document.getElementById('search-type').value;
+  const country = document.getElementById('f-country').value;
+  const status = document.getElementById('f-status').value;
+  const media = document.getElementById('f-media').value;
+  const sort = document.getElementById('f-sort').value;
+  const dateFrom = document.getElementById('f-date-from').value;
+  const dateTo = document.getElementById('f-date-to').value;
+
+  const params = new URLSearchParams();
+  params.set('active_status', status);
+  params.set('ad_type', 'all');
+  params.set('country', country);
+  params.set('is_targeted_country', 'false');
+  if (media !== 'all') params.set('media_type', media);
+  else params.set('media_type', 'all');
+  if (q) {
+    params.set('q', q);
+    params.set('search_type', type);
+  }
+  params.set('sort_data[direction]', 'desc');
+  params.set('sort_data[mode]', sort);
+  if (dateFrom) params.set('start_date[min]', dateFrom);
+  if (dateTo) params.set('start_date[max]', dateTo);
+  // Platform
+  if (currentPlatform !== 'all') params.set('publisher_platforms[]', currentPlatform);
+
+  return 'https://www.facebook.com/ads/library/?' + params.toString();
+}
+
+function updateUrl() {
+  const url = buildUrl();
+  document.getElementById('url-preview').textContent = url;
+}
+
+function openAds() {
+  const url = buildUrl();
+  const q = document.getElementById('search-query').value.trim();
+  if (!q) {
+    // Still open, just without query (shows general library)
+  }
+  addToHistory(url, q);
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+function copyUrl() {
+  const url = buildUrl();
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado';
+    setTimeout(()=>btn.textContent=orig, 1500);
+  });
+}
+
+function resetFilters() {
+  document.getElementById('search-query').value = '';
+  document.getElementById('search-type').value = 'keyword_unordered';
+  document.getElementById('f-country').value = 'CO';
+  document.getElementById('f-status').value = 'active';
+  document.getElementById('f-media').value = 'all';
+  document.getElementById('f-sort').value = 'total_impressions';
+  document.getElementById('f-date-from').value = '';
+  document.getElementById('f-date-to').value = '';
+  setPlatform('all');
+  updateUrl();
+}
+
+// PLATFORM
+function setPlatform(plat) {
+  currentPlatform = plat;
+  document.querySelectorAll('.plat-btn').forEach(b=>b.className='plat-btn');
+  const map = {all:'active-all',facebook:'active-fb',instagram:'active-ig'};
+  const cls = map[plat]||'active-all';
+  const ids = {all:'plat-all',facebook:'plat-fb',instagram:'plat-ig',messenger:'plat-messenger',audience_network:'plat-audience'};
+  const el = document.getElementById(ids[plat]);
+  if (el) el.classList.add(cls||'active-all');
+  else if (plat==='messenger'||plat==='audience_network') document.getElementById(ids[plat]).classList.add('active-all');
+  updateUrl();
+}
+
+// QUICK SEARCH
+function quickSearch(keyword, country, status, media) {
+  document.getElementById('search-query').value = keyword;
+  document.getElementById('search-type').value = 'keyword_unordered';
+  document.getElementById('f-country').value = country;
+  document.getElementById('f-status').value = status;
+  document.getElementById('f-media').value = media;
+  document.getElementById('f-sort').value = 'total_impressions';
+  setPlatform('all');
+  updateUrl();
+  // Scroll to top
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// TABS
+function setTab(name) {
+  ['quick','saved','history','tips'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display=t===name?'':'none';
+  });
+  document.querySelectorAll('.tab').forEach((b,i)=>{
+    b.classList.toggle('active',['quick','saved','history','tips'][i]===name);
+  });
+}
+
+// SAVE
+function saveSearch() {
+  const q = document.getElementById('search-query').value.trim();
+  const country = document.getElementById('f-country').value;
+  const status = document.getElementById('f-status').value;
+  const url = buildUrl();
+  const key = q+'|'+country;
+  if (saved.find(s=>s.key===key)) {alert('Esta búsqueda ya está guardada.');return;}
+  if (!q) {alert('Escribe una keyword para guardar.');return;}
+  saved.unshift({key,q,country,status,url,date:new Date().toLocaleDateString('es')});
+  localStorage.setItem('maf_saved',JSON.stringify(saved.slice(0,20)));
+  renderSaved();
+  setTab('saved');
+}
+function renderSaved() {
+  const el = document.getElementById('saved-list');
+  if (!saved.length){el.innerHTML='<div class="empty">No tienes búsquedas guardadas. Guarda desde el botón ⭐ Guardar búsqueda.</div>';return;}
+  el.innerHTML = saved.map((s,i)=>`
+    <div class="saved-item" onclick="loadSaved(${i})">
+      <span style="font-size:16px">⭐</span>
+      <div class="saved-item-kw">${esc(s.q)}</div>
+      <span class="saved-item-meta">${s.country} · ${s.status} · ${s.date}</span>
+      <span class="saved-item-open">↗ Abrir</span>
+      <button class="saved-item-del" onclick="event.stopPropagation();delSaved(${i})">✕</button>
+    </div>`).join('');
+}
+function loadSaved(i) {
+  const s = saved[i];if(!s)return;
+  document.getElementById('search-query').value = s.q;
+  document.getElementById('f-country').value = s.country||'CO';
+  document.getElementById('f-status').value = s.status||'active';
+  updateUrl();
+  openAds();
+}
+function delSaved(i){saved.splice(i,1);localStorage.setItem('maf_saved',JSON.stringify(saved));renderSaved();}
+function clearSaved(){if(!confirm('¿Limpiar búsquedas guardadas?'))return;saved=[];localStorage.setItem('maf_saved','[]');renderSaved();}
+
+// HISTORY
+function addToHistory(url, q) {
+  history.unshift({url,q,date:new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'})+' '+new Date().toLocaleDateString('es')});
+  history = history.slice(0,20);
+  localStorage.setItem('maf_history',JSON.stringify(history));
+  renderHistory();
+}
+function renderHistory() {
+  const el = document.getElementById('hist-list');
+  if (!history.length){el.innerHTML='<div class="empty">Sin historial todavía.</div>';return;}
+  el.innerHTML = history.map((h,i)=>`
+    <div class="hist-item" onclick="openHistItem(${i})">
+      <span>🔗</span>
+      <span class="hist-kw">${esc(h.q||'(sin keyword)')}</span>
+      <span class="hist-meta">${h.date}</span>
+      <button class="hist-del" onclick="event.stopPropagation();delHist(${i})">✕</button>
+    </div>`).join('');
+}
+function openHistItem(i){const h=history[i];if(h)window.open(h.url,'_blank','noopener,noreferrer');}
+function delHist(i){history.splice(i,1);localStorage.setItem('maf_history',JSON.stringify(history));renderHistory();}
+function clearHistory(){if(!confirm('¿Limpiar historial?'))return;history=[];localStorage.setItem('maf_history','[]');renderHistory();}
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+</body>
+</html>
