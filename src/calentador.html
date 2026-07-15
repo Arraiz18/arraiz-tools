@@ -594,11 +594,16 @@ let filterStatus='all';
 let elapsedTimer=null;
 let retriesVal=2;
 
+const URL_LIST_VERSION='2';
 function init(){
   try{const c=localStorage.getItem('cal_config');if(c)config={...DEFAULT_CONFIG,...JSON.parse(c)};}catch(_){}
   const hasSavedUrls=localStorage.getItem('cal_urls')!==null;
+  const savedVersion=localStorage.getItem('cal_urls_version');
   try{const u=localStorage.getItem('cal_urls');if(u)urls=JSON.parse(u);}catch(_){}
-  if(!hasSavedUrls&&PRESETS.default){urls=[...PRESETS.default];saveUrls();}
+  if((!hasSavedUrls||savedVersion!==URL_LIST_VERSION)&&PRESETS.default){
+    urls=[...PRESETS.default];saveUrls();
+    localStorage.setItem('cal_urls_version',URL_LIST_VERSION);
+  }
   retriesVal=config.retries||2;
   applyConfigToUI();
   renderUrlList();
