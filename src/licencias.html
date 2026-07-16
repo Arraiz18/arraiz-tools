@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#160329">
+<title>Licencias · Arraiz Tools</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c3aed'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='52' font-family='system-ui'%3E%F0%9F%94%91%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+:root{--pd:#160329;--pk:#25094a;--pm:#5b21b6;--pb:#7c3aed;--pl:#a855f7;--pg:#c084fc;--gold:#f59e0b;--gold2:#fcd34d;--green:#10b981;--greend:#065f46;--red:#ef4444;--txt:#f5f3ff;--muted:#b8a5e0;--dim:#8b7aaa;--cbg:rgba(91,33,182,0.12);--cbr:rgba(168,85,247,0.22);--mono:'JetBrains Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Plus Jakarta Sans',-apple-system,sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--pd);color:var(--txt);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at top left,rgba(124,58,237,.22),transparent 50%),radial-gradient(ellipse at bottom right,rgba(168,85,247,.15),transparent 50%);pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 18px 60px}
+.back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;margin:24px 0 0;padding:8px 0;transition:color .2s}
+.back:hover{color:var(--pg)}
+header{padding:24px 0}
+.tool-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(124,58,237,.2);border:1px solid rgba(168,85,247,.3);color:var(--pg);font-weight:800;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:14px}
+header h1{font-weight:800;font-size:clamp(24px,5vw,32px);letter-spacing:-.02em;background:linear-gradient(135deg,#fff 0%,var(--pg) 70%,var(--gold2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+header p{color:var(--muted);font-size:13.5px;line-height:1.6;max-width:560px}
+
+.gate{display:flex;flex-direction:column;align-items:center;gap:14px;padding:70px 20px;text-align:center;color:var(--muted)}
+.gate-icon{font-size:44px}
+.gate-btn{padding:11px 22px;background:linear-gradient(135deg,var(--pb),var(--pl));color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer}
+
+.card{background:var(--cbg);border:1px solid var(--cbr);border-radius:18px;padding:22px;margin-top:20px}
+.card-title{font-weight:800;font-size:14.5px;color:white;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:700px){.fields{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.fields{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.field input,.field select{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:9px 11px;color:#fff;font-size:13px;font-family:inherit;outline:none}
+.field input:focus,.field select:focus{border-color:var(--pl)}
+.create-btn{margin-top:16px;padding:10px 20px;background:linear-gradient(135deg,var(--pb),var(--pl));color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer}
+.create-msg{font-size:12px;margin-top:10px;min-height:16px}
+.create-msg.err{color:var(--red)}
+.create-msg.ok{color:var(--green)}
+
+.stats-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+.stat-pill{flex:1;min-width:120px;background:rgba(255,255,255,.04);border:1px solid var(--cbr);border-radius:12px;padding:12px 14px;text-align:center}
+.stat-pill b{display:block;font-size:20px;font-family:var(--mono)}
+.stat-pill span{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+
+.table-wrap{overflow-x:auto;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;padding:9px 10px;color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--cbr)}
+td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle}
+.code-cell{font-family:var(--mono);font-weight:700;color:var(--pg)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:10.5px;font-weight:700;text-transform:uppercase}
+.badge-active{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.badge-expired{background:rgba(245,158,11,.15);color:var(--gold2);border:1px solid rgba(245,158,11,.3)}
+.badge-revoked{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.row-btn{background:none;border:1px solid var(--cbr);color:var(--muted);border-radius:7px;padding:4px 9px;font-size:11px;cursor:pointer;margin-right:5px}
+.row-btn:hover{border-color:var(--pl);color:#fff}
+.row-btn.danger:hover{border-color:var(--red);color:var(--red)}
+.empty-row{text-align:center;color:var(--dim);padding:24px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <a href="index.html" class="back">← Arraiz Tools</a>
+
+  <header>
+    <div class="tool-badge">🔑 Panel privado</div>
+    <h1>Administrar Licencias</h1>
+    <p>Crea, extiende y revoca licencias para las extensiones (Marketplace, Calentador). Solo tu cuenta puede ver y modificar esta información.</p>
+  </header>
+
+  <div id="gate" class="gate" style="display:none">
+    <div class="gate-icon">🔒</div>
+    <div>Necesitas iniciar sesión con tu cuenta de administrador para ver este panel.</div>
+    <button class="gate-btn" onclick="location.href='index.html'">Ir a iniciar sesión</button>
+  </div>
+
+  <div id="panel" style="display:none">
+
+    <div class="stats-row" id="statsRow"></div>
+
+    <div class="card">
+      <div class="card-title">➕ Crear nueva licencia</div>
+      <div class="fields">
+        <div class="field">
+          <label>Aplicación</label>
+          <select id="f-app">
+            <option value="marketplace">Marketplace</option>
+            <option value="calentador">Calentador de Cookies</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Correo del cliente</label>
+          <input type="email" id="f-email" placeholder="cliente@correo.com">
+        </div>
+        <div class="field">
+          <label>Nombre (opcional)</label>
+          <input type="text" id="f-name" placeholder="Nombre del cliente">
+        </div>
+        <div class="field">
+          <label>Días de validez</label>
+          <input type="number" id="f-days" value="7" min="1">
+        </div>
+        <div class="field">
+          <label>Notas (opcional)</label>
+          <input type="text" id="f-notes" placeholder="Ej: plan mensual">
+        </div>
+      </div>
+      <button class="create-btn" onclick="createLicense()">Generar licencia</button>
+      <div class="create-msg" id="createMsg"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 Licencias existentes</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Código</th><th>App</th><th>Cliente</th><th>Vence</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="licTbody"><tr><td colspan="6" class="empty-row">Cargando…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SB_URL='https://tuewgzjrckrnzgynxutf.supabase.co';
+const SB_KEY='sb_publishable_HbiM_yW1E1TsTgrOKWAaUg_LU5-bS2X';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+const ADMIN_EMAIL='steevenarraiz@gmail.com';
+
+function genCode(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s='';for(let i=0;i<10;i++){if(i>0&&i%5===0)s+='-';s+=chars[Math.floor(Math.random()*chars.length)];}
+  return s;
+}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtDate(d){return new Date(d).toLocaleString('es-CO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+
+async function init(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session||session.user.email!==ADMIN_EMAIL){
+    document.getElementById('gate').style.display='flex';
+    return;
+  }
+  document.getElementById('panel').style.display='block';
+  await loadLicenses();
+}
+
+async function createLicense(){
+  const app=document.getElementById('f-app').value;
+  const email=document.getElementById('f-email').value.trim();
+  const name=document.getElementById('f-name').value.trim();
+  const days=Math.max(1,+document.getElementById('f-days').value||7);
+  const notes=document.getElementById('f-notes').value.trim();
+  const msg=document.getElementById('createMsg');
+  if(!email){msg.textContent='Ingresa el correo del cliente.';msg.className='create-msg err';return;}
+  const code=genCode();
+  const expiresAt=new Date(Date.now()+days*86400000).toISOString();
+  msg.textContent='Creando…';msg.className='create-msg';
+  const {error}=await sb.from('licenses').insert({app,code,owner_email:email,owner_name:name||null,expires_at:expiresAt,notes:notes||null});
+  if(error){msg.textContent='Error: '+error.message;msg.className='create-msg err';return;}
+  msg.textContent='✅ Licencia creada: '+code;msg.className='create-msg ok';
+  document.getElementById('f-email').value='';document.getElementById('f-name').value='';document.getElementById('f-notes').value='';
+  await loadLicenses();
+}
+
+async function loadLicenses(){
+  const {data,error}=await sb.from('licenses').select('*').order('created_at',{ascending:false});
+  const tbody=document.getElementById('licTbody');
+  if(error){tbody.innerHTML='<tr><td colspan="6" class="empty-row">Error: '+esc(error.message)+'</td></tr>';return;}
+  if(!data||!data.length){tbody.innerHTML='<tr><td colspan="6" class="empty-row">Sin licencias todavía.</td></tr>';renderStats([]);return;}
+  renderStats(data);
+  tbody.innerHTML=data.map(l=>{
+    const expired=new Date(l.expires_at)<new Date();
+    const st=l.status==='revoked'?'revoked':(expired?'expired':'active');
+    const badgeClass=st==='active'?'badge-active':st==='expired'?'badge-expired':'badge-revoked';
+    const badgeText=st==='active'?'Activa':st==='expired'?'Vencida':'Revocada';
+    return `<tr>
+      <td class="code-cell">${esc(l.code)}</td>
+      <td>${esc(l.app)}</td>
+      <td>${esc(l.owner_name||'')}${l.owner_name?'<br>':''}<span style="color:var(--dim);font-size:11px">${esc(l.owner_email||'')}</span></td>
+      <td>${fmtDate(l.expires_at)}</td>
+      <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+      <td>
+        ${st!=='revoked'?`<button class="row-btn danger" onclick="revokeLicense('${l.id}')">Revocar</button>`:''}
+        <button class="row-btn" onclick="extendLicense('${l.id}')">+7 días</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderStats(data){
+  const now=new Date();
+  const active=data.filter(l=>l.status!=='revoked'&&new Date(l.expires_at)>now).length;
+  const expired=data.filter(l=>l.status!=='revoked'&&new Date(l.expires_at)<=now).length;
+  const revoked=data.filter(l=>l.status==='revoked').length;
+  document.getElementById('statsRow').innerHTML=`
+    <div class="stat-pill"><b>${data.length}</b><span>Total</span></div>
+    <div class="stat-pill"><b style="color:var(--green)">${active}</b><span>Activas</span></div>
+    <div class="stat-pill"><b style="color:var(--gold2)">${expired}</b><span>Vencidas</span></div>
+    <div class="stat-pill"><b style="color:var(--red)">${revoked}</b><span>Revocadas</span></div>`;
+}
+
+async function revokeLicense(id){
+  if(!confirm('¿Revocar esta licencia? Dejará de funcionar de inmediato.'))return;
+  await sb.from('licenses').update({status:'revoked'}).eq('id',id);
+  await loadLicenses();
+}
+async function extendLicense(id){
+  const {data}=await sb.from('licenses').select('expires_at').eq('id',id).single();
+  if(!data)return;
+  const base=new Date(data.expires_at)>new Date()?new Date(data.expires_at):new Date();
+  const newExpiry=new Date(base.getTime()+7*86400000).toISOString();
+  await sb.from('licenses').update({expires_at:newExpiry,status:'active'}).eq('id',id);
+  await loadLicenses();
+}
+
+init();
+</script>
+</body>
+</html>
