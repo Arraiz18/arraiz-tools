@@ -766,14 +766,28 @@ async function startSession(){
 
 async function fetchUrl(url,cfg){
   const start=Date.now();
+  let win=null;
   try{
-    if(cfg.showTabs)window.open(url,'_blank','noopener,noreferrer');
+    // Abre una pestaña real del navegador con la URL, igual que haría una persona navegando.
+    // Un sitio web no puede hacer scroll/clics dentro de otra pestaña (barrera de seguridad
+    // del navegador, solo una extensión puede hacerlo) — lo que sí podemos replicar es el
+    // comportamiento de "abrir, dejar cargar y ejecutar sus píxeles reales durante un tiempo
+    // de permanencia realista, y luego cerrar" antes de pasar a la siguiente URL.
+    if(cfg.showTabs)win=window.open(url,'_blank','noopener,noreferrer');
     const ctrl=new AbortController();
     const tid=setTimeout(()=>ctrl.abort(),cfg.timeout);
     await fetch(url,{mode:'no-cors',signal:ctrl.signal,credentials:'omit'});
     clearTimeout(tid);
+    if(cfg.showTabs&&cfg.interact){
+      // Tiempo de permanencia simulado: mientras más "scroll"/"clics" configurados, más tiempo
+      // se deja la pestaña real abierta cargando y ejecutando sus scripts de tracking.
+      const dwellMs=Math.min(cfg.timeout,800+(cfg.scrollDepth||0)*2500+(cfg.clickCount||0)*400);
+      await sleep(dwellMs);
+    }
+    if(win&&!win.closed)try{win.close();}catch(_){}
     return{status:'ok',time:Date.now()-start};
   }catch(e){
+    if(win&&!win.closed)try{win.close();}catch(_){}
     if(e.name==='AbortError')return{status:'timeout',time:cfg.timeout};
     return{status:'error',error:e.message,time:Date.now()-start};
   }
