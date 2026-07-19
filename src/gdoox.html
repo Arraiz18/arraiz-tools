@@ -179,18 +179,16 @@ async function generarDoc(){
     if(!xmlFile)throw new Error('Plantilla inválida');
     let xml=await xmlFile.async('string');
     xml=replaceAll(xml,[
-      ['xNitEmpresas',fields.nit],
-      ['xRazonSocials',fields.razon],
-      ['xFecMatriculas',fields.fecMatricula],
-      ['xMatriculas',fields.matricula],
-      ['xFecExpedicions',fields.fecExpedicion],
-      ['xfecExpedicion',fields.fecExpedicion],
-      ['xCodVerificacions',fields.cod],
+      ['xNitEmpresa',fields.nit],
+      ['xRazonSocial',fields.razon],
+      ['xFecMatricula',fields.fecMatricula],
+      ['xMatricula',fields.matricula],
+      ['xFecExpedicion',fields.fecExpedicion],
       ['xCodVerificacion',fields.cod],
-      ['xDomicilioEmpresas',fields.domicilio],
-      ['xDireccionEmpresas',fields.direccion],
-      ['xMunicipioEmpresas',fields.municipio],
-      ['xCorreoEmpresas',fields.correo],
+      ['xDomicilioEmpresa',fields.domicilio],
+      ['xDireccionEmpresa',fields.direccion],
+      ['xMunicipioEmpresa',fields.municipio],
+      ['xCorreoEmpresa',fields.correo],
       ['xtelefono',fields.telefono],
     ]);
     zip.file('word/document.xml',xml);
