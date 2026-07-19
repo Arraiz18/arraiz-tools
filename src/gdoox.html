@@ -163,23 +163,37 @@ async function generarDoc(){
     const arr=new Uint8Array(raw.length);
     for(let i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i);
     const zip=await JSZip.loadAsync(arr.buffer);
-    const replace=(s)=>s
-      .replace(/xNitEmpresas/g,fields.nit)
-      .replace(/xRazonSocials/g,fields.razon)
-      .replace(/xMatriculas/g,fields.matricula)
-      .replace(/xFecMatriculas/g,fields.fecMatricula)
-      .replace(/xFecExpedicions/g,fields.fecExpedicion)
-      .replace(/xfecExpedicion/g,fields.fecExpedicion)
-      .replace(/xCodVerificacion/g,fields.cod)
-      .replace(/xDomicilioEmpresas/g,fields.domicilio)
-      .replace(/xDireccionEmpresas/g,fields.direccion)
-      .replace(/xMunicipioEmpresas/g,fields.municipio)
-      .replace(/xCorreoEmpresas/g,fields.correo)
-      .replace(/xtelefono/g,fields.telefono);
+    // Word suele partir un mismo marcador (ej. "xNitEmpresas") en varias etiquetas <w:r> internas,
+    // así que un reemplazo de texto simple falla para varias ocurrencias. fuzzyReplace tolera
+    // cualquier etiqueta XML intercalada entre las letras del marcador.
+    function esc(c){return c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+    function fuzzyReplace(xml,token,value){
+      const pattern=token.split('').map(esc).join('(?:<[^>]*>)*');
+      return xml.replace(new RegExp(pattern,'g'),value);
+    }
+    function replaceAll(xml,pairs){
+      for(const [token,value] of pairs)xml=fuzzyReplace(xml,token,value);
+      return xml;
+    }
     const xmlFile=zip.file('word/document.xml');
     if(!xmlFile)throw new Error('Plantilla inválida');
-    const xml=await xmlFile.async('string');
-    zip.file('word/document.xml',replace(xml));
+    let xml=await xmlFile.async('string');
+    xml=replaceAll(xml,[
+      ['xNitEmpresas',fields.nit],
+      ['xRazonSocials',fields.razon],
+      ['xFecMatriculas',fields.fecMatricula],
+      ['xMatriculas',fields.matricula],
+      ['xFecExpedicions',fields.fecExpedicion],
+      ['xfecExpedicion',fields.fecExpedicion],
+      ['xCodVerificacions',fields.cod],
+      ['xCodVerificacion',fields.cod],
+      ['xDomicilioEmpresas',fields.domicilio],
+      ['xDireccionEmpresas',fields.direccion],
+      ['xMunicipioEmpresas',fields.municipio],
+      ['xCorreoEmpresas',fields.correo],
+      ['xtelefono',fields.telefono],
+    ]);
+    zip.file('word/document.xml',xml);
     const blob=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
     const d=new Date();
     const fecha=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
